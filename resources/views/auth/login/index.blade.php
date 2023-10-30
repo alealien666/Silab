@@ -65,6 +65,13 @@
                                         aria-label="Close"></button>
                                 </div>
                             @endif
+                            @if (session()->has('message'))
+                                <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+                                    {{ session('message') }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                                </div>
+                            @endif
 
                             <div class="card-body p-4">
                                 <div class="text-center mt-2">
@@ -72,23 +79,33 @@
                                     <p class="text-muted">Sign in to continue to Silab.</p>
                                 </div>
                                 <div class="p-2 mt-4">
-                                    <form action="index.html">
-
-                                        <div class="mb-3">
+                                    <form action="{{ route('login') }}" method="post">
+                                        @csrf
+                                        <div class="mb-2">
                                             <label for="email" class="form-label">Email</label>
-                                            <input type="email" name="email" class="form-control" id="email"
-                                                placeholder="Enter email">
+                                            <input type="email" name="email"
+                                                class="form-control @error('email') is-invalid @enderror" id="email"
+                                                placeholder="Enter Email" value="{{ old('email') }}" required>
+                                            <div class="invalid-feedback">
+                                                @error('email')
+                                                    {{ $message }}
+                                                @enderror
+                                            </div>
                                         </div>
 
-                                        <div class="mb-3">
-                                            <div class="float-end">
-                                                <a href="auth-pass-reset-basic.html" class="text-muted">Forgot
-                                                    password?</a>
-                                            </div>
+                                        <div class="mb-2">
                                             <label class="form-label" for="password-input">Password</label>
                                             <div class="position-relative auth-pass-inputgroup mb-3">
-                                                <input type="password" name="password" class="form-control pe-5"
-                                                    placeholder="Enter password" id="password-input">
+                                                <input type="password" name="password"
+                                                    class="form-control pe-5 @error('password')
+                                                    is-invalid
+                                                @enderror"
+                                                    placeholder="Enter password" id="password-input" required>
+                                                <div class="invalid-feedback">
+                                                    @error('password')
+                                                        {{ $message }}
+                                                    @enderror
+                                                </div>
                                                 <button
                                                     class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
                                                     type="button" id="password-addon"><i
@@ -97,7 +114,8 @@
                                         </div>
 
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value=""
+                                            <input class="form-check-input" name="remember" type="checkbox"
+                                                value="{{ old('remember') ? 'checked' : '' }}"
                                                 id="auth-remember-check">
                                             <label class="form-check-label" for="auth-remember-check">Remember
                                                 me</label>

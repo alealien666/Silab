@@ -26,14 +26,14 @@ class LabController extends Controller
             return view('produk', compact('datas', 'categories'))
                 ->with('message', 'Tidak Ada Data Yang Sesuai Dengan Pencarian Anda');
         } else {
-            return view('produk', compact('datas', 'categories'));
+            return view('auth.user.produk', compact('datas', 'categories'));
         }
     }
     public function show($slug)
     {
         $datas = Lab::where('slug', $slug)->first();
         $categories = Category::all();
-        return view('detail', compact('datas', 'categories'));
+        return view('auth.user.detail', compact('datas', 'categories'));
     }
 
     public function kategori($category)
@@ -47,6 +47,6 @@ class LabController extends Controller
             abort(404);
         }
 
-        return view('produk', compact('datas', 'category', 'categories'))->with('title', 'Category - ' . $category);
+        return view('auth.user.produk', compact('datas', 'category', 'categories'))->with('title', 'Category - ' . $category);
     }
 }

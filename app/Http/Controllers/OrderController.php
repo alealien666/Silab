@@ -44,7 +44,7 @@ class OrderController extends Controller
         })->get();
         // dd($alat);
 
-        return view('order', compact('lab', 'categorylab', 'alat'))->with('title', 'Silab | Order');
+        return view('auth.user.order', compact('lab', 'categorylab', 'alat'))->with('title', 'Silab | Order');
     }
 
     /**

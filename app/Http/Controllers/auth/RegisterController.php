@@ -30,9 +30,9 @@ class RegisterController extends Controller
         $user->save();
 
         if ($user) {
-            return redirect('/login')->with('success', 'Berhasil melakukan registrasi');
+            return redirect('/login')->with('success', 'Berhasil melakukan registrasi silahkan Login!!!');
         } else {
-            return back()->withErrors(['msg', 'gagal melakukan login']);
+            return back()->withErrors(['msg', 'gagal melakukan registrasi']);
         }
     }
 }

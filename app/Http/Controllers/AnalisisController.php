@@ -17,13 +17,13 @@ class AnalisisController extends Controller
         $categories = Category::all();
         if ($search === null) {
             $analis = Analisis::orderByRaw('Rand()')->paginate(10);
-            return view('analisis', compact('analis', 'categories'));
+            return view('auth.user.analisis', compact('analis', 'categories'));
         } else {
             $analis = Analisis::where('jenis_pengujian', 'like', '%' . $search . '%')
                 ->get();
         }
 
-        return view('analisis', compact('analis', 'categories'))
+        return view('auth.user.analisis', compact('analis', 'categories'))
             ->with('title', 'Silab | Sewa Jasa Analis');
     }
 
@@ -86,6 +86,6 @@ class AnalisisController extends Controller
             abort(404);
         }
 
-        return view('analisis', compact('analis', 'category', 'categories'))->with('title', 'Category - ' . $category);
+        return view('auth.user.analisis', compact('analis', 'category', 'categories'))->with('title', 'Category - ' . $category);
     }
 }

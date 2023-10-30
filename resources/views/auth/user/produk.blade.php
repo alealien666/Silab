@@ -2,24 +2,25 @@
 
 @section('konten')
     <div class="page-content">
-        <div class="container-fluid">
-            <!-- start page title -->
+        <div class="container">
+
+            {{-- breadcrumbs --}}
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Halaman Sewa Jasa Analisis</h4>
+                        <h4 class="mb-sm-0">Halaman Sewa Lab</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active">Jasa Analisis</li>
+                                <li class="breadcrumb-item"><a href="/silab">Home</a></li>
+                                <li class="breadcrumb-item active">Sewa Lab</li>
                             </ol>
                         </div>
 
                     </div>
                 </div>
             </div>
-            <!-- end page title -->
+            {{-- end --}}
 
             <div class="row justify-content-center mt-4">
                 <div class="col-lg-5">
@@ -31,10 +32,11 @@
                         <div class="d-inline-flex">
                             <ul class="nav nav-pills arrow-navtabs plan-nav rounded mb-3 p-1" id="pills-tab" role="tablist">
                                 <li class="nav-item" role="presentation">
-                                    <a href="/lab" class="nav-link fw-semibold">Sewa Lab</a>
+                                    <a href="/produk" class="nav-link fw-semibold active">Sewa
+                                        Lab</a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <a href="/analisis" class="nav-link fw-semibold active">Jasa
+                                    <a href="/analisis" class="nav-link fw-semibold">Jasa
                                         Analisis <span class="badge bg-success">25%
                                             Off</span></a>
                                 </li>
@@ -45,6 +47,9 @@
             </div><!--end row-->
 
             <div class="row">
+                @if (isset($message))
+                    <h3 class="text-center"><i class="bi bi-search"></i> {{ $message }}</h3>
+                @endif
                 <div class="dropdown ms-1 topbar-head-dropdown header-item">
                     <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -54,25 +59,22 @@
                         <p class="ps-3"><b>Category</b></p>
                         <hr>
                         @foreach ($categories as $kategori)
-                            <a href="{{ route('analisis.kategori', ['category' => $kategori->category]) }}"
+                            <a href="{{ route('produk.kategori', ['category' => $kategori->category]) }}"
                                 class="dropdown-item notify-item language py-2" data-lang="en" title="English">
                                 <span class="align-middle">{{ $kategori->category }}</span>
                             </a>
                         @endforeach
                     </div>
                 </div>
-                @foreach ($analis as $item)
+                @foreach ($datas as $data)
                     <div class="col-xxl-3 col-lg-6">
                         <div class="card pricing-box">
                             <div class="card-body bg-light m-2 p-4">
+                                <img class="mb-4" src="img/jepun.jpg" alt="Jepun" width="100%" height="100%"
+                                    style="border-radius: 10px">
                                 <div class="d-flex align-items-center mb-3">
                                     <div class="flex-grow-1">
-                                        <h5 class="mb-0 fw-semibold">Harga</h5>
-                                    </div>
-                                    <div class="ms-auto">
-                                        <h2 class="month mb-0">Rp {{ $item->harga }} <small
-                                                class="fs-13 text-muted">/Sample</small>
-                                        </h2>
+                                        <h5 class="mb-0 ">Nama Lab: {{ $data->nama_lab }}</h5>
                                     </div>
                                 </div>
 
@@ -84,7 +86,7 @@
                                                 <i class="ri-checkbox-circle-fill fs-15 align-middle"></i>
                                             </div>
                                             <div class="flex-grow-1">
-                                                <b>Jenis Pengujian: </b> {{ $item->jenis_pengujian }}
+                                                <b>{{ $data->kapasitas }}</b> Orang
                                             </div>
                                         </div>
                                     </li>
@@ -94,33 +96,52 @@
                                                 <i class="ri-checkbox-circle-fill fs-15 align-middle"></i>
                                             </div>
                                             <div class="flex-grow-1">
-                                                <b>Jenis Analisa: </b> {{ $item->jenis_analisa }}
+                                                {{ $data->category->category }}
                                             </div>
                                         </div>
                                     </li>
-                                    <li>
-                                        <div class="d-flex">
-                                            <div class="flex-shrink-0 text-success me-1">
-                                                <i class="ri-checkbox-circle-fill fs-15 align-middle"></i>
+                                    @if ($data->status === 'di gunakan')
+                                        <li>
+                                            <div class="d-flex">
+                                                <div class="flex-shrink-0 text-danger me-1">
+                                                    <i class="ri-close-circle-fill fs-15 align-middle"></i>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    {{ $data->status }}
+                                                </div>
                                             </div>
-                                            <div class="flex-grow-1">
-                                                <b>Kategori: </b> {{ $item->category->category }}
+                                        </li>
+                                    @else
+                                        <li>
+                                            <div class="d-flex">
+                                                <div class="flex-shrink-0 text-success me-1">
+                                                    <i class="ri-checkbox-circle-fill fs-15 align-middle"></i>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    {{ $data->status }}
+                                                </div>
                                             </div>
-                                        </div>
-                                    </li>
+                                        </li>
+                                    @endif
                                 </ul>
-                                <div class="mt-3 pt-2">
-                                    <a href="javascript:void(0);" class="btn btn-success w-100">Sewa Jasa Sekarang</a>
-                                </div>
+                                @if ($data->status === 'di gunakan')
+                                    <div class="mt-3 pt-2">
+                                        <a href="javascript:void(0);" class="btn btn-dark disabled w-100">Lab Sedang Di
+                                            gunakan</a>
+                                    </div>
+                                @else
+                                    <div class="mt-3 pt-2">
+                                        <a href="/lab/{{ $data->slug }}" class="btn btn-success w-100">Pilih Lab</a>
+                                    </div>
+                                @endif
                             </div>
                         </div>
-                    </div><!--end col-->
+                    </div>
                 @endforeach
+                <!--end col-->
             </div><!--end row-->
-            <div class="pagination justify-content-center mt-3">{{ $analis->links('pagination::bootstrap-4') }}
-            </div>
 
-            <div class="row justify-content-center mt-5">
+            {{-- <div class="row justify-content-center mt-5">
                 <div class="col-lg-5">
                     <div class="text-center mb-4 pb-2">
                         <h4 class="fw-semibold fs-23">Choose the plan that's right for you</h4>
@@ -148,7 +169,8 @@
                                         </div>
                                     </div>
                                     <div class="pt-4">
-                                        <h2><sup><small>$</small></sup>19 <span class="fs-13 text-muted">/Month</span></h2>
+                                        <h2><sup><small>$</small></sup>19 <span class="fs-13 text-muted">/Month</span>
+                                        </h2>
                                     </div>
                                     <hr class="my-4 text-muted">
                                     <div>
@@ -622,7 +644,7 @@
                         </div><!--end row-->
                     </div>
                 </div><!--end col-->
-            </div><!--end row-->
+            </div><!--end row--> --}}
 
         </div>
         <!-- container-fluid -->
@@ -635,7 +657,7 @@
                 <div class="col-sm-6">
                     <script>
                         document.write(new Date().getFullYear())
-                    </script> © Velzon.
+                    </script> © Silab.
                 </div>
                 <div class="col-sm-6">
                     <div class="text-sm-end d-none d-sm-block">
