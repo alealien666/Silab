@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="sm-hover">
+<html lang="en" data-layout="vertical" data-topbar="dark" data-sidebar-size="sm-hover">
 
 <head>
 
     <meta charset="utf-8" />
-    <title>Sign In | Velzon - Admin & Dashboard Template</title>
+    <title>{{ $title }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
@@ -144,6 +144,24 @@
             <!-- end container -->
         </div>
         <!-- end auth page content -->
+        <!-- footer -->
+        <footer class="footer start-0">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="text-center">
+                            <p class="mb-0 text-muted">&copy;
+                                <script>
+                                    document.write(new Date().getFullYear())
+                                </script> Silab. Crafted with <i class="mdi mdi-heart text-danger"></i>
+                                by aleandra
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- end Footer -->
     </div>
     <!-- end auth-page-wrapper -->
 

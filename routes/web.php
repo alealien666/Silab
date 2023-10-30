@@ -18,7 +18,7 @@ use App\Http\Controllers\OrderController;
 |
 */
 
-Route::get('/', function () {
+Route::get('/home', function () {
     return view('company');
 });
 Route::middleware(['guest'])->group(function () {
@@ -31,7 +31,7 @@ Route::middleware(['guest'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::middleware(['auth', 'role:1'])->group(function () {
         Route::get('/user', function () {
-            return view('/auth.user.home');
+            return view('/auth.user.profile');
         });
         Route::get('/lab', [LabController::class, 'index'])->name('index');
         Route::get('/produk/kategori/{category}', [LabController::class, 'kategori'])->name('produk.kategori');

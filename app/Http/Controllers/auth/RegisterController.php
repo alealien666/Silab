@@ -11,7 +11,9 @@ class RegisterController extends Controller
 {
     public function index()
     {
-        return view('auth.register.index')->with('title', 'Silab | Register');
+        return view('auth.register.index', [
+            'title' => 'Silab | Register'
+        ]);
     }
 
     public function store(Request $request)

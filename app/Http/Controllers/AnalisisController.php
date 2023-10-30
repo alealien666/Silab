@@ -17,7 +17,8 @@ class AnalisisController extends Controller
         $categories = Category::all();
         if ($search === null) {
             $analis = Analisis::orderByRaw('Rand()')->paginate(10);
-            return view('auth.user.analisis', compact('analis', 'categories'));
+            return view('auth.user.analisis', compact('analis', 'categories'))
+                ->with('title', 'Silab | Sewa Jasa Analisis');
         } else {
             $analis = Analisis::where('jenis_pengujian', 'like', '%' . $search . '%')
                 ->get();

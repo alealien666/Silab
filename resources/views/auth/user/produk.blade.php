@@ -2,7 +2,7 @@
 
 @section('konten')
     <div class="page-content">
-        <div class="container">
+        <div class="container-fluid">
 
             {{-- breadcrumbs --}}
             <div class="row">
@@ -661,7 +661,7 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="text-sm-end d-none d-sm-block">
-                        Design & Develop by Themesbrand
+                        Design & Develop by AleAndra
                     </div>
                 </div>
             </div>
