@@ -57,7 +57,6 @@
                 <div class="row justify-content-center">
                     <div class="col-md-8 col-lg-6 col-xl-5">
                         <div class="card mt-4">
-
                             @if (session()->has('success'))
                                 <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
                                     {{ session('success') }}
@@ -65,9 +64,10 @@
                                         aria-label="Close"></button>
                                 </div>
                             @endif
-                            @if (session()->has('message'))
-                                <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
-                                    {{ session('message') }}
+
+                            @if (session()->has('error'))
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    {{ session('error') }}
                                     <button type="button" class="btn-close" data-bs-dismiss="alert"
                                         aria-label="Close"></button>
                                 </div>
@@ -96,16 +96,9 @@
                                         <div class="mb-2">
                                             <label class="form-label" for="password-input">Password</label>
                                             <div class="position-relative auth-pass-inputgroup mb-3">
-                                                <input type="password" name="password"
-                                                    class="form-control pe-5 @error('password')
-                                                    is-invalid
-                                                @enderror"
+                                                <input type="password" name="password" class="form-control pe-5"
                                                     placeholder="Enter password" id="password-input" required>
-                                                <div class="invalid-feedback">
-                                                    @error('password')
-                                                        {{ $message }}
-                                                    @enderror
-                                                </div>
+
                                                 <button
                                                     class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted"
                                                     type="button" id="password-addon"><i

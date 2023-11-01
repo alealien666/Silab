@@ -7,12 +7,11 @@
 
         <div class="page-content">
             <div class="container-fluid">
-
                 <!-- start page title -->
                 <div class="row">
                     <div class="col-12">
                         <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                            <h4 class="mb-sm-0">Checkout</h4>
+                            <h4 class="mb-sm-0">Order</h4>
 
                             <div class="page-title-right">
                                 <ol class="breadcrumb m-0">
@@ -32,7 +31,8 @@
                         <div class="card">
                             <div class="card-body checkout-tab">
 
-                                <form action="#">
+                                <form action="{{ route('orderLab') }}" method="post">
+                                    @csrf
                                     <div class="step-arrow-nav mt-n3 mx-n3 mb-3">
 
                                         <ul class="nav nav-pills nav-justified custom-nav" role="tablist">
@@ -105,8 +105,8 @@
                                                             <label for="billinginfo-email"
                                                                 class="form-label">Email</label>
                                                             <input type="email" class="form-control"
-                                                                id="billinginfo-email" placeholder="Enter email"
-                                                                required>
+                                                                id="billinginfo-email"
+                                                                value="{{ auth()->user()->email }}" disabled>
                                                         </div>
                                                     </div>
 
@@ -115,7 +115,7 @@
                                                             <label for="billinginfo-phone" class="form-label">Jenis
                                                                 Pesanan</label>
                                                             <input type="text" class="form-control" name="jenis"
-                                                                id="billinginfo-phone" placeholder="Konz" disabled>
+                                                                id="billinginfo-phone" value="Sewa Lab" disabled>
                                                         </div>
                                                     </div>
                                                 </div>

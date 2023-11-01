@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\user;
 
+use App\Http\Controllers\Controller;
 use App\Models\Lab;
+use App\Models\Analisis;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -23,17 +25,19 @@ class LabController extends Controller
         }
 
         if ($datas->isEmpty()) {
-            return view('produk', compact('datas', 'categories'))
+            return view('auth.user.produk', ['title' => 'Silab | Sewa Lab'], compact('datas', 'categories'))
                 ->with('message', 'Tidak Ada Data Yang Sesuai Dengan Pencarian Anda');
         } else {
-            return view('auth.user.produk', compact('datas', 'categories'));
+            return view('auth.user.produk', compact('datas', 'categories'))->with('title', 'Silab | Sewa Lab');
         }
     }
+
+
     public function show($slug)
     {
         $datas = Lab::where('slug', $slug)->first();
         $categories = Category::all();
-        return view('auth.user.detail', compact('datas', 'categories'));
+        return view('auth.user.detail', compact('datas', 'categories'))->with('title', 'Silab | Detail');
     }
 
     public function kategori($category)

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\auth;
 
-use App\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,15 +23,18 @@ class LoginController extends Controller
         ]);
 
         if (Auth::attempt($credentials, $request->has('remember'))) {
+            $request->session()->regenerate();
             return redirect()->intended('/lab');
         } else {
-            return back()->with(['message' => 'gagal melakukan Login. Periksa kembali Email dan Password anda!!!']);
+            return back()->with('error', 'Gagal Melakukan Login. Periksa Email Dan Password Anda');
         }
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
         Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerate();
         return redirect('/login');
     }
 }

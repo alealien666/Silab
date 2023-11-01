@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\user;
 
-use App\Models\category;
+use App\Http\Controllers\Controller;
+use App\Models\alat_tambahan;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class AlatTambahanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +35,7 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(category $category)
+    public function show(alat_tambahan $alat_tambahan)
     {
         //
     }
@@ -42,7 +43,7 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(category $category)
+    public function edit(alat_tambahan $alat_tambahan)
     {
         //
     }
@@ -50,7 +51,7 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, category $category)
+    public function update(Request $request, alat_tambahan $alat_tambahan)
     {
         //
     }
@@ -58,7 +59,7 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(category $category)
+    public function destroy(alat_tambahan $alat_tambahan)
     {
         //
     }

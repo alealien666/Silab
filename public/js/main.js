@@ -32,24 +32,4 @@ document.addEventListener("DOMContentLoaded", function () {
     updateSubtotal();
 });
 
-// lokal storage cookie
-// Periksa preferensi mode gelap saat halaman dimuat
-const darkModePreference = localStorage.getItem('darkMode');
-if (darkModePreference === 'true') {
-    enableDarkMode();
-}
 
-// Tambahkan event listener ke tombol
-darkModeButton.addEventListener('click', () => {
-    // Perbarui preferensi mode gelap
-    const currentPreference = localStorage.getItem('darkMode');
-    const newPreference = currentPreference === 'true' ? 'false' : 'true';
-    localStorage.setItem('darkMode', newPreference);
-
-    // Terapkan mode gelap atau terang
-    if (newPreference === 'true') {
-        enableDarkMode();
-    } else {
-        disableDarkMode();
-    }
-});

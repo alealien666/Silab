@@ -4,7 +4,7 @@
 <head>
 
     <meta charset="utf-8" />
-    <title>Silab</title>
+    <title>{{ $title }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
@@ -44,7 +44,8 @@
                                     <img src="{{ asset('assets/images/logo-sm.png') }}" alt="" height="22">
                                 </span>
                                 <span class="logo-lg">
-                                    <img src="{{ asset('assets/images/logo-dark.png') }}" alt="" height="17">
+                                    <img src="{{ asset('assets/images/logo-dark.png') }}" alt=""
+                                        height="17">
                                 </span>
                             </a>
 
@@ -70,18 +71,7 @@
                         </button>
 
                         <!-- App Search-->
-                        <form class="app-search d-none d-md-block">
-                            @csrf
-                            <div class="position-relative d-flex">
-                                <input type="search" action="{{ route('index') }}" method="GET" name="cari"
-                                    class="form-control" placeholder="Search..." autocomplete="off" id="search-options"
-                                    value="{{ old('cari') }}">
-                                <button type="submit" class="btn btn-primary ms-3 ">Cari</button>
-                                <span class="mdi mdi-magnify search-widget-icon"></span>
-                                <span class="mdi mdi-close-circle search-widget-icon search-widget-icon-close d-none"
-                                    id="search-close-options"></span>
-                            </div>
-                        </form>
+                        @yield('search')
                     </div>
 
                     <div class="d-flex align-items-center">
@@ -381,18 +371,21 @@
                     </div>
                     <ul class="navbar-nav" id="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="/" aria-controls="sidebarDashboards">
+                            <a class="nav-link menu-link {{ $title === 'Silab | Home' ? 'active' : '' }}"
+                                href="/home" aria-controls="sidebarDashboards">
                                 <i class="bi bi-house"></i></i> <span data-key="t-dashboards">Home</span>
                             </a>
                         </li>
                         @auth
                             <li class="nav-item">
-                                <a class="nav-link menu-link" href="/lab" aria-controls="sidebarDashboards">
+                                <a class="nav-link menu-link {{ $title === 'Silab | Sewa Lab' ? 'active' : '' }}"
+                                    href="/lab" aria-controls="sidebarDashboards">
                                     <i class="bi bi-shop-window"></i> <span data-key="t-dashboards">Sewa Lab</span>
                                 </a>
                             </li>
                             <li class="margin nav-item">
-                                <a class="nav-link menu-link margin" href="/analisis" aria-controls="sidebarDashboards">
+                                <a class="nav-link menu-link margin {{ $title === 'Silab | Sewa Jasa Analis' ? 'active' : '' }}"
+                                    href="/analisis" aria-controls="sidebarDashboards">
                                     <i class="bi bi-hourglass-bottom"></i> <span data-key="t-dashboards">Analisis</span>
                                 </a>
                             </li>
@@ -437,7 +430,20 @@
     <script src="{{ asset('assets/js/pages/pricing.init.js') }}"></script>
 
     <!-- App js -->
-    <script src="{{ asset('assets/js/app.js') }}"></script>
+    {{-- <script src="{{ asset('assets/js/app.js') }}"></script>
+    <script>
+        document.getElementById('cari').addEventListener('click', function(e) {
+            e.preventDefault();
+
+            // Logika pemilihan rute berdasarkan kondisi tertentu
+            var condition = true; // Ganti ini dengan logika yang sesuai
+            if (condition) {
+                // window.location.href = "{{ route('analisis') }}"; // Rute analisis
+            } else {
+                window.location.href = "{{ route('index') }}"; // Rute lab
+            }
+        });
+    </script> --}}
 </body>
 
 </html>

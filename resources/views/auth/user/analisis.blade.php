@@ -1,14 +1,26 @@
 @extends('layouts.silab')
 
+@section('search')
+    <form class="app-search d-none d-md-block" action="{{ route('analisis') }}" method="get">
+        @csrf
+        <div class="position-relative d-flex">
+            <input type="search" id="cari" method="GET" name="cari" class="form-control" placeholder="Search..."
+                autocomplete="off" id="search-options" value="{{ old('cari') }}">
+            <button type="submit" class="btn btn-primary ms-3 ">Cari</button>
+            <span class="mdi mdi-magnify search-widget-icon"></span>
+            <span class="mdi mdi-close-circle search-widget-icon search-widget-icon-close d-none"
+                id="search-close-options"></span>
+        </div>
+    </form>
+@endsection
 @section('konten')
     <div class="page-content">
-        @if (session()->has('success'))
-            <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
-                {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
         <div class="container-fluid">
+            <div id="error-message" class="alert alert-danger" style="display: none;">
+                @if (session('error'))
+                    {{ session('error') }}
+                @endif
+            </div>
             <!-- start page title -->
             <div class="row">
                 <div class="col-12">

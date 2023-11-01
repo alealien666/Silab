@@ -1,9 +1,26 @@
 @extends('layouts.silab')
 
+@section('search')
+    <form class="app-search d-none d-md-block" action="{{ route('index') }}" method="get">
+        @csrf
+        <div class="position-relative d-flex">
+            <input type="search" id="cari" method="GET" name="cari" class="form-control" placeholder="Search..."
+                autocomplete="off" id="search-options" value="{{ old('cari') }}">
+            <button type="submit" class="btn btn-primary ms-3 ">Cari</button>
+            <span class="mdi mdi-magnify search-widget-icon"></span>
+            <span class="mdi mdi-close-circle search-widget-icon search-widget-icon-close d-none"
+                id="search-close-options"></span>
+        </div>
+    </form>
+@endsection
 @section('konten')
     <div class="page-content">
         <div class="container-fluid">
-
+            <div id="error-message" class="alert alert-danger" style="display: none;">
+                @if (session('error'))
+                    {{ session('error') }}
+                @endif
+            </div>
             {{-- breadcrumbs --}}
             <div class="row">
                 <div class="col-12">
@@ -12,7 +29,7 @@
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="/silab">Home</a></li>
+                                <li class="breadcrumb-item"><a href="/lab">Home</a></li>
                                 <li class="breadcrumb-item active">Sewa Lab</li>
                             </ol>
                         </div>
@@ -32,7 +49,7 @@
                         <div class="d-inline-flex">
                             <ul class="nav nav-pills arrow-navtabs plan-nav rounded mb-3 p-1" id="pills-tab" role="tablist">
                                 <li class="nav-item" role="presentation">
-                                    <a href="/produk" class="nav-link fw-semibold active">Sewa
+                                    <a href="/lab" class="nav-link fw-semibold active">Sewa
                                         Lab</a>
                                 </li>
                                 <li class="nav-item" role="presentation">
@@ -131,7 +148,8 @@
                                     </div>
                                 @else
                                     <div class="mt-3 pt-2">
-                                        <a href="/lab/{{ $data->slug }}" class="btn btn-success w-100">Pilih Lab</a>
+                                        <a href="/lab/{{ $data->slug }}" class="btn btn-success w-100">Pilih
+                                            Lab</a>
                                     </div>
                                 @endif
                             </div>
