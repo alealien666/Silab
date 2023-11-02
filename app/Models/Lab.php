@@ -11,6 +11,7 @@ class Lab extends Model
 
     protected $guarded = ['id', 'category_id'];
     protected $table = 'labs';
+    protected $primaryKey = 'id';
 
     public function category()
     {
@@ -19,6 +20,6 @@ class Lab extends Model
 
     public function order()
     {
-        return $this->belongsToMany(Order::class, 'detail_orders', 'id_lab', 'id');
+        return $this->belongsToMany(Order::class, 'detail_orders', 'id_lab', 'id_order');
     }
 }

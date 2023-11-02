@@ -21,7 +21,7 @@ return new class extends Migration
             $table->enum('status', ['pending', 'approved']);
             $table->string('nama_pemesan');
             $table->enum('jenis_pesanan', ['Sewa Lab', 'Jasa Analisis']);
-            $table->integer('no_telp');
+            $table->string('no_telp');
             $table->string('bukti_pembayaran')->nullable();
             $table->timestamps();
         });

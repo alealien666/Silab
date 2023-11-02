@@ -10,14 +10,15 @@ class Alat_Tambahan extends Model
     use HasFactory;
     protected $table = 'alat_tambahans';
     protected $guarded = ['id'];
+    protected $primaryKey = 'id';
 
     public function order()
     {
-        return $this->belongsToMany(Order::class, 'detail_orders', 'id', 'id_order');
+        return $this->belongsToMany(Order::class, 'detail_orders', 'id_alat', 'id_order');
     }
 
     public function category()
     {
-        return $this->belongsTo(Lab::class, 'category_id', 'id');
+        return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 }

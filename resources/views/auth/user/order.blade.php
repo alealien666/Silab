@@ -74,6 +74,7 @@
                                             aria-labelledby="pills-bill-info-tab">
                                             <div>
                                                 <h5 class="mb-1">{{ $lab->nama_lab }}</h5>
+                                                <input type="hidden" name="id_lab" value="{{ $lab->id }}">
                                                 <p class="text-muted mb-4">Please fill all information below</p>
                                             </div>
 
@@ -140,6 +141,13 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div class="d-flex align-items-start m-2">
+                                            <button type="submit"
+                                                class="btn btn-primary btn-label right ms-auto nexttab"
+                                                data-nexttab="pills-bill-address-tab"><i
+                                                    class="ri-truck-line label-icon align-middle fs-16 ms-2"></i>Pesan
+                                                Sekarang</button>
                                         </div>
                                         <!-- end tab pane -->
 
@@ -426,7 +434,6 @@
                                         <!-- end tab pane -->
                                     </div>
                                     <!-- end tab content -->
-                                </form>
                             </div>
                             <!-- end card body -->
                         </div>
@@ -465,9 +472,9 @@
                                                         </div>
                                                     </td>
                                                     <td>
-                                                        <h5 class="fs-15"><a
-                                                                href="apps-ecommerce-product-details.html"
-                                                                class="text-dark">{{ $alat->jenis_alat }}</a></h5>
+                                                        <h5 class="fs-15">
+                                                            <p class="text-dark">{{ $alat->jenis_alat }}</p>
+                                                        </h5>
                                                     </td>
                                                     <td class="text-end">{{ $alat->harga }}</td>
                                                     <td>
@@ -499,21 +506,16 @@
                             <!-- end card body -->
                         </div>
                         <!-- end card -->
-                        <div class="d-flex align-items-start m-2">
-                            <button type="button" class="btn btn-primary btn-label right ms-auto nexttab"
-                                data-nexttab="pills-bill-address-tab"><i
-                                    class="ri-truck-line label-icon align-middle fs-16 ms-2"></i>Pesan
-                                Sekarang</button>
-                        </div>
+                        </form>
 
                     </div>
                     <!-- end col -->
                 </div>
                 <!-- end row -->
-
             </div>
             <!-- container-fluid -->
         </div>
+
         <!-- End Page-content -->
 
         <footer class="footer">

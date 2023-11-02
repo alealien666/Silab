@@ -10,6 +10,7 @@ class Order extends Model
     use HasFactory;
     protected $guarded = ['id', 'user_id'];
     protected $table = 'orders';
+    protected $primaryKey = 'id';
 
     public function user()
     {
@@ -18,11 +19,10 @@ class Order extends Model
 
     public function lab()
     {
-        return $this->belongsToMany(Order::class, 'detail_orders', 'id', 'id_lab');
+        return $this->belongsToMany(Lab::class, 'detail_orders', 'id_order', 'id_lab');
     }
-
-    public function analisis()
+    public function alat()
     {
-        return $this->belongsToMany(Analisis::class, 'detail_order_analisis', 'id', 'id_analisis');
+        return $this->belongsToMany(Alat_Tambahan::class, 'detail_orders', 'id_order', 'id_alat');
     }
 }

@@ -36,25 +36,33 @@ class OrderController extends Controller
         $validasi = $request->validate([
             "nama" => "required|max:255|string",
             "notelp" => "required|numeric",
-            "masuk" => ["required", "date", "after_or_equal:" . Carbon::now()->toDateString(),],
-            "keluar" => ["required", "date", "after:masuk",],
-            "selected_alat" => "required|array"
+            "masuk" => ["required", "date", "after_or_equal:" . Carbon::now()->toDateString()],
+            "keluar" => ["required", "date", "after:masuk"],
+            "selected_alat" => "required|array",
+            "id_lab" => "required",
         ]);
 
         $order = new Order();
-        $order->user_id = auth()->user()->id; // Gantilah dengan autentikasi pengguna yang sesuai
-        $order->jenis_pesanan = 'Sewa Lab'; // Sesuaikan dengan jenis pesanan
+        $order->user_id = auth()->user()->id;
+        $order->jenis_pesanan = 'Sewa Lab';
         $order->nama_pemesan = $request->input('nama');
         $order->no_telp = $request->input('notelp');
         $order->order = now();
         $order->tanggal_selesai = $request->input('keluar');
-        $order->total_biaya = 0; // Diisi nanti setelah menghitung biaya
+        $order->total_biaya = 0;
         $order->status = 'pending';
         $order->save();
 
-        // Hubungkan alat-alat yang dipilih dengan pesanan
         $selectedAlat = $request->input('selected_alat');
-        $order->equipment()->attach($selectedAlat);
+        $selectedLabId = $request->input('id_lab');
+
+        // Hubungkan alat-alat yang dipilih dengan pesanan
+        foreach ($selectedAlat as $selectedAlatId) {
+            // Periksa apakah $selectedAlatId adalah angka yang valid
+            if (is_numeric($selectedAlatId)) {
+                $order->alat()->attach($selectedAlatId, ['id_lab' => $selectedLabId]);
+            }
+        }
 
         // Hitung total biaya berdasarkan alat-alat yang dipilih
         $totalBiaya = Alat_Tambahan::whereIn('id', $selectedAlat)->sum('harga');
@@ -62,15 +70,15 @@ class OrderController extends Controller
         $order->save();
 
         // Tandai alat-alat sebagai tidak tersedia
-        Alat_Tambahan::whereIn('id', $selectedAlat)->update(['status' => 'tidak tersedia']);
+        Alat_Tambahan::whereIn('id', $selectedAlat)->update(['status' => 'di gunakan']);
 
         // Tandai lab sebagai tidak tersedia selama 1 hari
-        Lab::where('id', $request->input('lab_id'))
-            ->update(['status' => 'tidak tersedia', 'tanggal_tersedia' => now()->addDays(1)]);
+        Lab::where('id', $selectedLabId)
+            ->update(['status' => 'di gunakan' /*,'tanggal_selesai' => now()->addDays(1)*/]);
 
-        // return redirect('/silab')->with('success', 'Pesanan Anda telah disubmit.');
-
+        return redirect('/lab')->with('success', 'Pesanan Anda telah disubmit.');
     }
+
 
     /**
      * Display the specified resource.
@@ -85,7 +93,7 @@ class OrderController extends Controller
         return view('auth.user.order', compact('lab', 'categorylab', 'alat'))->with('title', 'Silab | Order');
     }
 
-    /**
+    /** 
      * Show the form for editing the specified resource.
      */
     public function edit(order $order)
