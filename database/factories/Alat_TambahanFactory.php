@@ -18,8 +18,8 @@ class Alat_TambahanFactory extends Factory
     {
         return [
             "jenis_alat" => fake()->sentence(),
-            "status" => $this->faker->randomElement(['tersedia', 'di gunakan']),
             "harga" => fake()->numberBetween(500000, 1000000),
+            "jumlah" => mt_rand(1, 10),
             "category_id" => mt_rand(1, 3),
         ];
     }

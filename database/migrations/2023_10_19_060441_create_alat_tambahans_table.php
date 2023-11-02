@@ -16,8 +16,8 @@ return new class extends Migration
             $table->foreignId('category_id');
             $table->string('jenis_alat');
             $table->integer('harga');
+            $table->integer('jumlah');
             $table->string('foto')->nullable();
-            $table->enum('status', ['tersedia', 'di gunakan']);
             $table->timestamps();
         });
     }

@@ -7,6 +7,7 @@ use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\user\OrderController;
 use App\Http\Controllers\auth\RegisterController;
 use App\Http\Controllers\user\AnalisisController;
+use App\Http\Controllers\Admin\listAlatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,3 +45,13 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
     });
 });
+
+
+
+// admin
+
+// alat-tambahans
+Route::get('/list-alat', [listAlatController::class, 'index'])->name('Admin.list-alat.index');
+Route::post('/list-alat/add', [listAlatController::class, 'store'])->name('Admin.list-alat.store');
+Route::post('/list-alat/update/{id}', [listAlatController::class, 'update'])->name('Admin.list-alat.update');
+Route::delete('/list-alat/destroy/{id}', [listAlatController::class, 'destroy'])->name('Admin.list-alat.destroy');
