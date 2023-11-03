@@ -1,6 +1,6 @@
 @extends('auth.admin.layout.app')
-@section('title', 'List Alat')
-@section('menu', 'List Alat')
+@section('title', 'List Analises')
+@section('menu', 'List Analises')
 @section('submenu', 'Admin')
 
 <style>
@@ -15,8 +15,8 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title mb-0">List Alat Praktik</h4>
-                </div><!-- end card header -->
+                    <h4 class="card-title mb-0">List Jenis Analises</h4>
+                </div>
                 <div class="card-body">
                     <div id="customerList">
                         <div class="row g-4 mb-3">
@@ -24,7 +24,7 @@
                                 <div>
                                     <button type="button" class="btn btn-warning add-btn" data-bs-toggle="modal"
                                         id="create-btn" data-bs-target="#addModal"><i
-                                            class="ri-add-line align-bottom me-1"></i> Tambah Alat</button>
+                                            class="ri-add-line align-bottom me-1"></i>Tambah Analises</button>
                                 </div>
                             </div>
                         </div>
@@ -33,32 +33,26 @@
                                 <thead class="table-light">
                                     <tr>
                                         <th class="text-center" data-sort="no">No</th>
-                                        <th class="text-center" data-sort="kategori">Kategori</th>
-                                        <th class="text-center" data-sort="jenis_alat">Jenis Alat</th>
-                                        <th class="text-center" data-sort="foto">foto</th>
+                                        <th class="text-center" data-sort="kategori">kategori</th>
+                                        <th class="text-center" data-sort="jenis_pengujian">Jenis pengujian</th>
+                                        <th class="text-center" data-sort="jenis_analisa">Jenis Analisa</th>
                                         <th class="text-center" data-sort="harga">Harga</th>
-                                        <th class="text-center" data-sort="jumlah">Jumlah</th>
-                                        <th class="text-center" data-sort="action">action</th>
+                                        <th class="text-center" data-sort="action">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($listAlat as $index => $list)
+                                    @foreach ($listAnalises as $index => $list)
                                         <tr>
                                             <th class="text-center">{{ $index + 1 }}</th>
                                             <td class="text-center">{{ $list->category }}</td>
-                                            <td class="text-center">{{ $list->jenis_alat }}</td>
-                                            <td style="width: 150px;" class="text-center">
-                                                <img width="200px" height="120px"
-                                                    src="{{ asset('storage/foto-alat/' . basename($list->foto)) }}"
-                                                    alt="">
-                                            </td>
+                                            <td class="text-center">{{ $list->jenis_pengujian }}</td>
+                                            <td class="text-center">{{ $list->jenis_analisa }}</td>
                                             <td class="text-center">{{ $list->harga }}</td>
-                                            <td class="text-center">{{ $list->jumlah }}</td>
                                             <td class="text-center">
                                                 <button class="btn btn-md btn-success edit-item-btn" data-bs-toggle="modal"
-                                                    data-bs-target="#editJenis{{ $list->id_alat }}">edit</button>
+                                                    data-bs-target="#editModal{{ $list->id_analises }}">Edit</button>
                                                 <button class="btn btn-md btn-danger remove-item-btn" data-bs-toggle="modal"
-                                                    data-bs-target="#deleteJenis{{ $list->id_alat }}">hapus</button>
+                                                    data-bs-target="#deleteModal{{ $list->id_analises }}">Remove</button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -76,11 +70,11 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header bg-light p-3">
-                    <h5 class="modal-title" id="exampleModalLabel">Tambah Jenis Alat</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Tambah Jenis Analises</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                         id="close-modal"></button>
                 </div>
-                <form method="POST" action="{{ route('Admin.list-alat.store') }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('Admin.list-analises.store') }}">
                     @csrf
                     <div class="modal-body">
                         <div class="mb-3">
@@ -93,25 +87,22 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="jenis_alat" class="form-label">Masukkan Jenis Alat</label>
-                            <input type="text" name="jenis_alat" id="jenis_alat" class="form-control" required
-                                autocomplete="off" />
+                            <label for="jenis_analisa" class="form-label">Pilih Jenis Analisa</label>
+                            <select class="form-select" id="jenis_analisa" name="jenis_analisa">
+                                <option selected>Pilih Jenis Analisa</option>
+                                <option value="Kualitatif">Kualitatif</option>
+                                <option value="Kuantitatif">Kuantitatif</option>
+                            </select>
                         </div>
                         <div class="mb-3">
-                            <label for="jumlah" class="form-label">Masukkan Jumlah</label>
-                            <input type="number" name="jumlah" id="jumlah" class="form-control" required
+                            <label for="jenis_pengujian" class="form-label">Masukkan Jenis Pengujian</label>
+                            <input type="text" name="jenis_pengujian" id="jenis_pengujian" class="form-control" required
                                 autocomplete="off" />
                         </div>
                         <div class="mb-3">
                             <label for="harga" class="form-label">Masukkan Harga</label>
                             <input type="number" name="harga" id="harga" class="form-control" required
                                 autocomplete="off" />
-                        </div>
-                        <div class="mb-3">
-                            <label for="foto" class="form-label">Masukkan Foto</label>
-                            <img class="img-preview img-fluid mb-3 col-md-6">
-                            <input type="file" onchange="previewImage()" name="foto" id="foto"
-                                class="form-control" autocomplete="off" />
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -125,19 +116,18 @@
         </div>
     </div>
 
-    @foreach ($listAlat as $list)
+    @foreach ($listAnalises as $list)
         {{-- update modal --}}
-        <div class="modal fade" id="editJenis{{ $list->id_alat }}" tabindex="-1" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
+        <div class="modal fade" id="editModal{{ $list->id_analises }}" tabindex="-1"
+            aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header bg-light p-3">
-                        <h5 class="modal-title" id="exampleModalLabel">Edit Jenis Alat</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Tambah Jenis Analises</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                             id="close-modal"></button>
                     </div>
-                    <form method="POST" action="{{ route('Admin.list-alat.update', $list->id_alat) }}"
-                        enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('Admin.list-analises.update', $list->id_analises) }}">
                         @csrf
                         <div class="modal-body">
                             <div class="mb-3">
@@ -153,32 +143,26 @@
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label for="jenis_alat" class="form-label">Masukkan Jenis Alat</label>
-                                <input type="text" value="{{ $list->jenis_alat }}" name="jenis_alat" id="jenis_alat"
-                                    class="form-control" required autocomplete="off" />
+                                <label for="jenis_analisa" class="form-label">Pilih Jenis Analisa</label>
+                                <select class="form-select" id="jenis_analisa" name="jenis_analisa">
+                                    <option selected>Pilih Jenis Analisa</option>
+                                    <option value="Kualitatif" @if ($list->jenis_analisa === 'Kualitatif') selected @endif>
+                                        Kualitatif
+                                    </option>
+                                    <option value="Kuantitatif" @if ($list->jenis_analisa === 'Kuantitatif') selected @endif>
+                                        Kuantitatif
+                                    </option>
+                                </select>
                             </div>
                             <div class="mb-3">
-                                <label for="jumlah" class="form-label">Masukkan Jumlah</label>
-                                <input type="number" value="{{ $list->jumlah }}" name="jumlah" id="jumlah"
-                                    class="form-control" required autocomplete="off" />
+                                <label for="jenis_pengujian" class="form-label">Masukkan Jenis Pengujian</label>
+                                <input type="text" name="jenis_pengujian" id="jenis_pengujian" class="form-control"
+                                    required autocomplete="off" value="{{ $list->jenis_pengujian }}" />
                             </div>
                             <div class="mb-3">
                                 <label for="harga" class="form-label">Masukkan Harga</label>
-                                <input type="number" value="{{ $list->harga }}" name="harga" id="harga"
-                                    class="form-control" required autocomplete="off" />
-                            </div>
-                            <div class="mb-3">
-                                <label for="foto" class="form-label">Masukkan Foto</label>
-                                <input type="hidden" name="oldImage" value={{ $list->foto }}>
-                                @if ($list->foto)
-                                    <img class="img-preview img-fluid mb-3 col-sm-5 d-block"
-                                        src="{{ asset('storage/foto-alat/' . basename($list->foto)) }}"
-                                        alt="Preview Image">
-                                @else
-                                    <img class="img-preview img-fluid mb-3 col-md-6">
-                                @endif
-                                <input type="file" onchange="previewImage()" name="foto" id="foto"
-                                    class="form-control" autocomplete="off" value="{{ old(basename($list->foto)) }}" />
+                                <input type="number" name="harga" id="harga" class="form-control" required
+                                    autocomplete="off" value="{{ $list->harga }}" />
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -193,7 +177,7 @@
         </div>
 
         {{-- delete modal --}}
-        <div class="modal fade zoomIn" id="deleteJenis{{ $list->id_alat }}" tabindex="-1" aria-hidden="true">
+        <div class="modal fade zoomIn" id="deleteModal{{ $list->id_analises }}" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -211,12 +195,12 @@
                         </div>
                         <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
                             <button type="button" class="btn w-sm btn-light" data-bs-dismiss="modal">Batal</button>
-                            <form action="{{ route('Admin.list-alat.destroy', $list->id_alat) }}" method="POST"
+                            <form action="{{ route('Admin.list-analises.destroy', $list->id_analises) }}" method="POST"
                                 style="display: inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn w-sm btn-danger "
-                                    id="delete-record{{ $list->id_alat }}">Ya, Hapus!</button>
+                                    id="delete-record{{ $list->id_analises }}">Ya, Hapus!</button>
                             </form>
                         </div>
                     </div>
@@ -224,22 +208,4 @@
             </div>
         </div>
     @endforeach
-
-    {{-- review image --}}
-    <script>
-        function previewImage() {
-            const photo = document.querySelector('#foto');
-            const imgPreview = document.querySelector('.img-preview');
-
-            imgPreview.style.display = 'block';
-
-            //data gambar
-            const oFReader = new FileReader();
-            oFReader.readAsDataURL(photo.files[0]);
-
-            oFReader.onload = function(oFREvent) {
-                imgPreview.src = oFREvent.target.result;
-            }
-        }
-    </script>
 @endsection

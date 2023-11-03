@@ -41,8 +41,9 @@
                 </li> --}}
 
                 <li class="nav-item">
-                    <a class="nav-link {{ Request::is('list-alat') ? 'active' : '' }} menu-link" href="#sidebarApps"
-                        data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarApps">
+                    <a class="nav-link {{ Request::is('list-alat') || Request::is('list-analises') ? 'active' : '' }} menu-link"
+                        href="#sidebarApps" data-bs-toggle="collapse" role="button" aria-expanded="false"
+                        aria-controls="sidebarApps">
                         <i class="ri-apps-2-line"></i>
                         <span data-key="t-apps">List</span>
                     </a>
@@ -55,7 +56,8 @@
                                     List Alat</a>
                             </li>
                             <li class="nav-item">
-                                <a href="" class="nav-link">
+                                <a href="{{ route('Admin.list-analises.index') }}"
+                                    class="nav-link {{ Request::is('list-analises') ? 'active' : '' }}">
                                     <i class="ri-apps-2-line"></i>
                                     List Analize</a>
                             </li>

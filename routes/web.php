@@ -8,6 +8,7 @@ use App\Http\Controllers\user\OrderController;
 use App\Http\Controllers\auth\RegisterController;
 use App\Http\Controllers\user\AnalisisController;
 use App\Http\Controllers\Admin\listAlatController;
+use App\Http\Controllers\Admin\listAnalisesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,3 +56,10 @@ Route::get('/list-alat', [listAlatController::class, 'index'])->name('Admin.list
 Route::post('/list-alat/add', [listAlatController::class, 'store'])->name('Admin.list-alat.store');
 Route::post('/list-alat/update/{id}', [listAlatController::class, 'update'])->name('Admin.list-alat.update');
 Route::delete('/list-alat/destroy/{id}', [listAlatController::class, 'destroy'])->name('Admin.list-alat.destroy');
+
+
+// analises
+Route::get('/list-analises', [listAnalisesController::class, 'index'])->name('Admin.list-analises.index');
+Route::post('/list-analises/add', [listAnalisesController::class, 'store'])->name('Admin.list-analises.store');
+Route::post('/list-analises/update/{id}', [listAnalisesController::class, 'update'])->name('Admin.list-analises.update');
+Route::delete('/list-analises/destroy/{id}', [listAnalisesController::class, 'destroy'])->name('Admin.list-analises.destroy');
