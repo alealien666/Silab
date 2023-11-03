@@ -26,3 +26,9 @@
     position: absolute;
     top: 70%;
 }
+
+
+#scroll {
+    max-height: 233px;
+    overflow-y: scroll;
+}

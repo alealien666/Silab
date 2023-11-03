@@ -16,11 +16,11 @@
 @section('konten')
     <div class="page-content">
         <div class="container-fluid">
-            <div id="error-message" class="alert alert-danger" style="display: none;">
-                @if (session('error'))
+            @if (session('error'))
+                <div id="error-message" class="alert alert-danger">
                     {{ session('error') }}
-                @endif
-            </div>
+                </div>
+            @endif
             {{-- breadcrumbs --}}
             <div class="row">
                 <div class="col-12">

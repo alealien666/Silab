@@ -34,13 +34,13 @@ Route::middleware(['auth'])->group(function () {
                 'title' => 'Silab | User'
             ]);
         });
+        Route::get('/order/{slug}', [OrderController::class, 'show'])->name('order')->middleware('CheckOrder');
+        Route::post('order', [OrderController::class, 'store'])->name('orderLab');
         Route::get('/lab', [LabController::class, 'index'])->name('index');
         Route::get('/produk/kategori/{category}', [LabController::class, 'kategori'])->name('produk.kategori');
         Route::get('/analisis/kategori/{category}', [AnalisisController::class, 'kategori'])->name('analisis.kategori');
         Route::get('/analisis', [AnalisisController::class, 'index'])->name('analisis');
         Route::get('/lab/{slug}', [LabController::class, 'show']);
-        Route::get('/order/{slug}', [OrderController::class, 'show'])->name('order');
-        Route::post('order', [OrderController::class, 'store'])->name('orderLab');
         Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
     });
 });

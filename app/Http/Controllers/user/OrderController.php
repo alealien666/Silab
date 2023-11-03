@@ -42,6 +42,22 @@ class OrderController extends Controller
             "id_lab" => "required",
         ]);
 
+        // bagian ngirim ke shipping info
+        $selectedAlat = $request->input('selected_alat');
+        session([
+            'personal_info' => [
+                'nama' => $request->input('nama'),
+                'notelp' => $request->input('notelp'),
+                'jenispesanan' => 'Sewa Lab',
+                'masuk' => $request->input('masuk'),
+                'keluar' => $request->input('keluar'),
+                'lab' => $request->input('lab'),
+                'selected_alat' => $selectedAlat,
+                'totalHarga' => $request->input('totalHarga')
+            ]
+        ]);
+        // dd(session('personal_info.totalHarga'));
+
         $order = new Order();
         $order->user_id = auth()->user()->id;
         $order->jenis_pesanan = 'Sewa Lab';
@@ -73,10 +89,10 @@ class OrderController extends Controller
         Alat_Tambahan::whereIn('id', $selectedAlat)->update(['status' => 'di gunakan']);
 
         // Tandai lab sebagai tidak tersedia selama 1 hari
-        Lab::where('id', $selectedLabId)
-            ->update(['status' => 'di gunakan' /*,'tanggal_selesai' => now()->addDays(1)*/]);
+        // Lab::where('id', $selectedLabId)
+        //     ->update(['status' => 'di gunakan' /*,'tanggal_selesai' => now()->addDays(1)*/]);
 
-        return redirect('/lab')->with('success', 'Pesanan Anda telah disubmit.');
+        return redirect()->back()->with('success', 'Lanjutkan untuk melakukan pembayaran.');
     }
 
 
@@ -85,12 +101,15 @@ class OrderController extends Controller
      */
     public function show($slug)
     {
+        $selectedAlatIds = session('personal_info.selected_alat', []);
+        $selectedAlat = Alat_Tambahan::whereIn('id', $selectedAlatIds)->get();
+
         $lab = Lab::where('slug', $slug)->firstOrFail();
         $categorylab = $lab->category;
         $alat = Alat_Tambahan::whereHas('category', function ($query) use ($categorylab) {
             $query->where('id', $categorylab->id);
         })->get();
-        return view('auth.user.order', compact('lab', 'categorylab', 'alat'))->with('title', 'Silab | Order');
+        return view('auth.user.order', compact('lab', 'categorylab', 'alat', 'selectedAlat'))->with('title', 'Silab | Order');
     }
 
     /** 
