@@ -26,6 +26,11 @@
     {{-- icon --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
+    {{-- sweetalert --}}
+    <script src="{{ asset('vendor/sweetalert2/sweetalert2.min.js') }}"></script>
+    <script src="{{ asset('assets1/script.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('vendor/sweetalert2/sweetalert2.min.css') }}">
+
 </head>
 
 <body>
@@ -392,6 +397,13 @@
                                     <i class="bi bi-hourglass-bottom"></i> <span data-key="t-dashboards">Analisis</span>
                                 </a>
                             </li>
+                            <li class="margin nav-item">
+                                <a class="nav-link menu-link {{ $title === 'Silab | Riwayat Pemesanan' ? 'active' : '' }}"
+                                    href="/riwayat-pemesanan" aria-controls="sidebarDashboards">
+                                    <i class="bi bi-list-check"></i></i> <span data-key="t-dashboards">riwayat
+                                        pemesanan</span>
+                                </a>
+                            </li>
                         @endauth
                     </ul>
                 </div>
@@ -405,6 +417,16 @@
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
+        @if ($errors->any())
+            <script>
+                callAlert('error', 'gagal', '{{ $errors->all()[0] }}');
+            </script>
+        @elseif (session('success'))
+            <script>
+                callAlert('success', 'berhasil', "{{ session('success') }}");
+            </script>
+        @endif
+
         <div class="container">
             @yield('konten')
         </div>

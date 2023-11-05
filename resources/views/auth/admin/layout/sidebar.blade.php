@@ -65,6 +65,13 @@
                     </div>
                 </li>
 
+                <li class="nav-item">
+                    <a class="nav-link {{ Request::is('list-pemesanan') ? 'active' : '' }}"
+                        href="{{ route('Admin.list-pemesanan.index') }}">
+                        <i class="ri-file-list-3-line"></i> <span data-key="t-forms">List Pemesanan</span>
+                    </a>
+                </li>
+
                 {{-- <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarForms" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarForms">
@@ -134,11 +141,6 @@
                     </div>
                 </li> --}}
 
-                {{-- <li class="nav-item">
-                    <a class="nav-link" href="">
-                        <i class="ri-file-list-3-line"></i> <span data-key="t-forms">Akomodasi</span>
-                    </a>
-                </li> --}}
             </ul>
         </div>
         </li>

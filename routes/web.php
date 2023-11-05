@@ -9,6 +9,8 @@ use App\Http\Controllers\auth\RegisterController;
 use App\Http\Controllers\user\AnalisisController;
 use App\Http\Controllers\Admin\listAlatController;
 use App\Http\Controllers\Admin\listAnalisesController;
+use App\Http\Controllers\Admin\PemesananController;
+use App\Http\Controllers\user\riwayatPemesananController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,10 +46,12 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/analisis', [AnalisisController::class, 'index'])->name('analisis');
         Route::get('/lab/{slug}', [LabController::class, 'show']);
         Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+
+        // riwayat pemesanan
+        Route::get('/riwayat-pemesanan', [riwayatPemesananController::class, 'index'])->name('riwayat-pemesanan.index');
+        Route::post('/riwayat-pemesanan/verifikasi/{id}', [PemesananController::class, 'verifikasi'])->name('riwayat-pemesanan.verifikasi');
     });
 });
-
-
 
 // admin
 
@@ -63,3 +67,7 @@ Route::get('/list-analises', [listAnalisesController::class, 'index'])->name('Ad
 Route::post('/list-analises/add', [listAnalisesController::class, 'store'])->name('Admin.list-analises.store');
 Route::post('/list-analises/update/{id}', [listAnalisesController::class, 'update'])->name('Admin.list-analises.update');
 Route::delete('/list-analises/destroy/{id}', [listAnalisesController::class, 'destroy'])->name('Admin.list-analises.destroy');
+
+
+// pemesanan
+Route::get('/list-pemesanan', [PemesananController::class, 'index'])->name('Admin.list-pemesanan.index');
