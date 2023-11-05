@@ -1,9 +1,13 @@
-// ngitung total
 document.addEventListener("DOMContentLoaded", function () {
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]')
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
     const subtotalElement = document.getElementById('subtotal');
-    const totalElement = document.getElementById('total')
-    const totalHarga = document.getElementById('totalHarga')
+    const totalElement = document.getElementById('total');
+    const totalHarga = document.getElementById('totalHarga');
+
+    // Daftar alat
+    const alatCounters = document.querySelectorAll('.jumlah');
+    const plusButtons = document.querySelectorAll('.plus');
+    const minusButtons = document.querySelectorAll('.min');
 
     checkboxes.forEach(function (checkbox) {
         checkbox.addEventListener('change', function () {
@@ -11,73 +15,78 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+    plusButtons.forEach(function (button, index) {
+        button.addEventListener('click', function () {
+            incrementCount(index);
+        });
+    });
+
+    minusButtons.forEach(function (button, index) {
+        button.addEventListener('click', function () {
+            decrementCount(index);
+        });
+    });
+
     function updateSubtotal() {
         var subtotal = 0;
-        checkboxes.forEach(function (checkbox) {
+        checkboxes.forEach(function (checkbox, index) {
             if (checkbox.checked) {
                 const harga = parseFloat(checkbox.getAttribute('data-harga'));
                 if (!isNaN(harga)) {
-                    subtotal += harga;
+                    const count = parseInt(alatCounters[index].querySelector('.count').textContent, 10);
+                    subtotal += harga * count;
                 }
             }
         });
         subtotalElement.textContent = 'Rp. ' + subtotal.toFixed(2);
-        updateTotal(subtotal)
+        updateTotal(subtotal);
     }
 
     function updateTotal(subtotal) {
         const total = subtotal;
-        totalElement.textContent = 'Rp. ' + total.toFixed(2)
-        totalHarga.textContent = 'Rp. ' + total.toFixed(2)
+        totalElement.textContent = 'Rp. ' + total.toFixed(2);
+        totalHarga.textContent = 'Rp. ' + total.toFixed(2);
     }
 
-    updateSubtotal();
+    function incrementCount(index) {
+        const jumlah = alatCounters[index].querySelector('.count');
+        let count = parseInt(jumlah.textContent, 10);
+        count++;
+        jumlah.textContent = count;
+
+        // Update the input value
+        const inputJumlah = alatCounters[index].querySelector('input[name="jumlah_alat[]"]');
+        inputJumlah.value = count;
+        // console.log(inputJumlah);
+
+        updateSubtotal();
+    }
+
+    function decrementCount(index) {
+        const jumlah = alatCounters[index].querySelector('.count');
+        let count = parseInt(jumlah.textContent, 10);
+        if (count > 0) {
+            count--;
+            jumlah.textContent = count;
+
+            // Update the input value
+            const inputJumlah = alatCounters[index].querySelector('input[name="jumlah_alat[]"]');
+            inputJumlah.value = count;
+
+            updateSubtotal();
+        }
+    }
+
+    // updateSubtotal();
 });
 
-// shipping info
-function savePersonalInfo() {
-    // Simpan data Personal Info ke variabel JavaScript
-    let nama = document.getElementById('nama').value;
-    let lab = document.getElementById('lab').value;
-    let notelp = document.getElementById('no-telp').value;
-    let jenis = document.getElementById('jenis').value;
-    let masuk = document.getElementById('masuk').value;
-    let keluar = document.getElementById('keluar').value;
-    // let alat = document.getElementById('selected_alat').value;
-    let total = document.getElementById('total')
 
-    // isi data Shipping Info
-    document.getElementById('shipping-nama').value = nama;
-    document.getElementById('shipping-lab').value = lab;
-    document.getElementById('shipping-notelp').value = notelp;
-    document.getElementById('shipping-jenispesanan').value = jenis;
-    document.getElementById('shipping-masuk').value = masuk;
-    document.getElementById('shipping-keluar').value = keluar;
-    document.getElementById('totalHarga').value = total;
-    // document.getElementById('shipping-alat').value = selected_alat;
+// disable
 
-    // let selectedAlat = [];
-    // let checkboxes = document.querySelectorAll('input[name="selected_alat[]"]:checked');
-    // checkboxes.forEach((checkbox) => {
-    //     selectedAlat.push({
-    //         jenis_alat: checkbox.parentNode.previousElementSibling.previousElementSibling.textContent.trim(),
-    //         harga: checkbox.dataset.harga
-    //     });
-    // });
 
-    // // Menampilkan data alat di shipping info
-    // let shippingAlat = document.getElementById('shipping-alat');
-    // shippingAlat.innerHTML = "";
-    // selectedAlat.forEach((item) => {
-    //     let alatInfo = document.createElement('p');
-    //     alatInfo.textContent = `Nama Alat: ${item.jenis_alat}, Harga: ${item.harga}`;
-    //     shippingAlat.appendChild(alatInfo);
-    // });
 
-    // Menampilkan Shipping Info dan menyembunyikan Personal Info
-    //     const personal = document.getElementById('personal-info')
-    //     personal.disabled = true
-    //     document.getElementById('shipping-info')
-}
+
+
+
 
 

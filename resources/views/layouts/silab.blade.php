@@ -73,7 +73,6 @@
                         <!-- App Search-->
                         @yield('search')
                     </div>
-
                     <div class="d-flex align-items-center">
 
                         <div class="dropdown d-md-none topbar-head-dropdown header-item">
@@ -97,6 +96,10 @@
                                     </div>
                                 </form>
                             </div>
+                        </div>
+
+                        <div class="dropdown ms-1 topbar-head-dropdown header-item">
+                            @yield('kategori')
                         </div>
 
                         <div class="dropdown topbar-head-dropdown ms-1 header-item">

@@ -107,21 +107,11 @@
                                                 </div>
 
                                                 <div class="row">
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-12">
                                                         <div class="mb-3">
-                                                            <label for="order" class="form-label">Tanggal
-                                                                Masuk</label>
+                                                            <label for="order" class="form-label">Order</label>
                                                             <input type="date" name="masuk" id="masuk"
                                                                 class="form-control">
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-6">
-                                                        <div class="mb-3">
-                                                            <label for="checkout" class="form-label">Tanggal
-                                                                Keluar</label>
-                                                            <input type="date" class="form-control" id="keluar"
-                                                                name="keluar">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -150,7 +140,7 @@
                                                         <div class="form-check">
                                                             <label class="form-check-label" for="shippingAddress01">
                                                                 <span
-                                                                    class="mb-4 fw-semibold d-block text-uppercase">{{ auth()->user()->email }}</span><br>
+                                                                    class="mb-4 fw-semibold d-block">{{ auth()->user()->email }}</span><br>
                                                                 <span
                                                                     class="text-muted fw-normal text-wrap mb-1 d-block"
                                                                     id="shipping-name">Nama :
@@ -171,29 +161,9 @@
                                                                     class="text-muted fw-normal text-wrap mb-1 d-block"
                                                                     id="shipping-masuk">Tanggal Masuk :
                                                                     {{ session('personal_info.masuk') }}</span>
-                                                                <span
-                                                                    class="text-muted fw-normal text-wrap mb-1 d-block pb-3"
-                                                                    id="shipping-keluar">Tanggal Keluar:
-                                                                    {{ session('personal_info.keluar') }}</span>
                                                             </label>
                                                         </div>
-                                                        <div
-                                                            class="d-flex flex-wrap p-2 py-1 bg-light rounded-bottom border mt-n1">
-                                                            <div>
-                                                                <a href="#" class="d-block text-body p-1 px-2"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#addAddressModal"><i
-                                                                        class="ri-pencil-fill text-muted align-bottom me-1"></i>
-                                                                    Edit</a>
-                                                            </div>
-                                                            <div>
-                                                                <a href="#" class="d-block text-body p-1 px-2"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#removeItemModal"><i
-                                                                        class="ri-delete-bin-fill text-muted align-bottom me-1"></i>
-                                                                    Remove</a>
-                                                            </div>
-                                                        </div>
+
                                                     </div>
                                                     <div class="col-lg-6 col-sm-6">
                                                         <div class="form-check" id="scroll">
@@ -205,30 +175,14 @@
                                                                     <span class="text-muted mb-2 d-block"
                                                                         id="shipping-alat">
                                                                         Nama Alat: {{ $item->jenis_alat }}<br>
-                                                                        Harga: Rp.
-                                                                        {{ $item->harga }}
+                                                                        Harga: Rp. {{ $item->harga }}<br>
+                                                                        {{-- Jumlah: {{ $item->jumlah }} --}}
                                                                     </span>
                                                                     <hr>
                                                                 @endforeach
                                                             </label>
                                                         </div>
-                                                        <div
-                                                            class="d-flex flex-wrap p-2 py-1 bg-light rounded-bottom border mt-n1">
-                                                            <div>
-                                                                <a href="#" class="d-block text-body p-1 px-2"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#addAddressModal"><i
-                                                                        class="ri-pencil-fill text-muted align-bottom me-1"></i>
-                                                                    Edit</a>
-                                                            </div>
-                                                            <div>
-                                                                <a href="#" class="d-block text-body p-1 px-2"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#removeItemModal"><i
-                                                                        class="ri-delete-bin-fill text-muted align-bottom me-1"></i>
-                                                                    Remove</a>
-                                                            </div>
-                                                        </div>
+
                                                     </div>
                                                 </div>
 
@@ -291,34 +245,68 @@
                                     <table class="table table-borderless align-middle mb-0">
                                         <thead class="table-light text-muted">
                                             <tr>
-                                                <th style="width: 80px;" scope="col">Foto</th>
                                                 <th scope="col">Jenis Alat</th>
                                                 <th scope="col" class="text-start" colspan="2">Harga</th>
+                                                <th scope="col">Jumlah</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($alat as $alat)
-                                                <tr id="selected_alat">
-                                                    <td>
-                                                        <div class="avatar-md bg-light rounded p-1">
-                                                            <img src="{{ asset('img/ceret.jpeg') }}"
-                                                                alt="{{ $alat->jenis_alat }}"
-                                                                class="img-fluid d-block">
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <h5 class="fs-15">
-                                                            <p class="text-dark" name="nama_alat">
-                                                                {{ $alat->jenis_alat }}</p>
-                                                        </h5>
-                                                    </td>
-                                                    <td class="text-end" name="harga_alat">{{ $alat->harga }}</td>
-                                                    <td>
-                                                        <input type="checkbox" name="selected_alat[]"
-                                                            value="{{ $alat->id }}"
-                                                            data-harga="{{ $alat->harga }}">
-                                                    </td>
-                                                </tr>
+                                                @if ($alat->jumlah === 0)
+                                                    <tr id="selected_alat" style="pointer-events: none; opacity:0.5;">
+                                                        <td>
+                                                            <h5 class="fs-15">
+                                                                <p class="text-dark" name="nama_alat">
+                                                                    {{ $alat->jenis_alat }}</p>
+                                                            </h5>
+                                                        </td>
+                                                        <td class="text-end" name="harga_alat">{{ $alat->harga }}
+                                                        </td>
+                                                        <td>
+                                                            <input type="checkbox" name="selected_alat[]"
+                                                                value="{{ $alat->id }}"
+                                                                data-harga="{{ $alat->harga }}" disabled>
+                                                        </td>
+                                                        <td>
+                                                            <div class="jumlah diss">
+                                                                <button type="button" class="min"><i
+                                                                        class="bi bi-dash-lg"></i></button>
+                                                                <input type="hidden" name="jumlah_alat[]"
+                                                                    value="0">
+                                                                <span class="count">0</span>
+                                                                <button type="button" class="plus"><i
+                                                                        class="bi bi-plus-lg"></i></button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                @else
+                                                    <tr id="selected_alat">
+                                                        <td>
+                                                            <h5 class="fs-15">
+                                                                <p class="text-dark" name="nama_alat">
+                                                                    {{ $alat->jenis_alat }}</p>
+                                                            </h5>
+                                                        </td>
+                                                        <td class="text-end" name="harga_alat">{{ $alat->harga }}
+                                                        </td>
+                                                        <td>
+                                                            <input type="checkbox" name="selected_alat[]"
+                                                                value="{{ $alat->id }}"
+                                                                data-harga="{{ $alat->harga }}">
+                                                        </td>
+                                                        <td>
+                                                            <div class="jumlah">
+                                                                <button type="button" class="min"><i
+                                                                        class="bi bi-dash-lg"></i></button>
+                                                                <input type="hidden" name="jumlah_alat[]"
+                                                                    value="0">
+                                                                <span class="count">0</span>
+                                                                <button type="button" class="plus"><i
+                                                                        class="bi bi-plus-lg"></i></button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                @endif
                                             @endforeach
                                         </tbody>
                                     </table>
@@ -380,3 +368,37 @@
 <!-- removeItemModal -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="{{ asset('js/main.js') }}"></script>
+<script>
+    function savePersonalInfo() {
+        // Simpan data Personal Info ke variabel JavaScript
+        let nama = document.getElementById('nama').value;
+        let lab = document.getElementById('lab').value;
+        let notelp = document.getElementById('no-telp').value;
+        let jenis = document.getElementById('jenis').value;
+        let masuk = document.getElementById('masuk').value;
+        let keluar = document.getElementById('keluar').value;
+        let total = document.getElementById('total')
+        let totalHarga = document.getElementById('total').textContent;
+        const checkboxes = document.querySelectorAll('input[name="selected_alat[]"]:checked');
+
+        checkboxes.forEach(checkbox => {
+            checkbox.disabled = true;
+        });
+
+
+        // isi data Shipping Info
+        document.getElementById('totalHarga').textContent = totalHarga;
+        document.getElementById('shipping-nama').value = nama;
+        document.getElementById('shipping-lab').value = lab;
+        document.getElementById('shipping-notelp').value = notelp;
+        document.getElementById('shipping-jenispesanan').value = jenis;
+        document.getElementById('shipping-masuk').value = masuk;
+        document.getElementById('shipping-keluar').value = keluar;
+        document.getElementById('totalHarga').value = total;
+
+        //  Menampilkan Shipping Info dan menyembunyikan Personal Info
+        const personal = document.getElementById('personal-info')
+        personal.disabled = true
+        document.getElementById('shipping-info')
+    }
+</script>

@@ -20,7 +20,7 @@ class LabFactory extends Factory
             "nama_lab" => fake()->sentence(),
             "slug" => fake()->slug(),
             "deskripsi" => fake()->paragraph(3, 5),
-            "status" => $this->faker->randomElement(['tersedia', 'di gunakan']),
+            "status" => 'tersedia',
             "kapasitas" => fake()->numberBetween(15, 30),
             "category_id" => mt_rand(1, 3)
         ];

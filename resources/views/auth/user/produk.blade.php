@@ -13,6 +13,22 @@
         </div>
     </form>
 @endsection
+@section('kategori')
+    <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" data-bs-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+        <i class='bx bx-category-alt fs-22'></i>
+    </button>
+    <div class="dropdown-menu dropdown-menu-end">
+        <p class="ps-3"><b>Category</b></p>
+        <hr>
+        @foreach ($categories as $kategori)
+            <a href="{{ route('produk.kategori', ['category' => $kategori->category]) }}"
+                class="dropdown-item notify-item language py-2" data-lang="en" title="English">
+                <span class="align-middle">{{ $kategori->category }}</span>
+            </a>
+        @endforeach
+    </div>
+@endsection
 @section('konten')
     <div class="page-content">
         <div class="container-fluid">
@@ -46,6 +62,7 @@
                         <p class="text-muted mb-4 fs-15">Simple pricing. No hidden fees. Advanced features for
                             you business.</p>
 
+                        <input type="date" class="form-control mb-4" name="" id="">
                         <div class="d-inline-flex">
                             <ul class="nav nav-pills arrow-navtabs plan-nav rounded mb-3 p-1" id="pills-tab" role="tablist">
                                 <li class="nav-item" role="presentation">
@@ -67,22 +84,6 @@
                 @if (isset($message))
                     <h3 class="text-center"><i class="bi bi-search"></i> {{ $message }}</h3>
                 @endif
-                <div class="dropdown ms-1 topbar-head-dropdown header-item">
-                    <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
-                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class='bx bx-category-alt fs-22'></i>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-end">
-                        <p class="ps-3"><b>Category</b></p>
-                        <hr>
-                        @foreach ($categories as $kategori)
-                            <a href="{{ route('produk.kategori', ['category' => $kategori->category]) }}"
-                                class="dropdown-item notify-item language py-2" data-lang="en" title="English">
-                                <span class="align-middle">{{ $kategori->category }}</span>
-                            </a>
-                        @endforeach
-                    </div>
-                </div>
                 @foreach ($datas as $data)
                     <div class="col-xxl-3 col-lg-6">
                         <div class="card pricing-box">
@@ -148,7 +149,7 @@
                                     </div>
                                 @else
                                     <div class="mt-3 pt-2">
-                                        <a href="/lab/{{ $data->slug }}" class="btn btn-success w-100">Pilih
+                                        <a href="/order/{{ $data->slug }}" class="btn btn-success w-100">Pilih
                                             Lab</a>
                                     </div>
                                 @endif

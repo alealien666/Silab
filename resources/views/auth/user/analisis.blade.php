@@ -13,6 +13,22 @@
         </div>
     </form>
 @endsection
+@section('kategori')
+    <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" data-bs-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+        <i class='bx bx-category-alt fs-22'></i>
+    </button>
+    <div class="dropdown-menu dropdown-menu-end">
+        <p class="ps-3"><b>Category</b></p>
+        <hr>
+        @foreach ($categories as $kategori)
+            <a href="{{ route('analisis.kategori', ['category' => $kategori->category]) }}"
+                class="dropdown-item notify-item language py-2" data-lang="en" title="English">
+                <span class="align-middle">{{ $kategori->category }}</span>
+            </a>
+        @endforeach
+    </div>
+@endsection
 @section('konten')
     <div class="page-content">
         <div class="container-fluid">
@@ -63,22 +79,6 @@
             </div><!--end row-->
 
             <div class="row">
-                <div class="dropdown ms-1 topbar-head-dropdown header-item">
-                    <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
-                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class='bx bx-category-alt fs-22'></i>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-end">
-                        <p class="ps-3"><b>Category</b></p>
-                        <hr>
-                        @foreach ($categories as $kategori)
-                            <a href="{{ route('analisis.kategori', ['category' => $kategori->category]) }}"
-                                class="dropdown-item notify-item language py-2" data-lang="en" title="English">
-                                <span class="align-middle">{{ $kategori->category }}</span>
-                            </a>
-                        @endforeach
-                    </div>
-                </div>
                 @foreach ($analis as $item)
                     <div class="col-xxl-3 col-lg-6">
                         <div class="card pricing-box">

@@ -6,6 +6,7 @@ namespace App\Http\Controllers\user;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Alat_Tambahan;
+use App\Models\detail_order;
 use App\Models\Lab;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -28,21 +29,16 @@ class OrderController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        $validasi = $request->validate([
+        $request->validate([
             "nama" => "required|max:255|string",
             "notelp" => "required|numeric",
             "masuk" => ["required", "date", "after_or_equal:" . Carbon::now()->toDateString()],
-            "keluar" => ["required", "date", "after:masuk"],
             "selected_alat" => "required|array",
-            "id_lab" => "required",
+            "jumlah_alat" => "required|array",
         ]);
 
-        // bagian ngirim ke shipping info
         $selectedAlat = $request->input('selected_alat');
         session([
             'personal_info' => [
@@ -53,7 +49,7 @@ class OrderController extends Controller
                 'keluar' => $request->input('keluar'),
                 'lab' => $request->input('lab'),
                 'selected_alat' => $selectedAlat,
-                'totalHarga' => $request->input('totalHarga')
+                'totalHarga' => $request->input('totalHarga') // jumlah harga alat yang dipesan
             ]
         ]);
         // dd(session('personal_info.totalHarga'));
@@ -64,7 +60,6 @@ class OrderController extends Controller
         $order->nama_pemesan = $request->input('nama');
         $order->no_telp = $request->input('notelp');
         $order->order = now();
-        $order->tanggal_selesai = $request->input('keluar');
         $order->total_biaya = 0;
         $order->status = 'pending';
         $order->save();
@@ -72,43 +67,55 @@ class OrderController extends Controller
         $selectedAlat = $request->input('selected_alat');
         $selectedLabId = $request->input('id_lab');
 
-        // Hubungkan alat-alat yang dipilih dengan pesanan
-        foreach ($selectedAlat as $selectedAlatId) {
-            // Periksa apakah $selectedAlatId adalah angka yang valid
+        // gae ngirim ke tabel pivot
+        foreach ($selectedAlat as $index => $selectedAlatId) {
             if (is_numeric($selectedAlatId)) {
-                $order->alat()->attach($selectedAlatId, ['id_lab' => $selectedLabId]);
+                $order->alat()->attach($selectedAlatId, [
+                    'id_lab' => $selectedLabId,
+                    'jumlah_alat' => $request->input('jumlah_alat')[$index] //tambah iki gae inisialisasi
+                ]);
             }
         }
 
-        // Hitung total biaya berdasarkan alat-alat yang dipilih
-        $totalBiaya = Alat_Tambahan::whereIn('id', $selectedAlat)->sum('harga');
-        $order->total_biaya = $totalBiaya;
+        $totalCost = 0;
+        foreach ($selectedAlat as $selectedAlatId) {
+            $alat = Alat_Tambahan::find($selectedAlatId);
+            $totalCost += $alat->harga * $request->input('jumlah_alat')[$index];
+        }
+
+        $order->total_biaya = $totalCost;
         $order->save();
+        dd($totalCost);
 
-        // Tandai alat-alat sebagai tidak tersedia
-        Alat_Tambahan::whereIn('id', $selectedAlat)->update(['status' => 'di gunakan']);
-
-        // Tandai lab sebagai tidak tersedia selama 1 hari
-        // Lab::where('id', $selectedLabId)
-        //     ->update(['status' => 'di gunakan' /*,'tanggal_selesai' => now()->addDays(1)*/]);
+        // iki logika gae ngurangi jumlah di tabel master
+        foreach ($selectedAlat as $index => $selectedAlatId) {
+            if (is_numeric($selectedAlatId)) {
+                $alat = Alat_Tambahan::find($selectedAlatId);
+                $alat->jumlah -= $request->input('jumlah_alat')[$index];
+                $alat->save();
+            }
+        }
 
         return redirect()->back()->with('success', 'Lanjutkan untuk melakukan pembayaran.');
     }
 
 
-    /**
-     * Display the specified resource.
-     */
+
+
+
+
     public function show($slug)
     {
         $selectedAlatIds = session('personal_info.selected_alat', []);
         $selectedAlat = Alat_Tambahan::whereIn('id', $selectedAlatIds)->get();
+        $order = Order::all();
 
         $lab = Lab::where('slug', $slug)->firstOrFail();
         $categorylab = $lab->category;
         $alat = Alat_Tambahan::whereHas('category', function ($query) use ($categorylab) {
             $query->where('id', $categorylab->id);
         })->get();
+        // dd($alat);
         return view('auth.user.order', compact('lab', 'categorylab', 'alat', 'selectedAlat'))->with('title', 'Silab | Order');
     }
 
@@ -136,3 +143,6 @@ class OrderController extends Controller
         //
     }
 }
+// Tandai lab sebagai tidak tersedia selama 1 hari
+        // Lab::where('id', $selectedLabId)
+        //     ->update(['status' => 'di gunakan' /*,'tanggal_selesai' => now()->addDays(1)*/]);
