@@ -20,33 +20,10 @@
                     <div class="col">
                         <div class="p-2">
                             <h3 class="text-white mb-1">{{ auth()->user()->name }}</h3>
-                            <p class="text-white-75">Filsuf</p>
-                            <div class="hstack text-white-50 gap-1">
-                                <div class="me-2"><i
-                                        class="ri-map-pin-user-line me-1 text-white-75 fs-16 align-bottom"></i>Ajung,
-                                    United States</div>
-                                <div><i class="ri-building-line me-1 text-white-75 fs-16 align-bottom"></i>Themesbrand
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <!--end col-->
-                    <div class="col-12 col-lg-auto order-last order-lg-0">
-                        <div class="row text text-white-50 text-center">
-                            <div class="col-lg-6 col-4">
-                                <div class="p-2">
-                                    <h4 class="text-white mb-1">24.3M</h4>
-                                    <p class="fs-15 mb-0">Followers</p>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-4">
-                                <div class="p-2">
-                                    <h4 class="text-white mb-1">1.3K</h4>
-                                    <p class="fs-15 mb-0">Following</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                     <!--end col-->
 
                 </div>
@@ -86,7 +63,7 @@
                                             </div><!-- end card body -->
                                         </div><!-- end card -->
 
-                                        <div class="card">
+                                        {{-- <div class="card">
                                             <div class="card-body">
                                                 <h5 class="card-title mb-4">Portfolio</h5>
                                                 <div class="d-flex flex-wrap gap-2">
@@ -121,7 +98,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div><!-- end card body -->
+                                        </div><!-- end card body --> --}}
                                     </div><!-- end card -->
 
 

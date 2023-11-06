@@ -55,16 +55,6 @@ class OrderController extends Controller
         ]);
         // dd(session('personal_info.totalHarga'));
 
-        $new_array = [];
-
-        foreach ($request->input("jumlah_alat") as $key => $value) {
-
-            if (in_array($key, $request->input("selected_alat"))) {
-                // Pecah nilai string menjadi array dan tambahkan ke new_array
-                $new_array[$key] = $value;
-            }
-        }
-        // return $new_array;
 
         $order = new Order();
         $order->user_id = auth()->user()->id;
@@ -79,58 +69,81 @@ class OrderController extends Controller
         $selectedAlat = $request->input('selected_alat');
         $selectedLabId = $request->input('id_lab');
 
-
+        $new_array = [];
+        foreach ($request->input("jumlah_alat") as $key => $value) {
+            if (in_array($key, $request->input("selected_alat"))) {
+                $new_array[$key] = $value;
+            }
+        }
+        // return $new_array;
 
         // gae ngirim ke tabel pivot
         foreach ($selectedAlat as $index => $selectedAlatId) {
             if (is_numeric($selectedAlatId)) {
+
+                $jumlahAlat = isset($new_array[$selectedAlatId]) ? $new_array[$selectedAlatId] : 0;
                 $order->alat()->attach($selectedAlatId, [
                     'id_lab' => $selectedLabId,
+                    'jumlah_alat' => $jumlahAlat
                 ]);
+                // dd($jumlahAlat);
             }
         }
 
         $totalCost = 0;
-        foreach ($selectedAlat as $selectedAlatId) {
-            $alat = Alat_Tambahan::find($selectedAlatId);
-            $totalCost += $alat->harga * $request->input('jumlah_alat')[$index];
+        foreach ($selectedAlat as $index => $selectedAlatId) {
+            if (is_numeric($selectedAlatId)) {
+                if (isset($jumlahAlat[$index])) {
+                    $alat = Alat_Tambahan::find($selectedAlatId);
+                    $harga = $alat->harga;
+                    $jumlahAlat = $jumlahAlat[$index];
+
+                    // Hitung total biaya untuk alat ini
+                    $totalBiaya = $harga * $jumlahAlat;
+
+                    // Tambahkan biaya alat ini ke total biaya
+                    $totalCost += $totalBiaya;
+                }
+            }
         }
-
-
-
         $order->total_biaya = $totalCost;
         $order->save();
+
         // dd($totalCost);
 
         // iki logika gae ngurangi jumlah di tabel master
+        $jumlahAlatArray = $request->input('jumlah_alat');
+
         foreach ($selectedAlat as $index => $selectedAlatId) {
             if (is_numeric($selectedAlatId)) {
-                $alat = Alat_Tambahan::find($selectedAlatId);
-                $alat->jumlah -= $request->input('jumlah_alat')[$index];
-                $alat->save();
+                if (isset($jumlahAlatArray[$index])) {
+                    $jumlahAlat = $jumlahAlatArray[$index];
+
+                    $alat = Alat_Tambahan::find($selectedAlatId);
+                    if ($alat->jumlah >= $jumlahAlat) {
+                        $alat->jumlah -= $jumlahAlat;
+                        $alat->save();
+                    } else {
+                        return 'kontolodon';
+                    }
+                }
             }
         }
 
         return redirect()->back()->with('success', 'Lanjutkan untuk melakukan pembayaran.');
     }
 
-
-
-
-
-
     public function show($slug)
     {
         $selectedAlatIds = session('personal_info.selected_alat', []);
         $selectedAlat = Alat_Tambahan::whereIn('id', $selectedAlatIds)->get();
-        $order = Order::all();
 
         $lab = Lab::where('slug', $slug)->firstOrFail();
         $categorylab = $lab->category;
         $alat = Alat_Tambahan::whereHas('category', function ($query) use ($categorylab) {
             $query->where('id', $categorylab->id);
         })->get();
-        // dd($alat);
+
         return view('auth.user.order', compact('lab', 'categorylab', 'alat', 'selectedAlat'))->with('title', 'Silab | Order');
     }
 

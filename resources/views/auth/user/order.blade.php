@@ -73,7 +73,8 @@
                                                             <label for="billinginfo-firstName"
                                                                 class="form-label">Nama</label>
                                                             <input type="text" class="form-control" id="nama"
-                                                                name="nama" placeholder="Enter name" value="">
+                                                                name="nama" placeholder="Enter name" value=""
+                                                                required>
                                                         </div>
                                                     </div>
 
@@ -82,7 +83,8 @@
                                                             <label for="no-telp" class="form-label">No Telp
                                                                 (WhatsApp)</label>
                                                             <input type="number" class="form-control" name="notelp"
-                                                                id="no-telp" placeholder="No Telp" value="">
+                                                                id="no-telp" placeholder="No Telp" value=""
+                                                                required>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -112,7 +114,7 @@
                                                         <div class="mb-3">
                                                             <label for="order" class="form-label">Order</label>
                                                             <input type="date" name="masuk" id="masuk"
-                                                                class="form-control">
+                                                                class="form-control" required>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -162,6 +164,7 @@
                                                                     class="text-muted fw-normal text-wrap mb-1 d-block"
                                                                     id="shipping-masuk">Tanggal Masuk :
                                                                     {{ session('personal_info.masuk') }}</span>
+
                                                             </label>
                                                         </div>
 
@@ -177,7 +180,7 @@
                                                                         id="shipping-alat">
                                                                         Nama Alat: {{ $item->jenis_alat }}<br>
                                                                         Harga: Rp. {{ $item->harga }}<br>
-                                                                        {{-- Jumlah: {{ $item->jumlah }} --}}
+                                                                        Jumlah: {{ $item->jumlah_alat }}
                                                                     </span>
                                                                     <hr>
                                                                 @endforeach
@@ -195,13 +198,11 @@
                                                                 <label class="form-check-label"
                                                                     for="shippingMethod02">
                                                                     <span
-                                                                        class="fs-21 float-end mt-2 text-wrap d-block fw-semibold"
-                                                                        id="totalHarga"></span>
-                                                                    <span class="fs-15 mb-1 text-wrap d-block">Express
-                                                                        Delivery</span>
+                                                                        class="fs-21 float-end mt-2 text-wrap d-block fw-semibold">Rp:
+                                                                    </span>
                                                                     <span
                                                                         class="text-muted fw-normal text-wrap d-block">Expired
-                                                                        In 10 minutes</span>
+                                                                        In 1 Hours</span>
                                                                 </label>
                                                             </div>
                                                         </div>
