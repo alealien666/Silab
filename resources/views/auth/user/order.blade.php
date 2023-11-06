@@ -50,7 +50,7 @@
                                                     type="button" role="tab" aria-controls="pills-bill-address"
                                                     aria-selected="false"><i
                                                         class="ri-truck-line fs-16 p-2 bg-soft-primary text-primary rounded-circle align-middle me-2"></i>
-                                                    Shipping Info</button>
+                                                    Detail Pesanan</button>
                                             </li>
                                         </ul>
                                     </div>
@@ -79,7 +79,8 @@
 
                                                     <div class="col-sm-6">
                                                         <div class="mb-3">
-                                                            <label for="no-telp" class="form-label">No Telp</label>
+                                                            <label for="no-telp" class="form-label">No Telp
+                                                                (WhatsApp)</label>
                                                             <input type="number" class="form-control" name="notelp"
                                                                 id="no-telp" placeholder="No Telp" value="">
                                                         </div>
@@ -251,62 +252,37 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($alat as $alat)
-                                                @if ($alat->jumlah === 0)
-                                                    <tr id="selected_alat" style="pointer-events: none; opacity:0.5;">
-                                                        <td>
-                                                            <h5 class="fs-15">
-                                                                <p class="text-dark" name="nama_alat">
-                                                                    {{ $alat->jenis_alat }}</p>
-                                                            </h5>
-                                                        </td>
-                                                        <td class="text-end" name="harga_alat">{{ $alat->harga }}
-                                                        </td>
-                                                        <td>
-                                                            <input type="checkbox" name="selected_alat[]"
-                                                                value="{{ $alat->id }}"
-                                                                data-harga="{{ $alat->harga }}" disabled>
-                                                        </td>
-                                                        <td>
-                                                            <div class="jumlah diss">
-                                                                <button type="button" class="min"><i
-                                                                        class="bi bi-dash-lg"></i></button>
-                                                                <input type="hidden" name="jumlah_alat[]"
-                                                                    value="0">
-                                                                <span class="count">0</span>
-                                                                <button type="button" class="plus"><i
-                                                                        class="bi bi-plus-lg"></i></button>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                @else
-                                                    <tr id="selected_alat">
-                                                        <td>
-                                                            <h5 class="fs-15">
-                                                                <p class="text-dark" name="nama_alat">
-                                                                    {{ $alat->jenis_alat }}</p>
-                                                            </h5>
-                                                        </td>
-                                                        <td class="text-end" name="harga_alat">{{ $alat->harga }}
-                                                        </td>
-                                                        <td>
-                                                            <input type="checkbox" name="selected_alat[]"
-                                                                value="{{ $alat->id }}"
-                                                                data-harga="{{ $alat->harga }}">
-                                                        </td>
-                                                        <td>
-                                                            <div class="jumlah">
-                                                                <button type="button" class="min"><i
-                                                                        class="bi bi-dash-lg"></i></button>
-                                                                <input type="hidden" name="jumlah_alat[]"
-                                                                    value="0">
-                                                                <span class="count">0</span>
-                                                                <button type="button" class="plus"><i
-                                                                        class="bi bi-plus-lg"></i></button>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                @endif
+                                            @foreach ($alat as $index => $alat)
+                                                <tr id="selected_alat">
+                                                    <td>
+                                                        <h5 class="fs-15">
+                                                            <p class="text-dark" name="nama_alat">
+                                                                {{ $alat->jenis_alat }}</p>
+                                                        </h5>
+                                                    </td>
+                                                    <td class="text-end" name="harga_alat">{{ $alat->harga }}
+                                                    </td>
+                                                    <td>
+                                                        <input type="checkbox" name="selected_alat[]"
+                                                            value="{{ $alat->id }}"
+                                                            data-harga="{{ $alat->harga }}"
+                                                            data-indeks="{{ $index }}">
+                                                    </td>
+                                                    <td>
+                                                        <div class="jumlah">
+                                                            <button type="button" class="min"><i
+                                                                    class="bi bi-dash-lg"
+                                                                    data-indeks="{{ $index }}"></i></button>
+                                                            <input type="hidden"
+                                                                name="jumlah_alat[{{ $alat->id }}]"
+                                                                value="0" data-indeks="{{ $index }}">
+                                                            <span class="count">0</span>
+                                                            <button type="button" class="plus"
+                                                                data-indeks="{{ $index }}"><i
+                                                                    class="bi bi-plus-lg"></i></button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
                                             @endforeach
                                         </tbody>
                                     </table>

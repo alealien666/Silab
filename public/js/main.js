@@ -38,14 +38,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             }
         });
-        subtotalElement.textContent = 'Rp. ' + subtotal.toFixed(2);
+        subtotalElement.textContent = 'Rp. ' + subtotal.toFixed(0);
         updateTotal(subtotal);
     }
 
     function updateTotal(subtotal) {
         const total = subtotal;
-        totalElement.textContent = 'Rp. ' + total.toFixed(2);
-        totalHarga.textContent = 'Rp. ' + total.toFixed(2);
+        totalElement.textContent = 'Rp. ' + total.toFixed(0);
+        totalHarga.textContent = 'Rp. ' + total.toFixed(0);
     }
 
     function incrementCount(index) {
@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
         jumlah.textContent = count;
 
         // Update the input value
-        const inputJumlah = alatCounters[index].querySelector('input[name="jumlah_alat[]"]');
+        const inputJumlah = alatCounters[index].querySelector('input[type="hidden"]');
         inputJumlah.value = count;
         // console.log(inputJumlah);
 
@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
             jumlah.textContent = count;
 
             // Update the input value
-            const inputJumlah = alatCounters[index].querySelector('input[name="jumlah_alat[]"]');
+            const inputJumlah = alatCounters[index].querySelector('input[type="hidden"]');
             inputJumlah.value = count;
 
             updateSubtotal();

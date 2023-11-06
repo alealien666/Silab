@@ -24,6 +24,7 @@ use App\Http\Controllers\user\riwayatPemesananController;
 */
 
 Route::get('/home', [HomeController::class, 'index']);
+
 Route::middleware(['guest'])->group(function () {
     Route::get('/login', [LoginController::class, 'index']);
     Route::post('/login', [LoginController::class, 'login'])->name('login');
@@ -32,6 +33,26 @@ Route::middleware(['guest'])->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
+    Route::middleware(['auth', 'role:0'])->group(function () {
+        Route::get('/list-alat', [listAlatController::class, 'index'])->name('Admin.list-alat.index');
+        Route::post('/list-alat/add', [listAlatController::class, 'store'])->name('Admin.list-alat.store');
+        Route::post('/list-alat/update/{id}', [listAlatController::class, 'update'])->name('Admin.list-alat.update');
+        Route::delete('/list-alat/destroy/{id}', [listAlatController::class, 'destroy'])->name('Admin.list-alat.destroy');
+
+
+        // analises
+        Route::get('/list-analises', [listAnalisesController::class, 'index'])->name('Admin.list-analises.index');
+        Route::post('/list-analises/add', [listAnalisesController::class, 'store'])->name('Admin.list-analises.store');
+        Route::post('/list-analises/update/{id}', [listAnalisesController::class, 'update'])->name('Admin.list-analises.update');
+        Route::delete('/list-analises/destroy/{id}', [listAnalisesController::class, 'destroy'])->name('Admin.list-analises.destroy');
+        Route::post('/riwayat-pemesanan/verifikasi/{id}', [PemesananController::class, 'verifikasi'])->name('riwayat-pemesanan.verifikasi');
+
+
+        // pemesanan
+        Route::get('/list-pemesanan', [PemesananController::class, 'index'])->name('Admin.list-pemesanan.index');
+        Route::get('/metu', [LoginController::class, 'logout'])->name('metu');
+    });
+
     Route::middleware(['auth', 'role:1'])->group(function () {
         Route::get('/user', function () {
             return view('/auth.user.profile', [
@@ -49,25 +70,9 @@ Route::middleware(['auth'])->group(function () {
 
         // riwayat pemesanan
         Route::get('/riwayat-pemesanan', [riwayatPemesananController::class, 'index'])->name('riwayat-pemesanan.index');
-        Route::post('/riwayat-pemesanan/verifikasi/{id}', [PemesananController::class, 'verifikasi'])->name('riwayat-pemesanan.verifikasi');
     });
 });
 
 // admin
 
 // alat-tambahans
-Route::get('/list-alat', [listAlatController::class, 'index'])->name('Admin.list-alat.index');
-Route::post('/list-alat/add', [listAlatController::class, 'store'])->name('Admin.list-alat.store');
-Route::post('/list-alat/update/{id}', [listAlatController::class, 'update'])->name('Admin.list-alat.update');
-Route::delete('/list-alat/destroy/{id}', [listAlatController::class, 'destroy'])->name('Admin.list-alat.destroy');
-
-
-// analises
-Route::get('/list-analises', [listAnalisesController::class, 'index'])->name('Admin.list-analises.index');
-Route::post('/list-analises/add', [listAnalisesController::class, 'store'])->name('Admin.list-analises.store');
-Route::post('/list-analises/update/{id}', [listAnalisesController::class, 'update'])->name('Admin.list-analises.update');
-Route::delete('/list-analises/destroy/{id}', [listAnalisesController::class, 'destroy'])->name('Admin.list-analises.destroy');
-
-
-// pemesanan
-Route::get('/list-pemesanan', [PemesananController::class, 'index'])->name('Admin.list-pemesanan.index');

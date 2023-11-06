@@ -15,7 +15,7 @@ class PemesananController extends Controller
         $listPemesanan = Order::select(
             'orders.id as id_pemesanan',
             'orders.order',
-            'orders.tanggal_selesai',
+            // 'orders.tanggal_selesai',
             'orders.status',
             'orders.total_biaya',
             'orders.nama_pemesan',

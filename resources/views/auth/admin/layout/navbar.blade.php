@@ -142,16 +142,17 @@
                 <div class="dropdown-menu dropdown-menu-end">
                     <!-- item-->
                     <h6 class="dropdown-header">Welcome !</h6>
-                    {{-- <a class="dropdown-item" href="pages-profile.html"><i
+                    <a class="dropdown-item" href="pages-profile.html"><i
                             class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span
-                            class="align-middle">Profile</span></a> --}}
+                            class="align-middle">Profile</span></a>
                     <div class="dropdown-divider"></div>
-                    {{-- <form action="{{ route('logout') }}" method="GET">
+                    <form action="{{ route('metu') }}" method="GET">
                         @csrf
                         <button type="submit" class="dropdown-item"><i
                                 class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span
-                                class="align-middle" data-key="t-logout">Logout</span></button>
-                    </form> --}}
+                                class="align-middle" data-key="t-logout"
+                                onclick="confirm('Yakin Ingin Keluar?')">Logout</span></button>
+                    </form>
                 </div>
             </div>
         </div>

@@ -39,6 +39,7 @@ class OrderController extends Controller
             "jumlah_alat" => "required|array",
         ]);
 
+
         $selectedAlat = $request->input('selected_alat');
         session([
             'personal_info' => [
@@ -54,6 +55,17 @@ class OrderController extends Controller
         ]);
         // dd(session('personal_info.totalHarga'));
 
+        $new_array = [];
+
+        foreach ($request->input("jumlah_alat") as $key => $value) {
+
+            if (in_array($key, $request->input("selected_alat"))) {
+                // Pecah nilai string menjadi array dan tambahkan ke new_array
+                $new_array[$key] = $value;
+            }
+        }
+        // return $new_array;
+
         $order = new Order();
         $order->user_id = auth()->user()->id;
         $order->jenis_pesanan = 'Sewa Lab';
@@ -67,12 +79,13 @@ class OrderController extends Controller
         $selectedAlat = $request->input('selected_alat');
         $selectedLabId = $request->input('id_lab');
 
+
+
         // gae ngirim ke tabel pivot
         foreach ($selectedAlat as $index => $selectedAlatId) {
             if (is_numeric($selectedAlatId)) {
                 $order->alat()->attach($selectedAlatId, [
                     'id_lab' => $selectedLabId,
-                    'jumlah_alat' => $request->input('jumlah_alat')[$index] //tambah iki gae inisialisasi
                 ]);
             }
         }
@@ -83,9 +96,11 @@ class OrderController extends Controller
             $totalCost += $alat->harga * $request->input('jumlah_alat')[$index];
         }
 
+
+
         $order->total_biaya = $totalCost;
         $order->save();
-        dd($totalCost);
+        // dd($totalCost);
 
         // iki logika gae ngurangi jumlah di tabel master
         foreach ($selectedAlat as $index => $selectedAlatId) {
