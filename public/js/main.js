@@ -50,16 +50,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function incrementCount(index) {
         const jumlah = alatCounters[index].querySelector('.count');
-        let count = parseInt(jumlah.textContent, 10);
+        let count = parseInt(jumlah.textContent, 10); //ngekonversi bilangan bulat desimal basis 10
+
         count++;
         jumlah.textContent = count;
 
-        // Update the input value
         const inputJumlah = alatCounters[index].querySelector('input[type="hidden"]');
         inputJumlah.value = count;
-        // console.log(inputJumlah);
-
+        // console.log(inputJumlah);    
         updateSubtotal();
+
     }
 
     function decrementCount(index) {
@@ -69,7 +69,6 @@ document.addEventListener("DOMContentLoaded", function () {
             count--;
             jumlah.textContent = count;
 
-            // Update the input value
             const inputJumlah = alatCounters[index].querySelector('input[type="hidden"]');
             inputJumlah.value = count;
 
@@ -77,11 +76,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // updateSubtotal();
 });
 
-
-// disable
 
 
 

@@ -133,8 +133,8 @@
                                         <div class="tab-pane fade" id="pills-bill-address" role="tabpanel"
                                             aria-labelledby="pills-bill-address-tab">
                                             <div>
-                                                <h5 class="mb-1">Shipping Information</h5>
-                                                <p class="text-muted mb-4">Please fill all information below</p>
+                                                <h5 class="mb-1">Detail Pesanan</h5>
+                                                <p class="text-muted mb-4">Informasi Transaksi Anda</p>
                                             </div>
 
                                             <div class="mt-5">
@@ -173,14 +173,14 @@
                                                         <div class="form-check" id="scroll">
                                                             <label class="form-check-label" for="shippingAddress02">
                                                                 <span
-                                                                    class="mb-4 fw-semibold d-block text-uppercase">daftar
+                                                                    class="mb-4 fw-semibold d-block text-uppercase">detail
                                                                     alat yang di sewa</span><br>
                                                                 @foreach ($selectedAlat as $item)
                                                                     <span class="text-muted mb-2 d-block"
                                                                         id="shipping-alat">
                                                                         Nama Alat: {{ $item->jenis_alat }}<br>
                                                                         Harga: Rp. {{ $item->harga }}<br>
-                                                                        Jumlah: {{ $item->jumlah_alat }}
+                                                                        Jumlah: {{ session('jumlah_alat')[$item->id] }}
                                                                     </span>
                                                                     <hr>
                                                                 @endforeach
@@ -199,6 +199,7 @@
                                                                     for="shippingMethod02">
                                                                     <span
                                                                         class="fs-21 float-end mt-2 text-wrap d-block fw-semibold">Rp:
+                                                                        {{ session('total_biaya') }}
                                                                     </span>
                                                                     <span
                                                                         class="text-muted fw-normal text-wrap d-block">Expired
@@ -250,6 +251,7 @@
                                                 <th scope="col">Jenis Alat</th>
                                                 <th scope="col" class="text-start" colspan="2">Harga</th>
                                                 <th scope="col">Jumlah</th>
+                                                {{-- <th scope="col">Stok</th> --}}
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -282,7 +284,11 @@
                                                                 data-indeks="{{ $index }}"><i
                                                                     class="bi bi-plus-lg"></i></button>
                                                         </div>
+                                                        <p class="text-muted text-center" id="stok">Stok:
+                                                            {{ $alat->jumlah }}
+                                                        </p>
                                                     </td>
+
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -345,7 +351,7 @@
 <!-- removeItemModal -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="{{ asset('js/main.js') }}"></script>
-<script>
+{{-- <script>
     function savePersonalInfo() {
         // Simpan data Personal Info ke variabel JavaScript
         let nama = document.getElementById('nama').value;
@@ -378,4 +384,4 @@
         personal.disabled = true
         document.getElementById('shipping-info')
     }
-</script>
+</script> --}}

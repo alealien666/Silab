@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            // $table->foreignId('id_lab');
+            $table->foreignId('id_lab');
             $table->date('order');
             // $table->integer('lama_sewa'); ini di gunakan jika bisa menyewa beberapa hari langsung
             $table->integer('total_biaya');

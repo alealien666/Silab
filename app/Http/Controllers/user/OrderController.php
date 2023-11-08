@@ -14,21 +14,6 @@ use Illuminate\Support\Carbon;
 
 class OrderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
     public function store(Request $request)
     {
         $request->validate([
@@ -41,6 +26,9 @@ class OrderController extends Controller
 
 
         $selectedAlat = $request->input('selected_alat');
+        $totalCost = 0;
+
+        $waktuOrder = now();
         session([
             'personal_info' => [
                 'nama' => $request->input('nama'),
@@ -53,21 +41,6 @@ class OrderController extends Controller
                 'totalHarga' => $request->input('totalHarga') // jumlah harga alat yang dipesan
             ]
         ]);
-        // dd(session('personal_info.totalHarga'));
-
-
-        $order = new Order();
-        $order->user_id = auth()->user()->id;
-        $order->jenis_pesanan = 'Sewa Lab';
-        $order->nama_pemesan = $request->input('nama');
-        $order->no_telp = $request->input('notelp');
-        $order->order = now();
-        $order->total_biaya = 0;
-        $order->status = 'pending';
-        $order->save();
-
-        $selectedAlat = $request->input('selected_alat');
-        $selectedLabId = $request->input('id_lab');
 
         $new_array = [];
         foreach ($request->input("jumlah_alat") as $key => $value) {
@@ -75,61 +48,44 @@ class OrderController extends Controller
                 $new_array[$key] = $value;
             }
         }
-        // return $new_array;
 
-        // gae ngirim ke tabel pivot
+        $order = new Order();
+        $order->user_id = auth()->user()->id;
+        $order->jenis_pesanan = 'Sewa Lab';
+        $order->id_lab = $request->input('id_lab');
+        $order->nama_pemesan = $request->input('nama');
+        $order->no_telp = $request->input('notelp');
+        $order->order = now();
+        $order->total_biaya = 0;
+        $order->status = 'pending';
+        $order->save();
+
+
         foreach ($selectedAlat as $index => $selectedAlatId) {
             if (is_numeric($selectedAlatId)) {
-
                 $jumlahAlat = isset($new_array[$selectedAlatId]) ? $new_array[$selectedAlatId] : 0;
                 $order->alat()->attach($selectedAlatId, [
-                    'id_lab' => $selectedLabId,
                     'jumlah_alat' => $jumlahAlat
                 ]);
-                // dd($jumlahAlat);
-            }
-        }
+                $alat = Alat_Tambahan::find($selectedAlatId);
+                $harga = $alat->harga;
+                $totalBiaya = $harga * $jumlahAlat;
+                $totalCost += $totalBiaya;
 
-        $totalCost = 0;
-        foreach ($selectedAlat as $index => $selectedAlatId) {
-            if (is_numeric($selectedAlatId)) {
-                if (isset($jumlahAlat[$index])) {
-                    $alat = Alat_Tambahan::find($selectedAlatId);
-                    $harga = $alat->harga;
-                    $jumlahAlat = $jumlahAlat[$index];
-
-                    // Hitung total biaya untuk alat ini
-                    $totalBiaya = $harga * $jumlahAlat;
-
-                    // Tambahkan biaya alat ini ke total biaya
-                    $totalCost += $totalBiaya;
-                }
+                $alat->update(['jumlah' => $alat->jumlah - $jumlahAlat]);
+                $jumlahAlatArray[$selectedAlatId] = $jumlahAlat;
             }
         }
         $order->total_biaya = $totalCost;
         $order->save();
 
+
+        session([
+            'total_biaya' => $totalCost,
+            'jumlah_alat' => $jumlahAlatArray,
+        ]);
+
         // dd($totalCost);
-
-        // iki logika gae ngurangi jumlah di tabel master
-        $jumlahAlatArray = $request->input('jumlah_alat');
-
-        foreach ($selectedAlat as $index => $selectedAlatId) {
-            if (is_numeric($selectedAlatId)) {
-                if (isset($jumlahAlatArray[$index])) {
-                    $jumlahAlat = $jumlahAlatArray[$index];
-
-                    $alat = Alat_Tambahan::find($selectedAlatId);
-                    if ($alat->jumlah >= $jumlahAlat) {
-                        $alat->jumlah -= $jumlahAlat;
-                        $alat->save();
-                    } else {
-                        return 'kontolodon';
-                    }
-                }
-            }
-        }
-
         return redirect()->back()->with('success', 'Lanjutkan untuk melakukan pembayaran.');
     }
 
@@ -137,7 +93,7 @@ class OrderController extends Controller
     {
         $selectedAlatIds = session('personal_info.selected_alat', []);
         $selectedAlat = Alat_Tambahan::whereIn('id', $selectedAlatIds)->get();
-
+        // dd($selectedAlat);
         $lab = Lab::where('slug', $slug)->firstOrFail();
         $categorylab = $lab->category;
         $alat = Alat_Tambahan::whereHas('category', function ($query) use ($categorylab) {
@@ -147,29 +103,32 @@ class OrderController extends Controller
         return view('auth.user.order', compact('lab', 'categorylab', 'alat', 'selectedAlat'))->with('title', 'Silab | Order');
     }
 
-    /** 
-     * Show the form for editing the specified resource.
-     */
-    public function edit(order $order)
-    {
-        //
-    }
+    // public function uploadPembayaran(Request $request)
+    // {
+    //     $request->validate([
+    //         'bukti_pembayaran' => 'required|image|mimes:jpeg,png,jpg,|max:2048'
+    //     ]);
+    //     $deadline = session('deadline');
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, order $order)
-    {
-        //
-    }
+    //     if ($deadline && Carbon::now()->lt($deadline)) {
+    //         $buktiPembayaran = $request->file('bukti_pembayaran');
+    //         $fileName = time() . '.' . $buktiPembayaran->getClientOriginalExtension();
+    //         $buktiPembayaran->move(public_path('bukti_pembayaran'), $fileName);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(order $order)
-    {
-        //
-    }
+    //         $order = Order::find($request->input('id'));
+    //         $order->bukti_pembayaran = 'bukti_pembayaran/' . $fileName;
+    //         $order->save();
+
+    //         return redirect()->back()->with('success', 'Bukti pembayaran telah diunggah.');
+    //     } else {
+    //         Order::where('id', $request->input('id'))->delete();
+    //         detail_order::where('id_order', $request->input('id'))->delete();
+    //         session()->forget('deadline');
+    //         session()->forget('total_biaya');
+    //         session()->forget('jumlah_alat');
+    //         return redirect()->route('riwayat-pembayaran')->with('error', 'Waktu pembayaran telah habis. Pesanan dihapus.');
+    //     }
+    // }
 }
 // Tandai lab sebagai tidak tersedia selama 1 hari
         // Lab::where('id', $selectedLabId)

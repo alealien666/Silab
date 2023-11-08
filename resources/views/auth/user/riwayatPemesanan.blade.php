@@ -272,9 +272,7 @@
                                         <td>Nama Labs</td>
                                         <td class="ps-3"> : </td>
                                         <td class="ps-3">
-                                            @foreach ($list['labs'] as $key => $labs)
-                                                <b> {{ $labs->nama_lab }} </b>
-                                            @endforeach
+                                            <b> {{ $list->lab }} </b>
                                         </td>
                                     </tr>
                                     <tr>
@@ -316,7 +314,17 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                        @if ($deadline && \Carbon\Carbon::now()->lt($deadline))
+                            <form action="{{ route('upload-pembayaran') }}" method="post"
+                                enctype="multipart/form-data">
+                                @csrf
+                                <input type="file" name="bukti_pembayaran">
+                                <input type="hidden" name="id" value="{{ $order->id }}">
+                                <button type="submit" class="btn btn-success">unggah bukti Pembayaran</button>
+                            </form>
+                        @else
+                            <p>Pesanan telah kadaluwarsa atau dibatalkan. Anda tidak dapat mengunggah bukti pembayaran.</p>
+                        @endif
                     </div>
 
                 </div><!-- /.modal-content -->

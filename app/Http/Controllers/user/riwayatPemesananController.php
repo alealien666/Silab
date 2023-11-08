@@ -5,7 +5,7 @@ namespace App\Http\Controllers\user;
 use App\Http\Controllers\Controller;
 use App\Models\detail_order;
 use App\Models\Order;
-use Illuminate\Http\Request;
+use App\Models\Lab;
 use Illuminate\Support\Facades\Auth;
 
 class riwayatPemesananController extends Controller
@@ -15,7 +15,7 @@ class riwayatPemesananController extends Controller
         $listPemesanan = Order::select(
             'orders.id as id_pemesanan',
             'orders.order',
-            // 'orders.tanggal_selesai',
+            'orders.id_lab',
             'orders.status',
             'orders.total_biaya',
             'orders.nama_pemesan',
@@ -29,13 +29,9 @@ class riwayatPemesananController extends Controller
 
 
         foreach ($listPemesanan as $index => $value) {
-            $labs = detail_order::join('labs', 'labs.id', '=', 'detail_orders.id_lab')
-                ->select(
-                    'labs.nama_lab'
-                )
-                ->groupBy('labs.nama_lab')
-                ->where('detail_orders.id_order', $value->id_pemesanan)
-                ->get();
+
+            $idLab =  $value->id_lab;
+            $lab = Lab::where('id', $idLab)->value('nama_lab');
 
             $alat = detail_order::join('alat_tambahans', 'alat_tambahans.id', '=', 'detail_orders.id_alat')
                 ->select(
@@ -44,7 +40,7 @@ class riwayatPemesananController extends Controller
                 )
                 ->where('detail_orders.id_order', $value->id_pemesanan)
                 ->get();
-            $listPemesanan[$index]->labs = $labs;
+            $listPemesanan[$index]->lab = $lab;
             $listPemesanan[$index]->alat = $alat;
         }
 

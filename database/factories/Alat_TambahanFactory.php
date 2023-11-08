@@ -18,7 +18,7 @@ class Alat_TambahanFactory extends Factory
     {
         return [
             "jenis_alat" => fake()->sentence(),
-            "harga" => fake()->numberBetween(500000, 1000000),
+            "harga" => fake()->numberBetween(50000, 100000),
             "jumlah" => mt_rand(1, 10),
             "category_id" => mt_rand(1, 3),
         ];

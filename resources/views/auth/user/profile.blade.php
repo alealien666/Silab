@@ -21,6 +21,12 @@
                         <div class="p-2">
                             <h3 class="text-white mb-1">{{ auth()->user()->name }}</h3>
                         </div>
+                        <div class="riwayat">
+                            <a class="btn btn-success" href="/riwayat-pemesanan" aria-controls="sidebarDashboards">
+                                <i class="bi bi-list-check"></i></i> <span data-key="t-dashboards">riwayat
+                                    pemesanan</span>
+                            </a>
+                        </div>
                     </div>
                     <!--end col-->
 

@@ -395,13 +395,6 @@
                                     <i class="bi bi-hourglass-bottom"></i> <span data-key="t-dashboards">Analisis</span>
                                 </a>
                             </li>
-                            <li class="margin nav-item">
-                                <a class="nav-link menu-link {{ $title === 'Silab | Riwayat Pemesanan' ? 'active' : '' }}"
-                                    href="/riwayat-pemesanan" aria-controls="sidebarDashboards">
-                                    <i class="bi bi-list-check"></i></i> <span data-key="t-dashboards">riwayat
-                                        pemesanan</span>
-                                </a>
-                            </li>
                         @endauth
                     </ul>
                 </div>
