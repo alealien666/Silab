@@ -24,6 +24,7 @@ use App\Http\Controllers\user\riwayatPemesananController;
 |
 */
 
+Route::get('/', [HomeController::class, 'index']);
 Route::get('/home', [HomeController::class, 'index']);
 
 Route::middleware(['guest'])->group(function () {

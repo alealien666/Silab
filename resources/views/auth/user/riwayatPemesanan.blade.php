@@ -93,10 +93,11 @@
                                 @if ($list->status === 'pending')
                                     <div class="col-md-6">
                                         <div class="card border card-border-warning">
-                                            <div class="card-header">
+                                            <div class="card-header d-flex">
                                                 <h6 class="card-title mb-0">{{ $list->jenis_pesanan }} <span
                                                         class="badge bg-warning align-middle fs-10">{{ $list->status }}</span>
                                                 </h6>
+                                                <p class="ms-auto pe-3" id="deadline_{{ $list->id_pemesanan }}"></p>
                                             </div>
                                             <div class="card-body">
                                                 <table>
@@ -314,7 +315,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        @if ($deadline && \Carbon\Carbon::now()->lt($deadline))
+                        {{-- @if ($deadline && \Carbon\Carbon::now()->lt($deadline))
                             <form action="{{ route('upload-pembayaran') }}" method="post"
                                 enctype="multipart/form-data">
                                 @csrf
@@ -324,7 +325,7 @@
                             </form>
                         @else
                             <p>Pesanan telah kadaluwarsa atau dibatalkan. Anda tidak dapat mengunggah bukti pembayaran.</p>
-                        @endif
+                        @endif --}}
                     </div>
 
                 </div><!-- /.modal-content -->
@@ -358,3 +359,29 @@
         </div>
     @endforeach
 @endsection
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dayjs@1.10.7/dayjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dayjs@1.10.7/plugin/relativeTime.js"></script>
+<script>
+    // Mengambil tanggal expired_at dari server (format disesuaikan)
+    const expiredAt = dayjs("{{ $list->expired_at }}");
+
+    // Menerapkan plugin relativeTime agar bisa menggunakan metode fromNow()
+    dayjs.extend(window.dayjs_plugin_relativeTime);
+
+    function updateDeadline() {
+        const now = dayjs(); // Waktu sekarang
+        const diff = now.diff(expiredAt, 'second'); // Menghitung selisih waktu dalam detik
+
+        const minutes = Math.floor(diff / 60);
+        const seconds = diff % 60;
+
+        const timeLeft = `${minutes} menit, ${seconds} detik`;
+
+        // Memperbarui elemen HTML dengan waktu berjalan
+        document.getElementById("deadline_{{ $list->id_pemesanan }}").textContent = timeLeft;
+    }
+
+    // Memanggil fungsi updateDeadline setiap detik (atau sesuai dengan kebutuhan)
+    setInterval(updateDeadline, 1000);
+</script>

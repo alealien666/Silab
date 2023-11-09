@@ -6,7 +6,6 @@ namespace App\Http\Controllers\user;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Alat_Tambahan;
-use App\Models\detail_order;
 use App\Models\Lab;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -79,13 +78,15 @@ class OrderController extends Controller
         $order->total_biaya = $totalCost;
         $order->save();
 
-
         session([
             'total_biaya' => $totalCost,
             'jumlah_alat' => $jumlahAlatArray,
         ]);
 
-        // dd($totalCost);
+        $expiredAt = now()->addMinutes(60);
+        $order->expired_at = $expiredAt;
+        $order->save();
+
         return redirect()->back()->with('success', 'Lanjutkan untuk melakukan pembayaran.');
     }
 
@@ -102,34 +103,4 @@ class OrderController extends Controller
 
         return view('auth.user.order', compact('lab', 'categorylab', 'alat', 'selectedAlat'))->with('title', 'Silab | Order');
     }
-
-    // public function uploadPembayaran(Request $request)
-    // {
-    //     $request->validate([
-    //         'bukti_pembayaran' => 'required|image|mimes:jpeg,png,jpg,|max:2048'
-    //     ]);
-    //     $deadline = session('deadline');
-
-    //     if ($deadline && Carbon::now()->lt($deadline)) {
-    //         $buktiPembayaran = $request->file('bukti_pembayaran');
-    //         $fileName = time() . '.' . $buktiPembayaran->getClientOriginalExtension();
-    //         $buktiPembayaran->move(public_path('bukti_pembayaran'), $fileName);
-
-    //         $order = Order::find($request->input('id'));
-    //         $order->bukti_pembayaran = 'bukti_pembayaran/' . $fileName;
-    //         $order->save();
-
-    //         return redirect()->back()->with('success', 'Bukti pembayaran telah diunggah.');
-    //     } else {
-    //         Order::where('id', $request->input('id'))->delete();
-    //         detail_order::where('id_order', $request->input('id'))->delete();
-    //         session()->forget('deadline');
-    //         session()->forget('total_biaya');
-    //         session()->forget('jumlah_alat');
-    //         return redirect()->route('riwayat-pembayaran')->with('error', 'Waktu pembayaran telah habis. Pesanan dihapus.');
-    //     }
-    // }
 }
-// Tandai lab sebagai tidak tersedia selama 1 hari
-        // Lab::where('id', $selectedLabId)
-        //     ->update(['status' => 'di gunakan' /*,'tanggal_selesai' => now()->addDays(1)*/]);
