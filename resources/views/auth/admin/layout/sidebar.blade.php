@@ -1,29 +1,29 @@
 <div class="app-menu navbar-menu">
     <!-- LOGO -->
-    <div class="navbar-brand-box">
-        <a href="" class="logo logo-dark">
+    <div class="navbar-brand-box mt-5 mb-5
+    ">
+        <!-- Dark Logo-->
+        <a href="index.html" class="logo logo-dark">
             <span class="logo-sm">
-                <img src="{{ asset('assets/images/companies/img-4.png') }}" alt="" height="30">
+                <img src="assets/images/logo-sm.png" alt="" height="22">
             </span>
             <span class="logo-lg">
-                <img src="{{ asset('assets/images/companies/img-4.png') }}" alt="" height="100">
+                <img src="assets/images/logo-dark.png" alt="" height="17">
             </span>
         </a>
         <!-- Light Logo-->
-        <a href="" class="logo logo-light">
+        <a href="index.html" class="logo logo-light">
             <span class="logo-sm">
-                {{-- <img src="{{ asset('') }}" alt="" height="40"> --}}
+                <img src="assets/images/logo-sm.png" alt="" height="22">
             </span>
             <span class="logo-lg">
-                {{-- <img src="{{ asset('') }}" alt="" height="100" width="100"> --}}
+                <img src="assets/images/logo-light.png" alt="" height="17">
             </span>
         </a>
         <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"
             id="vertical-hover">
             <i class="ri-record-circle-line"></i>
         </button>
-        {{-- @endif --}}
-
     </div>
 
     <div id="scrollbar">
@@ -41,7 +41,7 @@
                 </li> --}}
 
                 <li class="nav-item">
-                    <a class="nav-link {{ Request::is('list-alat') || Request::is('list-analises') ? 'active' : '' }} menu-link"
+                    <a class="nav-link {{ Request::is('list-alat') || Request::is('list-analises') || Request::is('list-labs') ? 'active' : '' }} menu-link"
                         href="#sidebarApps" data-bs-toggle="collapse" role="button" aria-expanded="false"
                         aria-controls="sidebarApps">
                         <i class="ri-apps-2-line"></i>
@@ -60,6 +60,12 @@
                                     class="nav-link {{ Request::is('list-analises') ? 'active' : '' }}">
                                     <i class="ri-apps-2-line"></i>
                                     List Analize</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('Admin.list-labs.index') }}"
+                                    class="nav-link {{ Request::is('list-labs') ? 'active' : '' }}">
+                                    <i class="ri-apps-2-line"></i>
+                                    List Labs</a>
                             </li>
                         </ul>
                     </div>

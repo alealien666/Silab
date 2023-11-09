@@ -9,6 +9,7 @@ use App\Http\Controllers\auth\RegisterController;
 use App\Http\Controllers\user\AnalisisController;
 use App\Http\Controllers\Admin\listAlatController;
 use App\Http\Controllers\Admin\listAnalisesController;
+use App\Http\Controllers\Admin\listLabsController;
 use App\Http\Controllers\Admin\PemesananController;
 use App\Http\Controllers\user\riwayatPemesananController;
 
@@ -34,11 +35,18 @@ Route::middleware(['guest'])->group(function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::middleware(['auth', 'role:0'])->group(function () {
+        
+        // list alat
         Route::get('/list-alat', [listAlatController::class, 'index'])->name('Admin.list-alat.index');
         Route::post('/list-alat/add', [listAlatController::class, 'store'])->name('Admin.list-alat.store');
         Route::post('/list-alat/update/{id}', [listAlatController::class, 'update'])->name('Admin.list-alat.update');
         Route::delete('/list-alat/destroy/{id}', [listAlatController::class, 'destroy'])->name('Admin.list-alat.destroy');
 
+        // list labs
+        Route::get('/list-labs', [listLabsController::class, 'index'])->name('Admin.list-labs.index');
+        Route::post('/list-labs/add', [listLabsController::class, 'store'])->name('Admin.list-labs.store');
+        Route::post('/list-labs/update/{id}', [listLabsController::class, 'update'])->name('Admin.list-labs.update');
+        Route::delete('/list-labs/destroy/{id}', [listLabsController::class, 'destroy'])->name('Admin.list-labs.destroy');
 
         // analises
         Route::get('/list-analises', [listAnalisesController::class, 'index'])->name('Admin.list-analises.index');
