@@ -41,9 +41,14 @@
                     <!-- list tabs -->
                     <ul class="nav nav-tabs mb-3" id="myTabs" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" data-bs-toggle="tab" href="#product1" role="tab"
+                            <a class="nav-link  active" data-bs-toggle="tab" href="#home" role="tab"
                                 aria-selected="false">
                                 All Order
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#product1" role="tab" aria-selected="false">
+                                upload none
                             </a>
                         </li>
                         <li class="nav-item">
@@ -61,7 +66,7 @@
                     <!-- list Tab panes -->
                     <div class="tab-content  text-muted">
                         {{-- tab-all --}}
-                        <div class="tab-pane active" id="product1" role="tabpanel">
+                        <div class="tab-pane active" id="home" role="tabpanel">
                             <div class="card-body">
                                 <div id="customerList">
                                     <div class="table-responsive mb-1" id="tab1">
@@ -98,7 +103,7 @@
                                                         <td class="text-center">{{ $list->nama_pemesan }}</td>
                                                         <td class="text-center">{{ $list->jenis_pesanan }}</td>
                                                         <td class="text-center">{{ $list->no_telp }}</td>
-                                                        @if ($list->status === 'pending')
+                                                        @if ($list->status === 'pending' && $list->bukti_pembayaran !== null)
                                                             <td class="text-center">
                                                                 <button class="btn btn-md btn-warning edit-item-btn"
                                                                     data-bs-toggle="modal"
@@ -109,6 +114,10 @@
                                                                 <button class="btn btn-md btn-success edit-item-btn"
                                                                     data-bs-toggle="modal"
                                                                     data-bs-target="#modalCheck{{ $list->id_pemesanan }}">detail</button>
+                                                            </td>
+                                                        @else
+                                                            <td class="text-center">
+                                                                belum upload
                                                             </td>
                                                         @endif
                                                     </tr>
@@ -133,6 +142,50 @@
                             </div>
                         </div>
 
+                        {{-- tab upload none --}}
+                        <div class="tab-pane" id="product1" role="tabpanel">
+                            <div class="card-body">
+                                <div id="customerList">
+                                    <div class="table-responsive mb-1" id="tab1">
+                                        <table class="table align-middle mb-0">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th class="text-center" data-sort="status">status</th>
+                                                    <th class="text-center" data-sort="id_pemesanan">No Pemesanan</th>
+                                                    <th class="text-center" data-sort="id_pemesanan">Tanggal</th>
+                                                    <th class="text-center" data-sort="nama_pemesan">Nama Pemesan</th>
+                                                    <th class="text-center" data-sort="jenis_pesanan">Jenis Pesanan</th>
+                                                    <th class="text-center" data-sort="no_telpn">No Telpn</th>
+                                                    <th class="text-center" data-sort="verifikasi">Verifikasi</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($listPemesanan as $index => $list)
+                                                    @if ($list->status === 'pending' && $list->bukti_pembayaran === null)
+                                                        <tr>
+                                                            <td class="text-center text-warning">
+                                                                <span class="badge badge-soft-warning text-uppercase">
+                                                                    {{ $list->status }}
+                                                                </span>
+                                                            </td>
+                                                            <td class="text-center">{{ $list->id_pemesanan }}</td>
+                                                            <td class="text-center">{{ $list->order }}</td>
+                                                            <td class="text-center">{{ $list->nama_pemesan }}</td>
+                                                            <td class="text-center">{{ $list->jenis_pesanan }}</td>
+                                                            <td class="text-center">{{ $list->no_telp }}</td>
+                                                            <td class="text-center">
+                                                                belum upload
+                                                            </td>
+                                                        </tr>
+                                                    @endif
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         {{-- tab-Pending --}}
                         <div class="tab-pane" id="messages" role="tabpanel">
                             <div class="card-body">
@@ -152,7 +205,7 @@
                                             </thead>
                                             <tbody>
                                                 @foreach ($listPemesanan as $index => $list)
-                                                    @if ($list->status === 'pending')
+                                                    @if ($list->status === 'pending' && $list->bukti_pembayaran !== null)
                                                         <tr>
                                                             <td class="text-center text-warning">
                                                                 <span class="badge badge-soft-warning text-uppercase">
@@ -237,7 +290,11 @@
             <div class="modal-dialog @if ($list->bukti_pembayaran != null) modal-lg @endif bg-light">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="myModalLabel">Verifikasi</h5>
+                        @if ($list->status === 'approved')
+                            <h5 class="modal-title" id="myModalLabel">Detail Pemesanan</h5>
+                        @else
+                            <h5 class="modal-title" id="myModalLabel">Verifikasi</h5>
+                        @endif
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
                     </div>
                     <form action="{{ route('riwayat-pemesanan.verifikasi', $list->id_pemesanan) }}" method="POST"
@@ -245,10 +302,12 @@
                         @csrf
                         @method('POST')
                         <div class="modal-body">
+                            <input type="hidden" name="status" value="approved">
                             <div class="row">
                                 @if ($list->bukti_pembayaran != null)
                                     <div class="col-md-6">
                                         <div class="row">
+                                            tinggal masukkan sini le penyimpanan gambar nya
                                             <img class="img-preview col-md-12"
                                                 src="{{ asset('storage/bukti-pembayaran/' . basename($list->bukti_pembayaran)) }}">
                                         </div>
@@ -277,11 +336,9 @@
                                                 <b> {{ $list->nama_pemesan }} </b>
                                                 <br>
                                                 Nama Lab &nbsp;&nbsp;&nbsp;: &nbsp;&nbsp;&nbsp;
-                                                @foreach ($list['labs'] as $key => $labs)
-                                                    <b> {{ $labs->nama_lab }} </b>
-                                                @endforeach
+                                                <b> {{ $list->nama_lab }} </b>
                                             </p>
-                                            <ul class="list-inline">
+                                            {{-- <ul class="list-inline">
                                                 <li class="list-inline-item"><label for="photo">
                                                         upload pembayaran
                                                     </label>
@@ -290,8 +347,7 @@
                                                     <input type="file" id="photo" name="fileInput"
                                                         class="col-md-12">
                                                 </li>
-                                            </ul>
-                                            <input type="hidden" name="status" value="approved">
+                                            </ul> --}}
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="list-header">
@@ -327,8 +383,8 @@
                             <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
                             @if ($list->status === 'pending')
                                 <button type="submit" name="submit" class="btn btn-primary ">Verifikasi</button>
-                            @else
-                                <button type="submit" name="update" class="btn btn-primary">Update</button>
+                                {{-- @else
+                                <button type="submit" name="update" class="btn btn-primary">Update</button> --}}
                             @endif
                         </div>
                     </form>
