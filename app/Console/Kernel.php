@@ -12,7 +12,7 @@ class Kernel extends ConsoleKernel
     ];
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('app:delete-expired')->hourly();
+        $schedule->command('app:delete-expired')->everyMinute();
     }
 
     protected function commands(): void

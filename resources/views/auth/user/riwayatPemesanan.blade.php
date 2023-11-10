@@ -97,7 +97,13 @@
                                                 <h6 class="card-title mb-0">{{ $list->jenis_pesanan }} <span
                                                         class="badge bg-warning align-middle fs-10">{{ $list->status }}</span>
                                                 </h6>
-                                                <p class="ms-auto pe-3" id="deadline_{{ $list->id_pemesanan }}"></p>
+                                                @if ($list->bukti_pembayaran === null)
+                                                    <p class="pe-3 ms-auto" id="deadline_{{ $list->id_pemesanan }}"></p><br>
+                                                @else
+                                                    <i
+                                                        class="ri-checkbox-circle-fill fs-15 align-middle ms-auto text-success"></i>
+                                                    <p class="text-success pe-3">Paid</p>
+                                                @endif
                                             </div>
                                             <div class="card-body">
                                                 <table>
@@ -243,7 +249,7 @@
     @foreach ($listPemesanan as $list)
         <div id="modal{{ $list->id_pemesanan }}" class="modal zoomIn" tabindex="-1" aria-labelledby="myModalLabel"
             aria-hidden="true" style="display: none;">
-            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="myModalLabel">Detail Pemesanan
@@ -253,109 +259,92 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-md-12 pb-3">
-                                <table>
-                                    <tr>
-                                        <td>No pemesanan</td>
-                                        <td class="ps-3"> : </td>
-                                        <td class="ps-3"> <b> {{ $list->id_pemesanan }} </b>
-                                            @if ($list->bukti_pembayaran !== null)
-                                                <small class="badge bg-success">(Lunas Pembayaran)</small>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Tanggal Pemesanan</td>
-                                        <td class="ps-3"> : </td>
-                                        <td class="ps-3"> <b> {{ $list->order }} </b></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Nama Labs</td>
-                                        <td class="ps-3"> : </td>
-                                        <td class="ps-3">
-                                            <b> {{ $list->lab }} </b>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Nama Pemesan</td>
-                                        <td class="ps-3"> : </td>
-                                        <td class="ps-3"><b> {{ $list->nama_pemesan }} </b></td>
-                                    </tr>
-                                    <tr>
-                                        <td>No Telepon</td>
-                                        <td class="ps-3"> : </td>
-                                        <td class="ps-3"><b> {{ $list->no_telp }} </b></td>
-                                    </tr>
-                                </table>
-                            </div>
-                            <hr>
-                            <div class="col-md-12">
-                                <div class="list-header">
-                                    <b>List Jenis Alat &nbsp;&nbsp;&nbsp; :</b>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <img class="img-preview col-md-12"
+                                        src="{{ asset('img/bukti-pembayaran/' . basename($list->bukti_pembayaran)) }}">
                                 </div>
-                                <ul class="list-content mx-0" id="listTotal">
-                                    <li class="list-unstyled" id="listItem">
-                                        @foreach ($list['alat'] as $key => $alat)
-                                            <ul class="list-inline list1 bg-{{ $key % 2 == 0 ? '' : 'light' }}"
-                                                style="margin-left: -30px;">
-                                                <li class="list-inline-item item1 text-capitalize">
-                                                    {{ $alat->jenis_alat }}
-                                                </li>
-                                                <li class="list-inline-item item1 text-capitalize">
-                                                    {{ $alat->harga }}
-                                                </li>
-                                            </ul>
-                                        @endforeach
-                                    </li>
-                                </ul>
                             </div>
-                        </div>
-                        <div class="text-end pt-3">
-                            total pembayaran : &nbsp;&nbsp;&nbsp; <b>{{ $list->total_biaya }}</b>
+                            <div class="col-md-6">
+                                <div class="col-md-12">
+                                    <table>
+                                        <tr>
+                                            <td>No pemesanan</td>
+                                            <td class="ps-3"> : </td>
+                                            <td class="ps-3"> <b> {{ $list->id_pemesanan }} </b>
+                                                @if ($list->status === 'approved')
+                                                    <small class="badge bg-success">(Lunas Pembayaran)</small>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tanggal Pemesanan</td>
+                                            <td class="ps-3"> : </td>
+                                            <td class="ps-3"> <b> {{ $list->order }} </b></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nama Labs</td>
+                                            <td class="ps-3"> : </td>
+                                            <td class="ps-3">
+                                                @foreach ($list['labs'] as $key => $labs)
+                                                    <b> {{ $labs->nama_lab }} </b>
+                                                @endforeach
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nama Pemesan</td>
+                                            <td class="ps-3"> : </td>
+                                            <td class="ps-3"><b> {{ $list->nama_pemesan }} </b></td>
+                                        </tr>
+                                        <tr>
+                                            <td>No Telepon</td>
+                                            <td class="ps-3"> : </td>
+                                            <td class="ps-3"><b> {{ $list->no_telp }} </b></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <hr>
+                                <div class="col-md-12">
+                                    <div class="list-header">
+                                        <b>List Jenis Alat &nbsp;&nbsp;&nbsp; :</b>
+                                    </div>
+                                    <ul class="list-content mx-0" id="listTotal">
+                                        <li class="list-unstyled" id="listItem">
+                                            @foreach ($list['alat'] as $key => $alat)
+                                                <ul class="list-inline list1 bg-{{ $key % 2 == 0 ? '' : 'light' }}"
+                                                    style="margin-left: -30px;">
+                                                    <li class="list-inline-item item1 text-capitalize">
+                                                        {{ $alat->jenis_alat }}
+                                                    </li>
+                                                    <li class="list-inline-item item1 text-capitalize">
+                                                        Rp. {{ $alat->harga }}
+                                                    </li>
+                                                </ul>
+                                            @endforeach
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="text-end pt-3">
+                                total pembayaran : &nbsp;&nbsp;&nbsp; <b>Rp. {{ $list->total_biaya }}</b>
+                            </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        {{-- @if ($deadline && \Carbon\Carbon::now()->lt($deadline))
-                            <form action="{{ route('upload-pembayaran') }}" method="post"
-                                enctype="multipart/form-data">
+                    @if ($list->bukti_pembayaran === null)
+                        <div class="modal-footer" style="display: flex">
+                            <form action="{{ route('upload-pembayaran', $list->id_pemesanan) }}" method="post"
+                                enctype="multipart/form-data"
+                                style="display: flex; justify-content: space-between; width: 100%">
                                 @csrf
-                                <input type="file" name="bukti_pembayaran">
-                                <input type="hidden" name="id" value="{{ $order->id }}">
+                                <input type="file" name="bukti" class="form-control" style="width: 300px">
+                                <input type="hidden" name="id" value="{{ $list->id_pemesanan }}">
                                 <button type="submit" class="btn btn-success">unggah bukti Pembayaran</button>
                             </form>
-                        @else
-                            <p>Pesanan telah kadaluwarsa atau dibatalkan. Anda tidak dapat mengunggah bukti pembayaran.</p>
-                        @endif --}}
-                    </div>
+                        </div>
+                    @endif
 
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
-        </div>
-    @endforeach
-
-    {{-- modal review --}}
-    @foreach ($listPemesanan as $list)
-        <div id="modalReview{{ $list->id_pemesanan }}" class="modal zoomIn" tabindex="-1"
-            aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog bg-light">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="myModalLabel">Bukti Pembayaran</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <img class="img-preview col-md-12 img-fluid"
-                                    src="{{ asset('storage/bukti-pembayaran/' . basename($list->bukti_pembayaran)) }}">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
         </div>
     @endforeach
 @endsection
@@ -363,25 +352,29 @@
 <script src="https://cdn.jsdelivr.net/npm/dayjs@1.10.7/dayjs.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/dayjs@1.10.7/plugin/relativeTime.js"></script>
 <script>
-    // Mengambil tanggal expired_at dari server (format disesuaikan)
-    const expiredAt = dayjs("{{ $list->expired_at }}");
+    @foreach ($listPemesanan as $list)
 
-    // Menerapkan plugin relativeTime agar bisa menggunakan metode fromNow()
-    dayjs.extend(window.dayjs_plugin_relativeTime);
+        // Mengambil tanggal expired_at dari server (format disesuaikan)
+        const expiredAt_{{ $list->id_pemesanan }} = dayjs("{{ $list->expired_at }}");
 
-    function updateDeadline() {
-        const now = dayjs(); // Waktu sekarang
-        const diff = now.diff(expiredAt, 'second'); // Menghitung selisih waktu dalam detik
+        // Menerapkan plugin relativeTime agar bisa menggunakan metode fromNow()
+        dayjs.extend(window.dayjs_plugin_relativeTime);
 
-        const minutes = Math.floor(diff / 60);
-        const seconds = diff % 60;
+        function updateDeadline_{{ $list->id_pemesanan }}() {
+            const now = dayjs(); // Waktu sekarang
+            const diff = now.diff(expiredAt_{{ $list->id_pemesanan }},
+                'second'); // Menghitung selisih waktu dalam detik
 
-        const timeLeft = `${minutes} menit, ${seconds} detik`;
+            const minutes = Math.floor(diff / 60);
+            const seconds = diff % 60;
 
-        // Memperbarui elemen HTML dengan waktu berjalan
-        document.getElementById("deadline_{{ $list->id_pemesanan }}").textContent = timeLeft;
-    }
+            const timeLeft = `${minutes} menit, ${seconds} detik`;
 
-    // Memanggil fungsi updateDeadline setiap detik (atau sesuai dengan kebutuhan)
-    setInterval(updateDeadline, 1000);
+            // Memperbarui elemen HTML dengan waktu berjalan
+            document.getElementById("deadline_{{ $list->id_pemesanan }}").textContent = timeLeft;
+        }
+
+        // Memanggil fungsi updateDeadline_{{ $list->id_pemesanan }} setiap detik (atau sesuai dengan kebutuhan)
+        setInterval(updateDeadline_{{ $list->id_pemesanan }}, 1000);
+    @endforeach
 </script>

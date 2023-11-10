@@ -68,7 +68,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/analisis', [AnalisisController::class, 'index'])->name('analisis');
         Route::get('/lab/{slug}', [LabController::class, 'show']);
         Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
-        Route::post('/riwayat-pemesanan', [OrderController::class, 'uploadPembayaran'])->name('upload-pembayaran');
+        Route::post('/riwayat-pemesanan/upload/{id}', [OrderController::class, 'uploadPembayaran'])->name('upload-pembayaran');
 
         // riwayat pemesanan
         Route::get('/riwayat-pemesanan', [riwayatPemesananController::class, 'index'])->name('riwayat-pemesanan.index');

@@ -19,7 +19,7 @@ class Order extends Model
 
     public function lab()
     {
-        return $this->hasOne(Lab::class, 'id_lab', 'id');
+        return $this->belongsToMany(Lab::class, 'detail_orders', 'id_order', 'id_lab');
     }
     public function alat()
     {

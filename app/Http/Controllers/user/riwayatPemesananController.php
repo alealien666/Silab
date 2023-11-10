@@ -15,7 +15,7 @@ class riwayatPemesananController extends Controller
         $listPemesanan = Order::select(
             'orders.id as id_pemesanan',
             'orders.order',
-            'orders.id_lab',
+            // 'orders.id_lab',
             'orders.status',
             'orders.total_biaya',
             'orders.nama_pemesan',
@@ -31,9 +31,13 @@ class riwayatPemesananController extends Controller
 
 
         foreach ($listPemesanan as $index => $value) {
-
-            $idLab =  $value->id_lab;
-            $lab = Lab::where('id', $idLab)->value('nama_lab');
+            $labs = detail_order::join('labs', 'labs.id', '=', 'detail_orders.id_lab')
+                ->select(
+                    'labs.nama_lab'
+                )
+                ->groupBy('labs.nama_lab')
+                ->where('detail_orders.id_order', $value->id_pemesanan)
+                ->get();
 
             $alat = detail_order::join('alat_tambahans', 'alat_tambahans.id', '=', 'detail_orders.id_alat')
                 ->select(
@@ -42,7 +46,13 @@ class riwayatPemesananController extends Controller
                 )
                 ->where('detail_orders.id_order', $value->id_pemesanan)
                 ->get();
-            $listPemesanan[$index]->lab = $lab;
+
+            // foreach ($listPemesanan as $list) {
+            //     $list->harga = number_format($list->harga, 0, ',', '.');
+            // }
+
+            // $listPemesanan[$index]->total_biaya = number_format($listPemesanan[$index]->total_biaya, 0, ',', '.');
+            $listPemesanan[$index]->labs = $labs;
             $listPemesanan[$index]->alat = $alat;
         }
 

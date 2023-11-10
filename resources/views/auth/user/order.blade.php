@@ -256,40 +256,77 @@
                                         </thead>
                                         <tbody>
                                             @foreach ($alat as $index => $alat)
-                                                <tr id="selected_alat">
-                                                    <td>
-                                                        <h5 class="fs-15">
-                                                            <p class="text-dark" name="nama_alat">
-                                                                {{ $alat->jenis_alat }}</p>
-                                                        </h5>
-                                                    </td>
-                                                    <td class="text-end" name="harga_alat">{{ $alat->harga }}
-                                                    </td>
-                                                    <td>
-                                                        <input type="checkbox" name="selected_alat[]"
-                                                            value="{{ $alat->id }}"
-                                                            data-harga="{{ $alat->harga }}"
-                                                            data-indeks="{{ $index }}">
-                                                    </td>
-                                                    <td>
-                                                        <div class="jumlah">
-                                                            <button type="button" class="min"><i
-                                                                    class="bi bi-dash-lg"
-                                                                    data-indeks="{{ $index }}"></i></button>
-                                                            <input type="hidden"
-                                                                name="jumlah_alat[{{ $alat->id }}]"
-                                                                value="0" data-indeks="{{ $index }}">
-                                                            <span class="count">0</span>
-                                                            <button type="button" class="plus"
-                                                                data-indeks="{{ $index }}"><i
-                                                                    class="bi bi-plus-lg"></i></button>
-                                                        </div>
-                                                        <p class="text-muted text-center" id="stok">Stok:
-                                                            {{ $alat->jumlah }}
-                                                        </p>
-                                                    </td>
+                                                @if ($alat->jumlah === 0)
+                                                    <tr id="selected_alat" class="disable">
+                                                        <td>
+                                                            <h5 class="fs-15">
+                                                                <p class="text-dark" name="nama_alat">
+                                                                    {{ $alat->jenis_alat }}</p>
+                                                            </h5>
+                                                        </td>
+                                                        <td class="text-end" name="harga_alat">{{ $alat->harga }}
+                                                        </td>
+                                                        <td>
+                                                            <input type="checkbox" name="selected_alat[]"
+                                                                value="{{ $alat->id }}"
+                                                                data-harga="{{ $alat->harga }}"
+                                                                data-indeks="{{ $index }}" class="not">
+                                                        </td>
+                                                        <td>
+                                                            <div class="jumlah">
+                                                                <button type="button" class="min"
+                                                                    id="diss"><i class="bi bi-dash-lg"
+                                                                        data-indeks="{{ $index }}"></i></button>
+                                                                <input type="hidden"
+                                                                    name="jumlah_alat[{{ $alat->id }}]"
+                                                                    value="0" data-indeks="{{ $index }}">
+                                                                <span class="count">0</span>
+                                                                <button type="button" class="plus" id="dis"
+                                                                    data-indeks="{{ $index }}"><i
+                                                                        class="bi bi-plus-lg"></i></button>
+                                                            </div>
+                                                            <p class="text-muted text-center" id="stok">Stok:
+                                                                {{ $alat->jumlah }}
+                                                            </p>
+                                                        </td>
 
-                                                </tr>
+                                                    </tr>
+                                                @else
+                                                    <tr id="selected_alat">
+                                                        <td>
+                                                            <h5 class="fs-15">
+                                                                <p class="text-dark" name="nama_alat">
+                                                                    {{ $alat->jenis_alat }}</p>
+                                                            </h5>
+                                                        </td>
+                                                        <td class="text-end" name="harga_alat">{{ $alat->harga }}
+                                                        </td>
+                                                        <td>
+                                                            <input type="checkbox" name="selected_alat[]"
+                                                                value="{{ $alat->id }}"
+                                                                data-harga="{{ $alat->harga }}"
+                                                                data-indeks="{{ $index }}">
+                                                        </td>
+                                                        <td>
+                                                            <div class="jumlah">
+                                                                <button type="button" class="min"><i
+                                                                        class="bi bi-dash-lg"
+                                                                        data-indeks="{{ $index }}"></i></button>
+                                                                <input type="hidden"
+                                                                    name="jumlah_alat[{{ $alat->id }}]"
+                                                                    value="0" data-indeks="{{ $index }}">
+                                                                <span class="count">0</span>
+                                                                <button type="button" class="plus"
+                                                                    data-indeks="{{ $index }}"><i
+                                                                        class="bi bi-plus-lg"></i></button>
+                                                            </div>
+                                                            <p class="text-muted text-center" id="stok"
+                                                                data-stok="kontolodon">Stok:
+                                                                {{ $alat->jumlah }}
+                                                            </p>
+                                                        </td>
+                                                    </tr>
+                                                @endif
                                             @endforeach
                                         </tbody>
                                     </table>
@@ -351,37 +388,3 @@
 <!-- removeItemModal -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="{{ asset('js/main.js') }}"></script>
-{{-- <script>
-    function savePersonalInfo() {
-        // Simpan data Personal Info ke variabel JavaScript
-        let nama = document.getElementById('nama').value;
-        let lab = document.getElementById('lab').value;
-        let notelp = document.getElementById('no-telp').value;
-        let jenis = document.getElementById('jenis').value;
-        let masuk = document.getElementById('masuk').value;
-        let keluar = document.getElementById('keluar').value;
-        let total = document.getElementById('total')
-        let totalHarga = document.getElementById('total').textContent;
-        const checkboxes = document.querySelectorAll('input[name="selected_alat[]"]:checked');
-
-        checkboxes.forEach(checkbox => {
-            checkbox.disabled = true;
-        });
-
-
-        // isi data Shipping Info
-        document.getElementById('totalHarga').textContent = totalHarga;
-        document.getElementById('shipping-nama').value = nama;
-        document.getElementById('shipping-lab').value = lab;
-        document.getElementById('shipping-notelp').value = notelp;
-        document.getElementById('shipping-jenispesanan').value = jenis;
-        document.getElementById('shipping-masuk').value = masuk;
-        document.getElementById('shipping-keluar').value = keluar;
-        document.getElementById('totalHarga').value = total;
-
-        //  Menampilkan Shipping Info dan menyembunyikan Personal Info
-        const personal = document.getElementById('personal-info')
-        personal.disabled = true
-        document.getElementById('shipping-info')
-    }
-</script> --}}

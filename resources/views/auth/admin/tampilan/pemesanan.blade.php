@@ -234,7 +234,7 @@
     @foreach ($listPemesanan as $list)
         <div id="modalCheck{{ $list->id_pemesanan }}" class="modal zoomIn" tabindex="-1"
             aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog @if ($list->bukti_pembayaran != null) modal-lg @endif bg-light">
+            <div class="modal-dialog modal-lg bg-light">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="myModalLabel">Verifikasi</h5>
@@ -246,15 +246,13 @@
                         @method('POST')
                         <div class="modal-body">
                             <div class="row">
-                                @if ($list->bukti_pembayaran != null)
-                                    <div class="col-md-6">
-                                        <div class="row">
-                                            <img class="img-preview col-md-12"
-                                                src="{{ asset('storage/bukti-pembayaran/' . basename($list->bukti_pembayaran)) }}">
-                                        </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <img class="img-preview col-md-12"
+                                            src="{{ asset('img/bukti-pembayaran/' . basename($list->bukti_pembayaran)) }}">
                                     </div>
-                                @endif
-                                <div class="@if ($list->bukti_pembayaran != null) col-md-6 @else col-md-12 @endif">
+                                </div>
+                                <div class="col-md-6 ">
                                     <div class="card border card-border-primary">
                                         <div class="card-header">
                                             @if ($list->status === 'pending')
@@ -281,16 +279,6 @@
                                                     <b> {{ $labs->nama_lab }} </b>
                                                 @endforeach
                                             </p>
-                                            <ul class="list-inline">
-                                                <li class="list-inline-item"><label for="photo">
-                                                        upload pembayaran
-                                                    </label>
-                                                </li>
-                                                <li class="list-inline-item">
-                                                    <input type="file" id="photo" name="fileInput"
-                                                        class="col-md-12">
-                                                </li>
-                                            </ul>
                                             <input type="hidden" name="status" value="approved">
                                             <div class="row">
                                                 <div class="col-md-12">

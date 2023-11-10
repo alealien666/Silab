@@ -37,7 +37,7 @@ class OrderController extends Controller
                 'keluar' => $request->input('keluar'),
                 'lab' => $request->input('lab'),
                 'selected_alat' => $selectedAlat,
-                'totalHarga' => $request->input('totalHarga') // jumlah harga alat yang dipesan
+                // 'totalHarga' => $request->input('totalHarga') 
             ]
         ]);
 
@@ -51,7 +51,6 @@ class OrderController extends Controller
         $order = new Order();
         $order->user_id = auth()->user()->id;
         $order->jenis_pesanan = 'Sewa Lab';
-        $order->id_lab = $request->input('id_lab');
         $order->nama_pemesan = $request->input('nama');
         $order->no_telp = $request->input('notelp');
         $order->order = now();
@@ -59,16 +58,19 @@ class OrderController extends Controller
         $order->status = 'pending';
         $order->save();
 
+        $selectedLab = $request->input('id_lab');
 
         foreach ($selectedAlat as $index => $selectedAlatId) {
             if (is_numeric($selectedAlatId)) {
                 $jumlahAlat = isset($new_array[$selectedAlatId]) ? $new_array[$selectedAlatId] : 0;
                 $order->alat()->attach($selectedAlatId, [
+                    'id_lab' => $selectedLab,
                     'jumlah_alat' => $jumlahAlat
                 ]);
                 $alat = Alat_Tambahan::find($selectedAlatId);
                 $harga = $alat->harga;
-                $totalBiaya = $harga * $jumlahAlat;
+                // $totalBiaya = $harga * $jumlahAlat;
+                $totalBiaya = number_format($harga * $jumlahAlat, 0, ',', '.');
                 $totalCost += $totalBiaya;
 
                 $alat->update(['jumlah' => $alat->jumlah - $jumlahAlat]);
@@ -83,7 +85,7 @@ class OrderController extends Controller
             'jumlah_alat' => $jumlahAlatArray,
         ]);
 
-        $expiredAt = now()->addMinutes(60);
+        $expiredAt = now()->addMinutes(1);
         $order->expired_at = $expiredAt;
         $order->save();
 
@@ -101,6 +103,26 @@ class OrderController extends Controller
             $query->where('id', $categorylab->id);
         })->get();
 
+        $alat->each(function ($alat) {
+            $alat->harga = number_format($alat->harga, 0, ',', '.');
+        }); //0 untuk meng set desimal menjadi 0 di belakang harga, jika desimal ny 1 maka akan ada tambahan ,0 di belakang harga
+
         return view('auth.user.order', compact('lab', 'categorylab', 'alat', 'selectedAlat'))->with('title', 'Silab | Order');
+    }
+
+    public function uploadPembayaran(Request $request, $id)
+    {
+        $request->validate([
+            'bukti' => 'required|image|mimes:jpg,jpeg,pdf,png|max:2000'
+        ]);
+
+        $upload = Order::findOrFail($id);
+
+        $namaBerkas = $request->file('bukti')->store('img/bukti-pembayaran', 'public');
+        $upload->bukti_pembayaran = $namaBerkas;
+
+        $upload->update();
+
+        return redirect()->back()->with('success', 'Berhasil Mengunggah Bukti Pembayaran');
     }
 }

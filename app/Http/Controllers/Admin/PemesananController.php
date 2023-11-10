@@ -60,17 +60,12 @@ class PemesananController extends Controller
         $verifikasi = Order::findOrFail($id);
 
         if ($request->has('submit')) {
-            if ($request->status === 'approved' && $request->file('fileInput')) {
-                $namaBerkas = $request->file('fileInput')->store('public/bukti-pembayaran');
-                $verifikasi->status = $request->status;
-                $verifikasi->bukti_pembayaran = $namaBerkas;
-
-                $verifikasi->update();
-            }
+            $verifikasi->status = 'approved';
+            $verifikasi->update();
         } elseif ($request->has('update')) {
             if ($request->status === 'approved' && $request->file('fileInput')) {
-                File::delete("storage/bukti-pembayaran/" . basename($verifikasi->bukti_pembayaran));
-                $namaBerkas = $request->file('fileInput')->store('public/bukti-pembayaran');
+                File::delete("img/bukti-pembayaran/" . basename($verifikasi->bukti_pembayaran));
+                $namaBerkas = $request->file('fileInput')->store('img/bukti-pembayaran', 'public');
                 $verifikasi->status = $request->status;
                 $verifikasi->bukti_pembayaran = $namaBerkas;
 
