@@ -8,10 +8,12 @@ use App\Models\Category;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class listLabsController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $listLabs = Lab::join('categories', 'categories.id', '=', 'labs.category_id')
             ->select('labs.id as id_lab', 'categories.category', 'nama_lab', 'slug', 'kapasitas', 'status', 'foto', 'labs.deskripsi as deskripsi_lab')
             ->get();
@@ -29,7 +31,7 @@ class listLabsController extends Controller
             'kategori' => 'required|integer',
             'status_lab' => 'required|string',
             'kapasitas' => 'required|numeric|min:0',
-            'foto' => 'image|file|max:2000',
+            'foto' => 'required|image|file|max:2000',
             'deskripsi' => 'required|string',
         ]);
 
@@ -38,13 +40,13 @@ class listLabsController extends Controller
         }
 
         if ($request->file('foto')) {
-            $namaBerkas = $request->file('foto')->store('public/foto-labs');
+            $namaBerkas = $request->file('foto')->store('img/foto-labs');
             $Lab = new Lab();
             $Lab->nama_lab = $request->input('nama_lab');
+            $Lab->slug = Str::slug($request->input('nama_lab'));
             $Lab->category_id = $request->input('kategori');
             $Lab->status = $request->input('status_lab');
             $Lab->kapasitas = $request->input('kapasitas');
-            $Lab->slug = "slug";
             $Lab->foto = $namaBerkas;
             $Lab->deskripsi = $request->input('deskripsi');
             $Lab->save();
@@ -60,7 +62,7 @@ class listLabsController extends Controller
             'kategori' => 'required|integer',
             'status_lab' => 'required|string',
             'kapasitas' => 'required|numeric|min:0',
-            'foto' => 'image|file|max:2000',
+            'foto' => 'required|image|file|max:2000',
             'deskripsi' => 'required|string',
         ]);
 
@@ -75,8 +77,8 @@ class listLabsController extends Controller
             $Lab->deskripsi = $request->deskripsi;
             $Lab->update();
         } else {
-            File::delete("storage/foto-labs/" . basename($Lab->foto));
-            $namaBerkas = $request->file('foto')->store('public/foto-labs');
+            File::delete("img/foto-labs/" . basename($Lab->foto));
+            $namaBerkas = $request->file('foto')->store('img/foto-labs');
             $Lab->nama_lab = $request->nama_lab;
             $Lab->category_id = $request->kategori;
             $Lab->status = $request->status_lab;
@@ -93,7 +95,7 @@ class listLabsController extends Controller
     public function destroy($id)
     {
         $Labs = Lab::findOrFail($id);
-        File::delete("storage/foto-labs/" . basename($Labs->foto));
+        File::delete("img/foto-labs/" . basename($Labs->foto));
         $Labs->delete();
         return redirect()->route('Admin.list-labs.index')->with(['success' => 'Data Berhasil Dihapus!']);
     }

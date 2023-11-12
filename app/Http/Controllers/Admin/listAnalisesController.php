@@ -7,6 +7,7 @@ use App\Models\Analisis;
 use App\Models\Category;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class listAnalisesController extends Controller
 {
@@ -37,6 +38,7 @@ class listAnalisesController extends Controller
         $Analises = new Analisis();
         $Analises->category_id = $request->input('kategori');
         $Analises->jenis_analisa = $request->input('jenis_analisa');
+        $Analises->slug = Str::slug($request->input('jenis_analisa'));
         $Analises->jenis_pengujian = $request->input('jenis_pengujian');
         $Analises->harga = $request->input('harga');
         $Analises->save();

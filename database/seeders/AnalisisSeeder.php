@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Analisis;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class AnalisisSeeder extends Seeder
 {
@@ -669,6 +670,7 @@ class AnalisisSeeder extends Seeder
         ];
 
         foreach ($analisis as $analis) {
+            $analis['slug'] = Str::slug($analis['jenis_pengujian']);
             Analisis::create($analis);
         }
     }

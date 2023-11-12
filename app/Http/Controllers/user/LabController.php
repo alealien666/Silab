@@ -4,9 +4,10 @@ namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
 use App\Models\Lab;
-use App\Models\Analisis;
 use App\Models\Category;
+use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class LabController extends Controller
 {
@@ -52,5 +53,15 @@ class LabController extends Controller
         }
 
         return view('auth.user.produk', compact('datas', 'category', 'categories'))->with('title', 'Category - ' . $category);
+    }
+    public function tanggalCari(Request $request)
+    {
+        $tanggalCari = $request->input('tanggal');
+        $tanggalCari = Carbon::parse($tanggalCari, 'Asia/Jakarta')->toDateString();
+
+        $status = Order::where('order', $tanggalCari)->value('status === tersedia');
+        $response = view('auth.user.produk', ['tanggal' => $tanggalCari, 'status' => $status])->render();
+
+        return response()->json(['partialView' => $response]);
     }
 }

@@ -7,12 +7,11 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
-    protected $commands = [
-        Commands\DeleteExpired::class, // Ganti dengan nama tugas penjadwalan yang sesuai
-    ];
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('app:delete-expired')->everyMinute();
+        $schedule->command('app:delete-expired')->hourly();
+        $schedule->command('app:update-lab-status')->dailyAt('05:0.0');
+        $schedule->command('app:update-lab-status-today')->everyMinute();
     }
 
     protected function commands(): void

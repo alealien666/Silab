@@ -27,17 +27,17 @@ class OrderController extends Controller
         $selectedAlat = $request->input('selected_alat');
         $totalCost = 0;
 
-        $waktuOrder = now();
+        // $waktuOrder = now();
         session([
             'personal_info' => [
                 'nama' => $request->input('nama'),
+                'id_lab' => $request->input('id_lab'),
                 'notelp' => $request->input('notelp'),
                 'jenispesanan' => 'Sewa Lab',
                 'masuk' => $request->input('masuk'),
                 'keluar' => $request->input('keluar'),
                 'lab' => $request->input('lab'),
                 'selected_alat' => $selectedAlat,
-                // 'totalHarga' => $request->input('totalHarga') 
             ]
         ]);
 
@@ -53,7 +53,7 @@ class OrderController extends Controller
         $order->jenis_pesanan = 'Sewa Lab';
         $order->nama_pemesan = $request->input('nama');
         $order->no_telp = $request->input('notelp');
-        $order->order = now();
+        $order->order = $request->input('masuk');
         $order->total_biaya = 0;
         $order->status = 'pending';
         $order->save();
@@ -69,7 +69,6 @@ class OrderController extends Controller
                 ]);
                 $alat = Alat_Tambahan::find($selectedAlatId);
                 $harga = $alat->harga;
-                // $totalBiaya = $harga * $jumlahAlat;
                 $totalBiaya = number_format($harga * $jumlahAlat, 0, ',', '.');
                 $totalCost += $totalBiaya;
 
@@ -85,7 +84,7 @@ class OrderController extends Controller
             'jumlah_alat' => $jumlahAlatArray,
         ]);
 
-        $expiredAt = now()->addMinutes(1);
+        $expiredAt = now()->addHour();
         $order->expired_at = $expiredAt;
         $order->save();
 
@@ -120,9 +119,28 @@ class OrderController extends Controller
 
         $namaBerkas = $request->file('bukti')->store('img/bukti-pembayaran', 'public');
         $upload->bukti_pembayaran = $namaBerkas;
-
         $upload->update();
+        //  elseif ($request->has('update')) {
+        //     if ($request->status === 'approved' && $request->file('fileInput')) {
+        //         File::delete("img/bukti-pembayaran/" . basename($verifikasi->bukti_pembayaran));
+        //         $namaBerkas = $request->file('fileInput')->store('img/bukti-pembayaran', 'public');
+        //         $verifikasi->status = $request->status;
+        //         $verifikasi->bukti_pembayaran = $namaBerkas;
 
-        return redirect()->back()->with('success', 'Berhasil Mengunggah Bukti Pembayaran');
+        //         $verifikasi->update();
+        //     }
+        // }
+
+        return redirect()->back()->with('success', 'Berhasil Mengunggah Bukti Pembayaran.. Silahkan tunggu admin meng approve pesanan kamu');
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $upload = Lab::where($id, 'id')->firstOrFail();
+        if ($request->has('submit')) {
+            $upload->update(['status' => 'di gunakan']);
+        }
+
+        return redirect('/riwayat-pemesanan');
     }
 }

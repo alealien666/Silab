@@ -114,7 +114,9 @@
                                                         <div class="mb-3">
                                                             <label for="order" class="form-label">Order</label>
                                                             <input type="date" name="masuk" id="masuk"
-                                                                class="form-control" required>
+                                                                class="form-control" value{{ old('masuk') }}
+                                                                {{ $lab && $lab->status === 'tidak tersedia' ? 'disabled' : '' }}
+                                                                required>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -124,8 +126,7 @@
                                                     class="btn btn-primary btn-label right ms-auto nexttab"
                                                     data-nexttab="pills-bill-address-tab"><i
                                                         class="ri-truck-line label-icon align-middle fs-16 ms-2"
-                                                        onclick="savePersonalInfo()"></i>Pesan
-                                                    Sekarang</button>
+                                                        onclick="savePersonalInfo()"></i>Pesan Sekarang</button>
                                             </div>
                                         </div>
                                         <!-- end tab pane -->
@@ -144,6 +145,10 @@
                                                             <label class="form-check-label" for="shippingAddress01">
                                                                 <span
                                                                     class="mb-4 fw-semibold d-block">{{ auth()->user()->email }}</span><br>
+                                                                <span
+                                                                    class="text-muted fw-normal text-wrap mb-1 d-block"
+                                                                    id="shipping-name">id :
+                                                                    {{ session('personal_info.id_lab') }}</span>
                                                                 <span
                                                                     class="text-muted fw-normal text-wrap mb-1 d-block"
                                                                     id="shipping-name">Nama :
@@ -212,15 +217,14 @@
                                             </div>
 
                                             <div class="d-flex align-items-start gap-3 mt-4">
-                                                <button type="button" class="btn btn-light btn-label previestab"
-                                                    data-previous="pills-bill-info-tab"><i
-                                                        class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>Back
-                                                    to Personal Info</button>
-                                                <button type="button"
-                                                    class="btn btn-primary btn-label right ms-auto nexttab"
-                                                    data-nexttab="pills-payment-tab"><i
-                                                        class="ri-bank-card-line label-icon align-middle fs-16 ms-2"></i>Continue
-                                                    to Payment</button>
+                                                {{-- <form action="{{ route('updateStatus') }}" method="post">
+                                                    @csrf
+                                                    <button type="submit"
+                                                        class="btn btn-primary btn-label right ms-auto nexttab"
+                                                        data-nexttab="pills-payment-tab"><i
+                                                            class="ri-bank-card-line label-icon align-middle fs-16 ms-2"></i>Continue
+                                                        to Payment</button>
+                                                </form> --}}
                                             </div>
                                         </div>
                                         <!-- end tab pane -->

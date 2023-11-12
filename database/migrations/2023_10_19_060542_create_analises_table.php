@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('harga');
             $table->string('jenis_pengujian');
+            $table->string('slug');
             $table->enum('jenis_analisa', ['Kualitatif', 'Kuantitatif'])->nullable();
             $table->foreignId('category_id');
             $table->timestamps();

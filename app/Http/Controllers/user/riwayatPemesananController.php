@@ -12,6 +12,12 @@ class riwayatPemesananController extends Controller
 {
     public function index()
     {
+        // $order = Order::where('status', 'approved')->get();
+        // foreach ($order as $orda) {
+        //     $lab = $orda->lab()->firstOrFail()->status;
+        //     dd($lab);
+        // }
+
         $listPemesanan = Order::select(
             'orders.id as id_pemesanan',
             'orders.order',

@@ -69,7 +69,7 @@ class listAlatController extends Controller
             $Alat->harga = $request->harga;
             $Alat->update();
         } else {
-            File::delete("storage/foto-alat/" . basename($Alat->foto));
+            File::delete("img/foto-alat/" . basename($Alat->foto));
             $namaBerkas = $request->file('foto')->store('public/foto-alat');
             $Alat->category_id = $request->kategori;
             $Alat->jenis_alat = $request->jenis_alat;

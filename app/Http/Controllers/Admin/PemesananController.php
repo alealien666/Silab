@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\detail_order;
 use App\Models\Order;
+use App\Models\Lab;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
@@ -22,11 +23,17 @@ class PemesananController extends Controller
             'orders.no_telp',
             'orders.bukti_pembayaran',
             'orders.expired_at',
-            'labs.nama_lab',
             'users.name as nama'
-        )->join('users', 'orders.user_id', '=', 'users.id')
-        ->join('labs', 'orders.id_lab', '=', 'labs.id')->get();
+        )->join('users', 'orders.user_id', '=', 'users.id')->get();
         foreach ($listPemesanan as $index => $value) {
+            $labs = detail_order::join('labs', 'labs.id', '=', 'detail_orders.id_lab')
+                ->select(
+                    'labs.nama_lab'
+                )
+                ->groupBy('labs.nama_lab')
+                ->where('detail_orders.id_order', $value->id_pemesanan)
+                ->get();
+
             $alat = detail_order::join('alat_tambahans', 'alat_tambahans.id', '=', 'detail_orders.id_alat')
                 ->select(
                     'alat_tambahans.jenis_alat',
@@ -34,6 +41,7 @@ class PemesananController extends Controller
                 )
                 ->where('detail_orders.id_order', $value->id_pemesanan)
                 ->get();
+            $listPemesanan[$index]->labs = $labs;
             $listPemesanan[$index]->alat = $alat;
         }
 
@@ -46,43 +54,16 @@ class PemesananController extends Controller
     public function verifikasi(Request $request, $id)
     {
         $request->validate([
-            'status' => 'string|required'
+            'status' => 'string|required',
+            'fileInput' => 'image|file|max:2000'
         ]);
 
         $verifikasi = Order::findOrFail($id);
-<<<<<<< HEAD
 
         if ($request->has('submit')) {
             $verifikasi->status = 'approved';
             $verifikasi->update();
-        } elseif ($request->has('update')) {
-            if ($request->status === 'approved' && $request->file('fileInput')) {
-                File::delete("img/bukti-pembayaran/" . basename($verifikasi->bukti_pembayaran));
-                $namaBerkas = $request->file('fileInput')->store('img/bukti-pembayaran', 'public');
-                $verifikasi->status = $request->status;
-                $verifikasi->bukti_pembayaran = $namaBerkas;
-
-                $verifikasi->update();
-            }
-=======
-        if ($request->status === 'approved') {
-            $verifikasi->status = $request->status;
-            $verifikasi->update();
->>>>>>> d1be0abc7e43d49c60f5c88e6e3a94927ae405bf
         }
-
-        // if ($request->has('submit')) {
-        // }
-        //  elseif ($request->has('update')) {
-        //     if ($request->status === 'approved' && $request->file('fileInput')) {
-        //         File::delete("storage/bukti-pembayaran/" . basename($verifikasi->bukti_pembayaran));
-        //         $namaBerkas = $request->file('fileInput')->store('public/bukti-pembayaran');
-        //         $verifikasi->status = $request->status;
-        //         $verifikasi->bukti_pembayaran = $namaBerkas;
-
-        //         $verifikasi->update();
-        //     }
-        // }
 
         return redirect()->back()->with('success', 'Pesanan Di Verifikasi');
     }

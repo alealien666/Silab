@@ -51,7 +51,7 @@
                                             <td class="text-center">{{ $list->nama_lab }}</td>
                                             <td style="width: 150px;" class="text-center">
                                                 <img width="200px" height="120px"
-                                                    src="{{ asset('storage/foto-labs/' . basename($list->foto)) }}"
+                                                    src="{{ asset('img/foto-labs/' . basename($list->foto)) }}"
                                                     alt="">
                                             </td>
                                             <td class="text-center">{{ $list->kapasitas }}</td>
@@ -200,8 +200,7 @@
                                 <input type="hidden" name="oldImage" value={{ $list->foto }}>
                                 @if ($list->foto)
                                     <img class="img-preview img-fluid mb-3 col-sm-5 d-block"
-                                        src="{{ asset('storage/foto-labs/' . basename($list->foto)) }}"
-                                        alt="Preview Image">
+                                        src="{{ asset('img/foto-labs/' . basename($list->foto)) }}" alt="Preview Image">
                                 @else
                                     <img class="img-preview img-fluid mb-3 col-md-6">
                                 @endif

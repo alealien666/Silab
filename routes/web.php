@@ -36,7 +36,7 @@ Route::middleware(['guest'])->group(function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::middleware(['auth', 'role:0'])->group(function () {
-        
+
         // list alat
         Route::get('/list-alat', [listAlatController::class, 'index'])->name('Admin.list-alat.index');
         Route::post('/list-alat/add', [listAlatController::class, 'store'])->name('Admin.list-alat.store');
@@ -76,7 +76,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/analisis', [AnalisisController::class, 'index'])->name('analisis');
         Route::get('/lab/{slug}', [LabController::class, 'show']);
         Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+        Route::get('/lab/searchTanggal', [LabController::class, 'tanggalCari'])->name('searchTanggal');
         Route::post('/riwayat-pemesanan/upload/{id}', [OrderController::class, 'uploadPembayaran'])->name('upload-pembayaran');
+        Route::post('/order/detail', [OrderController::class, 'updateStatus'])->name('updateStatus');
 
         // riwayat pemesanan
         Route::get('/riwayat-pemesanan', [riwayatPemesananController::class, 'index'])->name('riwayat-pemesanan.index');
