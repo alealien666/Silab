@@ -68,6 +68,9 @@ Route::middleware(['auth'])->group(function () {
                 'title' => 'Silab | User'
             ]);
         });
+        Route::get('/orderAnalisis', function () {
+            return view('auth.user.orderAnalisis', ['title' => 'Silab | Order']);
+        });
         Route::get('/order/{slug}', [OrderController::class, 'show'])->name('order')->middleware('CheckOrder');
         Route::post('order', [OrderController::class, 'store'])->name('orderLab');
         Route::get('/lab', [LabController::class, 'index'])->name('index');
@@ -78,7 +81,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
         Route::get('/lab/searchTanggal', [LabController::class, 'tanggalCari'])->name('searchTanggal');
         Route::post('/riwayat-pemesanan/upload/{id}', [OrderController::class, 'uploadPembayaran'])->name('upload-pembayaran');
-        Route::post('/order/detail', [OrderController::class, 'updateStatus'])->name('updateStatus');
 
         // riwayat pemesanan
         Route::get('/riwayat-pemesanan', [riwayatPemesananController::class, 'index'])->name('riwayat-pemesanan.index');

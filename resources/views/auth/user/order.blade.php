@@ -184,7 +184,8 @@
                                                                     <span class="text-muted mb-2 d-block"
                                                                         id="shipping-alat">
                                                                         Nama Alat: {{ $item->jenis_alat }}<br>
-                                                                        Harga: Rp. {{ $item->harga }}<br>
+                                                                        Harga: Rp.
+                                                                        {{ number_format($item->harga, 0, ',', '.') }}<br>
                                                                         Jumlah: {{ session('jumlah_alat')[$item->id] }}
                                                                     </span>
                                                                     <hr>
@@ -204,7 +205,7 @@
                                                                     for="shippingMethod02">
                                                                     <span
                                                                         class="fs-21 float-end mt-2 text-wrap d-block fw-semibold">Rp:
-                                                                        {{ session('total_biaya') }}
+                                                                        {{ number_format(session('total_biaya'), 0, ',', '.') }}
                                                                     </span>
                                                                     <span
                                                                         class="text-muted fw-normal text-wrap d-block">Expired

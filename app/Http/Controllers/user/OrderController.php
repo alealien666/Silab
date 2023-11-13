@@ -69,7 +69,7 @@ class OrderController extends Controller
                 ]);
                 $alat = Alat_Tambahan::find($selectedAlatId);
                 $harga = $alat->harga;
-                $totalBiaya = number_format($harga * $jumlahAlat, 0, ',', '.');
+                $totalBiaya = $harga * $jumlahAlat;
                 $totalCost += $totalBiaya;
 
                 $alat->update(['jumlah' => $alat->jumlah - $jumlahAlat]);
@@ -134,13 +134,7 @@ class OrderController extends Controller
         return redirect()->back()->with('success', 'Berhasil Mengunggah Bukti Pembayaran.. Silahkan tunggu admin meng approve pesanan kamu');
     }
 
-    public function updateStatus(Request $request, $id)
+    public function orderAnalisis(Request $request)
     {
-        $upload = Lab::where($id, 'id')->firstOrFail();
-        if ($request->has('submit')) {
-            $upload->update(['status' => 'di gunakan']);
-        }
-
-        return redirect('/riwayat-pemesanan');
     }
 }

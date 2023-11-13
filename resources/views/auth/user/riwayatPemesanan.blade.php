@@ -317,7 +317,10 @@
                                                         {{ $alat->jenis_alat }}
                                                     </li>
                                                     <li class="list-inline-item item1 text-capitalize">
-                                                        Rp. {{ $alat->harga }}
+                                                        {{ $jumlahAlat }}
+                                                    </li>
+                                                    <li class="list-inline-item item1 text-capitalize">
+                                                        Rp. {{ number_format($alat->harga, 0, ',', '.') }}
                                                     </li>
                                                 </ul>
                                             @endforeach
@@ -326,7 +329,8 @@
                                 </div>
                             </div>
                             <div class="text-end pt-3">
-                                total pembayaran : &nbsp;&nbsp;&nbsp; <b>Rp. {{ $list->total_biaya }}</b>
+                                total pembayaran : &nbsp;&nbsp;&nbsp; <b>Rp.
+                                    {{ number_format($list->total_biaya, 0, ',', '.') }}</b>
                             </div>
                         </div>
                     </div>

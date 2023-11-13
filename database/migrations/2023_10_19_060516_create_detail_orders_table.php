@@ -16,7 +16,6 @@ return new class extends Migration
             $table->foreignId('id_lab');
             $table->foreignId('id_alat');
             $table->integer('jumlah_alat');
-            $table->enum('status_lab', ['tersedia', 'di gunakan']);
             $table->timestamps();
         });
     }

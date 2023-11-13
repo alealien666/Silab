@@ -12,16 +12,9 @@ class riwayatPemesananController extends Controller
 {
     public function index()
     {
-        // $order = Order::where('status', 'approved')->get();
-        // foreach ($order as $orda) {
-        //     $lab = $orda->lab()->firstOrFail()->status;
-        //     dd($lab);
-        // }
-
         $listPemesanan = Order::select(
             'orders.id as id_pemesanan',
             'orders.order',
-            // 'orders.id_lab',
             'orders.status',
             'orders.total_biaya',
             'orders.nama_pemesan',
@@ -29,12 +22,11 @@ class riwayatPemesananController extends Controller
             'orders.no_telp',
             'orders.bukti_pembayaran',
             'orders.expired_at',
-            'users.name as nama'
+            'users.name as nama',
         )->join('users', 'orders.user_id', '=', 'users.id')
             ->where('orders.user_id', Auth::id())
             ->whereNotNull('orders.expired_at')
             ->get();
-
 
         foreach ($listPemesanan as $index => $value) {
             $labs = detail_order::join('labs', 'labs.id', '=', 'detail_orders.id_lab')
@@ -53,19 +45,15 @@ class riwayatPemesananController extends Controller
                 ->where('detail_orders.id_order', $value->id_pemesanan)
                 ->get();
 
-            // foreach ($listPemesanan as $list) {
-            //     $list->harga = number_format($list->harga, 0, ',', '.');
-            // }
-
-            // $listPemesanan[$index]->total_biaya = number_format($listPemesanan[$index]->total_biaya, 0, ',', '.');
             $listPemesanan[$index]->labs = $labs;
             $listPemesanan[$index]->alat = $alat;
         }
-
         $jumlahPending = count($listPemesanan->where('status', 'pending'));
         $jumlahApproved = count($listPemesanan->where('status', 'approved'));
 
-        return view('auth.user.riwayatPemesanan', compact('listPemesanan', 'jumlahPending', 'jumlahApproved'), [
+        $jumlahAlat = detail_order::pluck('jumlah_alat', 'id_alat');
+        // dd($jumlahAlat);
+        return view('auth.user.riwayatPemesanan', compact('listPemesanan', 'jumlahPending', 'jumlahApproved', 'jumlahAlat'), [
             'title' => 'Silab | Riwayat Pemesanan'
         ]);
     }
