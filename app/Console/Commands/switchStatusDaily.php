@@ -2,19 +2,18 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Lab;
 use Illuminate\Console\Command;
-use App\Models\Order;
 use App\Models\detail_order;
+use App\Models\Lab;
 
-class UpdateLabStatusToday extends Command
+class switchStatusDaily extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'app:update-lab-status-today';
+    protected $signature = 'app:switch-status-daily';
 
     /**
      * The console command description.
@@ -28,14 +27,13 @@ class UpdateLabStatusToday extends Command
      */
     public function handle()
     {
-        // Ambil semua id lab yang digunakan dari tabel pivot
         $usedLabIds = detail_order::join('orders', 'detail_orders.id_order', '=', 'orders.id')
             ->join('labs', 'detail_orders.id_lab', '=', 'labs.id')
-            ->where('orders.status', 'approved')
-            ->where('orders.order', '=', now()->format('Y-m-d'))
+            ->where('orders.status', 'di gunakan')
+            ->where('orders.order', '<', now())
             ->pluck('detail_orders.id_lab')
             ->toArray();
 
-        Lab::whereIn('id', $usedLabIds)->update(['status' => 'di gunakan']);
+        Lab::whereIn('id', $usedLabIds)->update(['status' => 'tersedia']);
     }
 }

@@ -145,10 +145,7 @@
                                                             <label class="form-check-label" for="shippingAddress01">
                                                                 <span
                                                                     class="mb-4 fw-semibold d-block">{{ auth()->user()->email }}</span><br>
-                                                                <span
-                                                                    class="text-muted fw-normal text-wrap mb-1 d-block"
-                                                                    id="shipping-name">id :
-                                                                    {{ session('personal_info.id_lab') }}</span>
+
                                                                 <span
                                                                     class="text-muted fw-normal text-wrap mb-1 d-block"
                                                                     id="shipping-name">Nama :
@@ -218,14 +215,11 @@
                                             </div>
 
                                             <div class="d-flex align-items-start gap-3 mt-4">
-                                                {{-- <form action="{{ route('updateStatus') }}" method="post">
-                                                    @csrf
-                                                    <button type="submit"
-                                                        class="btn btn-primary btn-label right ms-auto nexttab"
-                                                        data-nexttab="pills-payment-tab"><i
-                                                            class="ri-bank-card-line label-icon align-middle fs-16 ms-2"></i>Continue
-                                                        to Payment</button>
-                                                </form> --}}
+                                                <a href="/riwayat-pemesanan"
+                                                    class="btn btn-primary btn-label right ms-auto nexttab"
+                                                    data-nexttab="pills-payment-tab"><i
+                                                        class="ri-bank-card-line label-icon align-middle fs-16 ms-2"></i>Continue
+                                                    to Payment</a>
                                             </div>
                                         </div>
                                         <!-- end tab pane -->

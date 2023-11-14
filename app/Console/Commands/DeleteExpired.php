@@ -38,7 +38,6 @@ class DeleteExpired extends Command
             foreach ($order->alat as $alat) {
                 $masterAlat = Alat_Tambahan::find($alat->id);
                 $masterAlat->update(['jumlah' => $masterAlat->jumlah + $alat->pivot->jumlah_alat]);
-                // $masterAlat->save();
             }
         }
     }
