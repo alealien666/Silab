@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\listAnalisesController;
 use App\Http\Controllers\Admin\listLabsController;
 use App\Http\Controllers\Admin\PemesananController;
 use App\Http\Controllers\user\riwayatPemesananController;
+use App\Models\Order;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,19 +69,17 @@ Route::middleware(['auth'])->group(function () {
                 'title' => 'Silab | User'
             ]);
         });
-        Route::get('/orderAnalisis', function () {
-            return view('auth.user.orderAnalisis', ['title' => 'Silab | Order']);
-        });
+        Route::get('/orderAnalisis/{slug}', [OrderController::class, 'showOrderAnalisis']);
         Route::get('/order/{slug}', [OrderController::class, 'show'])->name('order')->middleware('CheckOrder');
-        Route::post('order', [OrderController::class, 'store'])->name('orderLab');
         Route::get('/lab', [LabController::class, 'index'])->name('index');
         Route::get('/produk/kategori/{category}', [LabController::class, 'kategori'])->name('produk.kategori');
         Route::get('/analisis/kategori/{category}', [AnalisisController::class, 'kategori'])->name('analisis.kategori');
         Route::get('/analisis', [AnalisisController::class, 'index'])->name('analisis');
-        Route::get('/lab/{slug}', [LabController::class, 'show']);
         Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
         Route::get('/lab/searchTanggal', [LabController::class, 'tanggalCari'])->name('searchTanggal');
+        Route::post('/order', [OrderController::class, 'store'])->name('orderLab');
         Route::post('/riwayat-pemesanan/upload/{id}', [OrderController::class, 'uploadPembayaran'])->name('upload-pembayaran');
+        Route::post('/orderAnalisis', [OrderController::class, 'orderAnalisis'])->name('order-analisis');
 
         // riwayat pemesanan
         Route::get('/riwayat-pemesanan', [riwayatPemesananController::class, 'index'])->name('riwayat-pemesanan.index');

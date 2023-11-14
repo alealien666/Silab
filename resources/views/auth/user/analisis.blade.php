@@ -88,7 +88,7 @@
                                         <h5 class="mb-0 fw-semibold">Harga</h5>
                                     </div>
                                     <div class="ms-auto">
-                                        <h2 class="month mb-0">Rp {{ $item->harga }} <small
+                                        <h2 class="month mb-0">Rp {{ number_format($item->harga, 0, ',', '.') }} <small
                                                 class="fs-13 text-muted">/Sample</small>
                                         </h2>
                                     </div>
@@ -128,7 +128,8 @@
                                     </li>
                                 </ul>
                                 <div class="mt-3 pt-2">
-                                    <a href="javascript:void(0);" class="btn btn-success w-100">Sewa Jasa Sekarang</a>
+                                    <a href="/orderAnalisis/{{ $item->slug }}" class="btn btn-success w-100">Sewa Jasa
+                                        Sekarang</a>
                                 </div>
                             </div>
                         </div>

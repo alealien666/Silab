@@ -29,14 +29,6 @@ class AnalisisController extends Controller
             ->with('title', 'Silab | Sewa Jasa Analis');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(analisis $analisis)
-    {
-        //
-    }
-
     public function kategori($category)
     {
         $categories = Category::all();

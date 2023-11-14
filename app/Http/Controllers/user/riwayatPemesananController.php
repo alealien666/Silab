@@ -29,31 +29,38 @@ class riwayatPemesananController extends Controller
             ->get();
 
         foreach ($listPemesanan as $index => $value) {
-            $labs = detail_order::join('labs', 'labs.id', '=', 'detail_orders.id_lab')
+            $labs = Order::join('labs', 'labs.id', '=', 'orders.id_lab')
                 ->select(
                     'labs.nama_lab'
                 )
                 ->groupBy('labs.nama_lab')
-                ->where('detail_orders.id_order', $value->id_pemesanan)
+                ->where('orders.id', $value->id_pemesanan)
                 ->get();
+
+            $analis = Order::join('analises', 'analises.id', '=', 'orders.analisis_id')
+                ->select('analises.jenis_pengujian')
+                ->groupBy('analises.jenis_pengujian')
+                ->where('orders.id', $value->id_pemesanan)->get();
 
             $alat = detail_order::join('alat_tambahans', 'alat_tambahans.id', '=', 'detail_orders.id_alat')
                 ->select(
                     'alat_tambahans.jenis_alat',
-                    'alat_tambahans.harga'
+                    'alat_tambahans.harga',
+                    'detail_orders.jumlah_alat'
                 )
                 ->where('detail_orders.id_order', $value->id_pemesanan)
                 ->get();
 
             $listPemesanan[$index]->labs = $labs;
+            $listPemesanan[$index]->analis = $analis;
             $listPemesanan[$index]->alat = $alat;
         }
         $jumlahPending = count($listPemesanan->where('status', 'pending'));
         $jumlahApproved = count($listPemesanan->where('status', 'approved'));
 
-        $jumlahAlat = detail_order::pluck('jumlah_alat', 'id_alat');
+        // $jumlahAlat = detail_order::pluck('jumlah_alat', 'id_alat');
         // dd($jumlahAlat);
-        return view('auth.user.riwayatPemesanan', compact('listPemesanan', 'jumlahPending', 'jumlahApproved', 'jumlahAlat'), [
+        return view('auth.user.riwayatPemesanan', compact('listPemesanan', 'jumlahPending', 'jumlahApproved'), [
             'title' => 'Silab | Riwayat Pemesanan'
         ]);
     }

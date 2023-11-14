@@ -32,7 +32,7 @@
                             <div class="card">
                                 <div class="card-body checkout-tab">
 
-                                    <form action="" method="post">
+                                    <form action="{{ route('order-analisis') }}" method="post">
                                         @csrf
                                         <div class="step-arrow-nav mt-n3 mx-n3 mb-3">
 
@@ -52,8 +52,8 @@
                                             <div class="tab-pane fade show active" id="pills-bill-info" role="tabpanel"
                                                 aria-labelledby="pills-bill-info-tab">
                                                 <div>
-                                                    <h5 class="mb-1">jenis analisis</h5>
-                                                    <input type="hidden" name="lab" id="lab"
+                                                    <h5 class="mb-1">{{ $analis->jenis_pengujian }}</h5>
+                                                    <input type="hidden" name="analis" id="analis"
                                                         value="{{ $analis->jenis_analisis }}">
                                                     <input type="hidden" name="id_analisis" value="{{ $analis->id }}">
                                                     <p class="text-muted mb-4">Please fill all information below</p>
@@ -103,12 +103,27 @@
                                                     </div>
 
                                                     <div class="row">
-                                                        <div class="col-md-12">
+                                                        <div class="col-md-6">
                                                             <div class="mb-3">
                                                                 <label for="order" class="form-label">Order</label>
                                                                 <input type="date" name="masuk" id="masuk"
                                                                     class="form-control" value{{ old('masuk') }}
                                                                     {{-- {{ $lab && $lab->status === 'tidak tersedia' ? 'disabled' : '' }} --}} required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <div class="form-check card-radio">
+                                                                <label class="form-check-label" for="shippingMethod02">
+                                                                    <span
+                                                                        class="fs-21 float-end mt-2 text-wrap d-block fw-semibold">Rp:
+                                                                        {{ number_format($analis->harga, 0, ',', '.') }}
+                                                                        <input type="hidden" name="harga"
+                                                                            id="" value="{{ $analis->harga }}">
+                                                                    </span>
+                                                                    <span
+                                                                        class="text-muted fw-normal text-wrap d-block">Expired
+                                                                        In 1 Hours</span>
+                                                                </label>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -117,8 +132,8 @@
                                                     <button type="submit"
                                                         class="btn btn-primary btn-label right ms-auto nexttab"
                                                         data-nexttab="pills-bill-address-tab"><i
-                                                            class="ri-truck-line label-icon align-middle fs-16 ms-2"
-                                                            onclick="savePersonalInfo()"></i>Pesan Sekarang</button>
+                                                            class="ri-truck-line label-icon align-middle fs-16 ms-2"></i>Pesan
+                                                        Sekarang</button>
                                                 </div>
                                             </div>
                                             <!-- end tab pane -->

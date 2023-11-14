@@ -31,6 +31,6 @@ class Analisis extends Model
 
     public function order()
     {
-        return $this->belongsToMany(Order::class, 'detail_order_analisis', 'id_order', 'id');
+        return $this->hasOne(Order::class,  'analisis_id', 'id_order');
     }
 }

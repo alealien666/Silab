@@ -283,13 +283,23 @@
                                             <td class="ps-3"> <b> {{ $list->order }} </b></td>
                                         </tr>
                                         <tr>
-                                            <td>Nama Labs</td>
-                                            <td class="ps-3"> : </td>
-                                            <td class="ps-3">
-                                                @foreach ($list['labs'] as $key => $labs)
-                                                    <b> {{ $labs->nama_lab }} </b>
-                                                @endforeach
-                                            </td>
+                                            @if ($list->jenis_pesanan === 'Sewa Lab')
+                                                <td>Nama Labs</td>
+                                                <td class="ps-3"> : </td>
+                                                <td class="ps-3">
+                                                    @foreach ($list['labs'] as $key => $labs)
+                                                        <b> {{ $labs->nama_lab }} </b>
+                                                    @endforeach
+                                                </td>
+                                            @else
+                                                <td>Jenis Analisis</td>
+                                                <td class="ps-3"> : </td>
+                                                <td class="ps-3">
+                                                    @foreach ($list['analis'] as $key => $analis)
+                                                        <b> {{ $analis->jenis_pengujian }} </b>
+                                                    @endforeach
+                                                </td>
+                                            @endif
                                         </tr>
                                         <tr>
                                             <td>Nama Pemesan</td>
@@ -304,29 +314,31 @@
                                     </table>
                                 </div>
                                 <hr>
-                                <div class="col-md-12">
-                                    <div class="list-header">
-                                        <b>List Jenis Alat &nbsp;&nbsp;&nbsp; :</b>
+                                @if ($list->jenis_pesanan === 'Sewa Lab')
+                                    <div class="col-md-12">
+                                        <div class="list-header">
+                                            <b>List Jenis Alat &nbsp;&nbsp;&nbsp; :</b>
+                                        </div>
+                                        <ul class="list-content mx-0" id="listTotal">
+                                            <li class="list-unstyled" id="listItem">
+                                                @foreach ($list['alat'] as $key => $alat)
+                                                    <ul class="list-inline list1 bg-{{ $key % 2 == 0 ? '' : 'light' }}"
+                                                        style="margin-left: -30px;">
+                                                        <li class="list-inline-item item1 text-capitalize">
+                                                            {{ $alat->jenis_alat }}
+                                                        </li>
+                                                        <li class="list-inline-item item1 text-capitalize">
+                                                            {{ $alat->jumlah_alat }}
+                                                        </li>
+                                                        <li class="list-inline-item item1 text-capitalize">
+                                                            Rp. {{ number_format($alat->harga, 0, ',', '.') }}
+                                                        </li>
+                                                    </ul>
+                                                @endforeach
+                                            </li>
+                                        </ul>
                                     </div>
-                                    <ul class="list-content mx-0" id="listTotal">
-                                        <li class="list-unstyled" id="listItem">
-                                            @foreach ($list['alat'] as $key => $alat)
-                                                <ul class="list-inline list1 bg-{{ $key % 2 == 0 ? '' : 'light' }}"
-                                                    style="margin-left: -30px;">
-                                                    <li class="list-inline-item item1 text-capitalize">
-                                                        {{ $alat->jenis_alat }}
-                                                    </li>
-                                                    <li class="list-inline-item item1 text-capitalize">
-                                                        {{ $jumlahAlat }}
-                                                    </li>
-                                                    <li class="list-inline-item item1 text-capitalize">
-                                                        Rp. {{ number_format($alat->harga, 0, ',', '.') }}
-                                                    </li>
-                                                </ul>
-                                            @endforeach
-                                        </li>
-                                    </ul>
-                                </div>
+                                @endif
                             </div>
                             <div class="text-end pt-3">
                                 total pembayaran : &nbsp;&nbsp;&nbsp; <b>Rp.

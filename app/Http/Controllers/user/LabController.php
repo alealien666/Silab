@@ -32,15 +32,6 @@ class LabController extends Controller
             return view('auth.user.produk', compact('datas', 'categories'))->with('title', 'Silab | Sewa Lab');
         }
     }
-
-
-    public function show($slug)
-    {
-        $datas = Lab::where('slug', $slug)->first();
-        $categories = Category::all();
-        return view('auth.user.detail', compact('datas', 'categories'))->with('title', 'Silab | Detail');
-    }
-
     public function kategori($category)
     {
         $categories = Category::all();

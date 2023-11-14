@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Alat_Tambahan;
 use App\Models\Lab;
+use App\Models\Analisis;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
@@ -47,24 +48,24 @@ class OrderController extends Controller
                 $new_array[$key] = $value;
             }
         }
+        $expiredAt = now()->addHour();
 
         $order = new Order();
         $order->user_id = auth()->user()->id;
+        $order->id_lab = $request->input('id_lab');
         $order->jenis_pesanan = 'Sewa Lab';
         $order->nama_pemesan = $request->input('nama');
         $order->no_telp = $request->input('notelp');
         $order->order = $request->input('masuk');
         $order->total_biaya = 0;
         $order->status = 'pending';
+        $order->expired_at = $expiredAt;
         $order->save();
-
-        $selectedLab = $request->input('id_lab');
 
         foreach ($selectedAlat as $index => $selectedAlatId) {
             if (is_numeric($selectedAlatId)) {
                 $jumlahAlat = isset($new_array[$selectedAlatId]) ? $new_array[$selectedAlatId] : 0;
                 $order->alat()->attach($selectedAlatId, [
-                    'id_lab' => $selectedLab,
                     'jumlah_alat' => $jumlahAlat
                 ]);
                 $alat = Alat_Tambahan::find($selectedAlatId);
@@ -84,10 +85,6 @@ class OrderController extends Controller
             'jumlah_alat' => $jumlahAlatArray,
         ]);
 
-        $expiredAt = now()->addHour();
-        $order->expired_at = $expiredAt;
-        $order->save();
-
         return redirect()->back()->with('success', 'Lanjutkan untuk melakukan pembayaran.');
     }
 
@@ -95,7 +92,6 @@ class OrderController extends Controller
     {
         $selectedAlatIds = session('personal_info.selected_alat', []);
         $selectedAlat = Alat_Tambahan::whereIn('id', $selectedAlatIds)->get();
-        // dd($selectedAlat);
         $lab = Lab::where('slug', $slug)->firstOrFail();
         $categorylab = $lab->category;
         $alat = Alat_Tambahan::whereHas('category', function ($query) use ($categorylab) {
@@ -104,8 +100,7 @@ class OrderController extends Controller
 
         $alat->each(function ($alat) {
             $alat->harga = number_format($alat->harga, 0, ',', '.');
-        }); //0 untuk meng set desimal menjadi 0 di belakang harga, jika desimal ny 1 maka akan ada tambahan ,0 di belakang harga
-
+        });
         return view('auth.user.order', compact('lab', 'categorylab', 'alat', 'selectedAlat'))->with('title', 'Silab | Order');
     }
 
@@ -134,7 +129,33 @@ class OrderController extends Controller
         return redirect()->back()->with('success', 'Berhasil Mengunggah Bukti Pembayaran.. Silahkan tunggu admin meng approve pesanan kamu');
     }
 
+    public function showOrderAnalisis($slug)
+    {
+        $analis = Analisis::where('slug', $slug)->firstOrFail();
+        return view('auth.user.orderAnalisis', compact('analis'))->with('title', 'Silab | Order');
+    }
+
     public function orderAnalisis(Request $request)
     {
+        $request->validate([
+            "nama" => "required|max:255|string",
+            "notelp" => "required|numeric",
+            "masuk" => ["required", "date", "after_or_equal:" . Carbon::now()->toDateString()],
+        ]);
+        $expiredAt = now()->addHour();
+
+        $order = new Order();
+        $order->user_id = auth()->user()->id;
+        $order->analisis_id = $request->input('id_analisis');
+        $order->jenis_pesanan = 'Jasa Analisis';
+        $order->nama_pemesan = $request->input('nama');
+        $order->no_telp = $request->input('notelp');
+        $order->order = $request->input('masuk');
+        $order->total_biaya = $request->input('harga');
+        $order->status = 'pending';
+        $order->expired_at = $expiredAt;
+        $order->save();
+
+        return redirect('/riwayat-pemesanan')->with('success', 'Pesanan Berhasil Dibuat. Silahkan upload bukti pembayaran di sini');
     }
 }

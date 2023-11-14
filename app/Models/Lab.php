@@ -31,6 +31,6 @@ class Lab extends Model
 
     public function order()
     {
-        return $this->belongsToMany(Order::class, 'detail_orders', 'id_lab', 'id_order');
+        return $this->hasOne(Order::class,  'id_lab', 'id_order');
     }
 }
