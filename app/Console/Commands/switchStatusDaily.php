@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Models\detail_order;
+use App\Models\Order;
 use App\Models\Lab;
 
 class switchStatusDaily extends Command
@@ -27,11 +27,10 @@ class switchStatusDaily extends Command
      */
     public function handle()
     {
-        $usedLabIds = detail_order::join('orders', 'detail_orders.id_order', '=', 'orders.id')
-            ->join('labs', 'detail_orders.id_lab', '=', 'labs.id')
+        $usedLabIds = Order::join('labs', 'orders.id', '=', 'labs.id')
             ->where('orders.status', 'di gunakan')
             ->where('orders.order', '<', now())
-            ->pluck('detail_orders.id_lab')
+            ->pluck('orders.id_lab')
             ->toArray();
 
         Lab::whereIn('id', $usedLabIds)->update(['status' => 'tersedia']);

@@ -19,25 +19,6 @@ document.addEventListener("DOMContentLoaded", function () {
             incrementCount(index);
         });
     });
-    // console.log(stok); // Periksa nilai indeks dan stok di konsol
-
-    // plusButtons.forEach(function (button) {
-    //     button.addEventListener('click', function () {
-    //         const parentElement = button.closest('.jumlah');
-    //         const indeks = parseInt(parentElement.getAttribute('data-indeks'), 10);
-
-
-    //         if (!isNaN(indeks) && !isNaN(stok)) {
-    //             const countElement = parentElement.querySelector('.count');
-    //             let count = parseInt(countElement.textContent, 10);
-
-    //             if (count < stok) {
-    //                 incrementCount(indeks);
-    //             }
-    //         }
-    //     });
-    // });
-
     minusButtons.forEach(function (button, index) {
         button.addEventListener('click', function () {
             decrementCount(index);
@@ -95,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
-//disable
+//disable button plus minus
 const disableElements = document.querySelectorAll('.disable input, .disable button');
 
 disableElements.forEach(element => {
@@ -111,6 +92,20 @@ disableButtons.forEach(button => {
         this.style.cursor = 'not-allowed';
     });
 });
+
+// let disableButtonBeforeOrder = document.getElementById('button-disable')
+// disableButtonBeforeOrder.disabled = true
+
+// const activateButton = () => {
+//     disableButtonBeforeOrder.disabled = false
+// }
+
+// redirect pages
+const redirectPage = () => {
+    window.open('https://wa.me/6285854950450', '_blank')
+    window.location.href = '../riwayat-pemesanan'
+}
+
 
 
 

@@ -44,7 +44,8 @@
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item"><a href="/lab">Home</a></li>
+                                <li class="breadcrumb-item"><a href="/user">User</a></li>
                                 <li class="breadcrumb-item active">Riwayat Pemesanan</li>
                             </ol>
                         </div>
@@ -93,16 +94,17 @@
                                 @if ($list->status === 'pending')
                                     <div class="col-md-6">
                                         <div class="card border card-border-warning">
-                                            <div class="card-header d-flex">
-                                                <h6 class="card-title mb-0">{{ $list->jenis_pesanan }} <span
-                                                        class="badge bg-warning align-middle fs-10">{{ $list->status }}</span>
+                                            <div class="card-header bg-warning d-flex">
+                                                <h6 class="card-title text-light mb-0">{{ $list->jenis_pesanan }} <span
+                                                        class="badge bg-light text-dark align-middle fs-10">{{ $list->status }}</span>
                                                 </h6>
                                                 @if ($list->bukti_pembayaran === null)
-                                                    <p class="pe-3 ms-auto" id="deadline_{{ $list->id_pemesanan }}"></p><br>
+                                                    <p class="pe-3 ms-auto text-light"
+                                                        id="deadline_{{ $list->id_pemesanan }}"></p><br>
                                                 @else
                                                     <i
                                                         class="ri-checkbox-circle-fill fs-15 align-middle ms-auto text-success"></i>
-                                                    <p class="text-success pe-3">Paid</p>
+                                                    <p class="text-light pe-3">Paid</p>
                                                 @endif
                                             </div>
                                             <div class="card-body">
@@ -165,9 +167,10 @@
                                 @if ($list->status === 'approved')
                                     <div class="col-md-6">
                                         <div class="card border card-border-success">
-                                            <div class="card-header">
-                                                <h6 class="card-title mb-0">{{ $list->jenis_pesanan }} <span
-                                                        class="badge bg-success align-middle fs-10">{{ $list->status }}</span>
+                                            <div class="card-header bg-success">
+                                                <h6 class="card-title text-light mb-0">
+                                                    {{ $list->jenis_pesanan }} <span
+                                                        class="badge align-middle fs-10">{{ $list->status }}</span>
                                                 </h6>
                                             </div>
                                             <div class="card-body">
@@ -339,10 +342,10 @@
                                         </ul>
                                     </div>
                                 @endif
-                            </div>
-                            <div class="text-end pt-3">
-                                total pembayaran : &nbsp;&nbsp;&nbsp; <b>Rp.
-                                    {{ number_format($list->total_biaya, 0, ',', '.') }}</b>
+                                <div class="text-end pt-3">
+                                    total pembayaran : &nbsp;&nbsp;&nbsp; <b>Rp.
+                                        {{ number_format($list->total_biaya, 0, ',', '.') }}</b>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -354,11 +357,11 @@
                                 @csrf
                                 <input type="file" name="bukti" class="form-control" style="width: 300px">
                                 <input type="hidden" name="id" value="{{ $list->id_pemesanan }}">
-                                <button type="submit" class="btn btn-success">unggah bukti Pembayaran</button>
+                                <button type="submit" name="submit" class="btn btn-success">unggah bukti
+                                    Pembayaran</button>
                             </form>
                         </div>
                     @endif
-
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div>

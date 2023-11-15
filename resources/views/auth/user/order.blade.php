@@ -126,7 +126,7 @@
                                                     class="btn btn-primary btn-label right ms-auto nexttab"
                                                     data-nexttab="pills-bill-address-tab"><i
                                                         class="ri-truck-line label-icon align-middle fs-16 ms-2"
-                                                        onclick="savePersonalInfo()"></i>Pesan Sekarang</button>
+                                                        onclick="activateButton()"></i>Pesan Sekarang</button>
                                             </div>
                                         </div>
                                         <!-- end tab pane -->
@@ -215,11 +215,11 @@
                                             </div>
 
                                             <div class="d-flex align-items-start gap-3 mt-4">
-                                                <a href="/riwayat-pemesanan"
+                                                <button onclick="redirectPage()" id="button-disable"
                                                     class="btn btn-primary btn-label right ms-auto nexttab"
                                                     data-nexttab="pills-payment-tab"><i
                                                         class="ri-bank-card-line label-icon align-middle fs-16 ms-2"></i>Continue
-                                                    to Payment</a>
+                                                    to Payment</button>
                                             </div>
                                         </div>
                                         <!-- end tab pane -->

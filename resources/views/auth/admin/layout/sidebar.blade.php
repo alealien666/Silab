@@ -78,6 +78,12 @@
                     </a>
                 </li>
 
+                <li class="nav-item">
+                    <a class="nav-link {{ Request::is('user') ? 'active' : '' }}" href="">
+                        <i class="ri-user-3-line"></i> <span data-key="t-forms">User</span>
+                    </a>
+                </li>
+
                 {{-- <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarForms" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarForms">

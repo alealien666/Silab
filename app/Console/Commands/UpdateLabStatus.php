@@ -28,13 +28,12 @@ class UpdateLabStatus extends Command
      */
     public function handle()
     {
-        // $usedLabIds = detail_order::join('orders', 'detail_orders.id_order', '=', 'orders.id')
-        //     ->join('labs', 'detail_orders.id_lab', '=', 'labs.id')
-        //     ->where('orders.status', 'approved')
-        //     ->where('orders.order', '>', now()->format('Y-m-d'))
-        //     ->pluck('detail_orders.id_lab')
-        //     ->toArray();
+        $usedLabIds = Order::join('labs', 'orders.id', '=', 'labs.id')
+            ->where('orders.status', 'approved')
+            ->where('orders.order', '>', now()->format('Y-m-d'))
+            ->pluck('orders.id_lab')
+            ->toArray();
 
-        // Lab::whereIn('id', $usedLabIds)->update(['status' => 'di gunakan']);
+        Lab::whereIn('id', $usedLabIds)->update(['status' => 'di gunakan']);
     }
 }

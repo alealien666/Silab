@@ -10,6 +10,7 @@ use App\Models\Lab;
 use App\Models\Analisis;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\File;
 
 
 class OrderController extends Controller
@@ -97,10 +98,11 @@ class OrderController extends Controller
         $alat = Alat_Tambahan::whereHas('category', function ($query) use ($categorylab) {
             $query->where('id', $categorylab->id);
         })->get();
-
         $alat->each(function ($alat) {
             $alat->harga = number_format($alat->harga, 0, ',', '.');
         });
+
+
         return view('auth.user.order', compact('lab', 'categorylab', 'alat', 'selectedAlat'))->with('title', 'Silab | Order');
     }
 
@@ -112,19 +114,19 @@ class OrderController extends Controller
 
         $upload = Order::findOrFail($id);
 
-        $namaBerkas = $request->file('bukti')->store('img/bukti-pembayaran', 'public');
-        $upload->bukti_pembayaran = $namaBerkas;
-        $upload->update();
-        //  elseif ($request->has('update')) {
-        //     if ($request->status === 'approved' && $request->file('fileInput')) {
-        //         File::delete("img/bukti-pembayaran/" . basename($verifikasi->bukti_pembayaran));
-        //         $namaBerkas = $request->file('fileInput')->store('img/bukti-pembayaran', 'public');
-        //         $verifikasi->status = $request->status;
-        //         $verifikasi->bukti_pembayaran = $namaBerkas;
+        if ($request->has('submit')) {
+            $namaBerkas = $request->file('bukti')->store('img/bukti-pembayaran', 'public');
+            $upload->bukti_pembayaran = $namaBerkas;
+            $upload->update();
+        } elseif ($request->has('update')) {
+            if ($request->status === 'approved' && $request->file('fileInput')) {
+                File::delete("img/bukti-pembayaran/" . basename($upload->bukti_pembayaran));
+                $namaBerkas = $request->file('fileInput')->store('img/bukti-pembayaran', 'public');
+                $upload->bukti_pembayaran = $namaBerkas;
 
-        //         $verifikasi->update();
-        //     }
-        // }
+                $upload->update();
+            }
+        }
 
         return redirect()->back()->with('success', 'Berhasil Mengunggah Bukti Pembayaran.. Silahkan tunggu admin meng approve pesanan kamu');
     }

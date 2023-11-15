@@ -17,7 +17,7 @@
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
                                         <li class="breadcrumb-item"><a href="/silab">Home</a></li>
-                                        <li class="breadcrumb-item"><a href="/lab">Sewa Lab</a></li>
+                                        <li class="breadcrumb-item"><a href="/analisis">Jasa Analisis</a></li>
                                         <li class="breadcrumb-item active">Order</li>
                                     </ol>
                                 </div>

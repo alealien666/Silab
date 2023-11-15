@@ -27,7 +27,8 @@
     <!-- DataTables CSS -->
     <link rel="stylesheet" type="text/css" href="{{ asset('vendor/DataTables/css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('vendor/DataTables/css/dataTables.bulma.min.css') }}">
-
+    {{-- icon bootstrap --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
     {{-- jquery --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>

@@ -274,50 +274,60 @@
                                                 Nama Pemesan &nbsp; : &nbsp;&nbsp;&nbsp;
                                                 <b> {{ $list->nama_pemesan }} </b>
                                                 <br>
-                                                Nama Lab &nbsp;&nbsp;&nbsp;: &nbsp;&nbsp;&nbsp;
-                                                @foreach ($list['labs'] as $key => $labs)
-                                                    <b> {{ $labs->nama_lab }} </b>
-                                                @endforeach
+                                                @if ($list->jenis_pesanan === 'Sewa Lab')
+                                                    Nama Lab &nbsp;&nbsp;&nbsp;: &nbsp;&nbsp;&nbsp;
+                                                    @foreach ($list['labs'] as $key => $labs)
+                                                        <b> {{ $labs->nama_lab }} </b>
+                                                    @endforeach
+                                                @else
+                                                    Jenis Pengujian &nbsp;&nbsp;&nbsp;: &nbsp;&nbsp;&nbsp;
+                                                    @foreach ($list['analis'] as $key => $analis)
+                                                        <b> {{ $analis->jenis_pengujian }} </b>
+                                                    @endforeach
+                                                @endif
                                             </p>
                                             <input type="hidden" name="status" value="approved">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="list-header">
-                                                        <b>List Jenis Alat &nbsp;&nbsp;&nbsp; :</b>
+                                            @if ($list->jenis_pesanan === 'Sewa Lab')
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="list-header">
+                                                            <b>List Jenis Alat &nbsp;&nbsp;&nbsp; :</b>
+                                                        </div>
+                                                        <hr>
+                                                        <ul class="list-content mx-0" id="listTotal">
+                                                            <li class="list-unstyled" id="listItem">
+                                                                @foreach ($list['alat'] as $key => $alat)
+                                                                    <ul class="list-inline list1 bg-{{ $key % 2 == 0 ? '' : 'light' }}"
+                                                                        style="margin-left: -30px;">
+                                                                        <li class="list-inline-item item1 text-capitalize">
+                                                                            {{ $alat->jenis_alat }}
+                                                                        </li>
+                                                                        <li class="list-inline-item item1 text-capitalize">
+                                                                            {{ $alat->harga }}
+                                                                        </li>
+                                                                    </ul>
+                                                                @endforeach
+                                                            </li>
+                                                        </ul>
                                                     </div>
-                                                    <hr>
-                                                    <ul class="list-content mx-0" id="listTotal">
-                                                        <li class="list-unstyled" id="listItem">
-                                                            @foreach ($list['alat'] as $key => $alat)
-                                                                <ul class="list-inline list1 bg-{{ $key % 2 == 0 ? '' : 'light' }}"
-                                                                    style="margin-left: -30px;">
-                                                                    <li class="list-inline-item item1 text-capitalize">
-                                                                        {{ $alat->jenis_alat }}
-                                                                    </li>
-                                                                    <li class="list-inline-item item1 text-capitalize">
-                                                                        {{ $alat->harga }}
-                                                                    </li>
-                                                                </ul>
-                                                            @endforeach
-                                                        </li>
-                                                    </ul>
                                                 </div>
-                                            </div>
+                                            @endif
                                             <div class="text-end">
                                                 total pembayaran : &nbsp;&nbsp;&nbsp;{{ $list->total_biaya }}
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="text-end">
+                                        @if ($list->status === 'pending')
+                                            <button type="submit" name="submit"
+                                                class="btn btn-primary">Verifikasi</button>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                            @if ($list->status === 'pending')
-                                <button type="submit" name="submit" class="btn btn-primary ">Verifikasi</button>
-                            @else
-                                <button type="submit" name="update" class="btn btn-primary">Update</button>
-                            @endif
                         </div>
                     </form>
                 </div>

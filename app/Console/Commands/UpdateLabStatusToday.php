@@ -29,11 +29,10 @@ class UpdateLabStatusToday extends Command
     public function handle()
     {
         // Ambil semua id lab yang digunakan dari tabel pivot
-        $usedLabIds = detail_order::join('orders', 'detail_orders.id_order', '=', 'orders.id')
-            ->join('labs', 'detail_orders.id_lab', '=', 'labs.id')
+        $usedLabIds = Order::join('labs', 'orders.id', '=', 'labs.id')
             ->where('orders.status', 'approved')
             ->where('orders.order', '=', now()->format('Y-m-d'))
-            ->pluck('detail_orders.id_lab')
+            ->pluck('orders.id_lab')
             ->toArray();
 
         Lab::whereIn('id', $usedLabIds)->update(['status' => 'di gunakan']);
