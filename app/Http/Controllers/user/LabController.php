@@ -7,21 +7,50 @@ use App\Models\Lab;
 use App\Models\Category;
 use App\Models\Order;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 
 class LabController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    // public function index(Request $request)
+    // {
+    //     $search = $request->cari;
+    //     $categories = Category::all();
+
+    //     if ($search === null) {
+    //         $datas = Lab::get()->shuffle();
+    //     } else {
+    //         $datas = Lab::where('nama_lab', 'like', '%' . $search . '%')->get();
+    //     }
+
+    //     if ($datas->isEmpty()) {
+    //         return view('auth.user.produk', ['title' => 'Silab | Sewa Lab'], compact('datas', 'categories'))
+    //             ->with('message', 'Tidak Ada Data Yang Sesuai Dengan Pencarian Anda');
+    //     } else {
+    //         return view('auth.user.produk', compact('datas', 'categories'))->with('title', 'Silab | Sewa Lab');
+    //     }
+    // }
+
     public function index(Request $request)
     {
         $search = $request->cari;
         $categories = Category::all();
 
-        if ($search === null) {
-            $datas = Lab::get()->shuffle();
+        // Menangani pencarian berdasarkan tanggal
+        $tanggal = $request->tanggal;
+        if ($tanggal) {
+            $datas = Lab::whereDoesntHave('orders', function ($query) use ($tanggal) {
+                $query->where('status', 'approved')
+                    ->whereDate('tanggal_order', '=', $tanggal);
+            })->get();
         } else {
+            $datas = Lab::get()->shuffle();
+        }
+
+        if ($search === null && !$tanggal) {
+            $datas = Lab::get()->shuffle();
+        } elseif ($search !== null && !$tanggal) {
             $datas = Lab::where('nama_lab', 'like', '%' . $search . '%')->get();
         }
 
@@ -32,6 +61,7 @@ class LabController extends Controller
             return view('auth.user.produk', compact('datas', 'categories'))->with('title', 'Silab | Sewa Lab');
         }
     }
+
     public function kategori($category)
     {
         $categories = Category::all();
@@ -47,12 +77,25 @@ class LabController extends Controller
     }
     public function tanggalCari(Request $request)
     {
-        $tanggalCari = $request->input('tanggal');
-        $tanggalCari = Carbon::parse($tanggalCari, 'Asia/Jakarta')->toDateString();
+        $request->validate([
+            'tanggal' => 'required|date'
+        ]);
 
-        $status = Order::where('order', $tanggalCari)->value('status === tersedia');
-        $response = view('auth.user.produk', ['tanggal' => $tanggalCari, 'status' => $status])->render();
+        $searchDate = $request->input('tanggal');
+        $categories = Category::all();
 
-        return response()->json(['partialView' => $response]);
+        $datas = Lab::all();
+
+        $usedLabsId = Order::join('labs', 'orders.id', '=', 'labs.id')
+            ->whereDate('orders.order', '=', $searchDate)
+            ->pluck('orders.id_lab')
+            ->toArray();
+
+        $datas = $datas->filter(function ($lab) use ($usedLabsId) {
+            return !in_array($lab->id, $usedLabsId);
+        });
+
+        return view('auth.user.produk', compact('categories', 'datas'))
+            ->with(['title' => 'Silab | Sewa Lab', 'tanggal' => $searchDate]);
     }
 }

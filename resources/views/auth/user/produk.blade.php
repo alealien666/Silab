@@ -5,7 +5,7 @@
         @csrf
         <div class="position-relative d-flex">
             <input type="search" id="cari" method="GET" name="cari" class="form-control" placeholder="Search..."
-                autocomplete="off" id="search-options" value="{{ old('cari') }}">
+                autocomplete="off" id="search-options">
             <button type="submit" class="btn btn-primary ms-3 ">Cari</button>
             <span class="mdi mdi-magnify search-widget-icon"></span>
             <span class="mdi mdi-close-circle search-widget-icon search-widget-icon-close d-none"
@@ -61,10 +61,15 @@
                         <h4 class="fw-semibold fs-23">Sewa Lab & Jasa Analisis</h4>
                         <p class="text-muted mb-4 fs-15">Simple pricing. No hidden fees. Advanced features for
                             you business.</p>
-                        <form action="{{ route('searchTanggal') }}" method="get" timezone="Asia/Jakarta">
+                        <form action="{{ route('searchTanggal') }}" method="get">
                             @csrf
-                            <input type="date" class="form-control mb-4" name="tanggal" id="tanggal">
+                            <div class="position-relative d-flex mb-4">
+                                <input type="date" class="form-control me-3" name="tanggal" id="tanggal"
+                                    value="{{ $tanggal ?? old('tanggal') }}" min="{{ now()->format('Y-m-d') }}">
+                                <button type="submit" class="btn btn-primary ">Submit</button>
+                            </div>
                         </form>
+
                         <div class="d-inline-flex">
                             <ul class="nav nav-pills arrow-navtabs plan-nav rounded mb-3 p-1" id="pills-tab" role="tablist">
                                 <li class="nav-item" role="presentation">
@@ -91,8 +96,8 @@
                         <div class="col-xxl-3 col-lg-6">
                             <div class="card pricing-box">
                                 <div class="card-body bg-light m-2 p-4">
-                                    <img class="mb-4" src="img/jepun.jpg" alt="Jepun" width="100%" height="100%"
-                                        style="border-radius: 10px">
+                                    <img class="mb-4" src="{{ asset('img/jepun.jpg') }}" alt="Jepun" width="100%"
+                                        height="100%" style="border-radius: 10px">
                                     <div class="d-flex align-items-center mb-3">
                                         <div class="flex-grow-1">
                                             <h5 class="mb-0 ">Nama Lab: {{ $data->nama_lab }}</h5>

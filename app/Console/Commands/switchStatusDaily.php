@@ -28,7 +28,7 @@ class switchStatusDaily extends Command
     public function handle()
     {
         $usedLabIds = Order::join('labs', 'orders.id', '=', 'labs.id')
-            ->where('orders.status', 'di gunakan')
+            ->where('labs.status', 'di gunakan')
             ->where('orders.order', '<', now())
             ->pluck('orders.id_lab')
             ->toArray();

@@ -10,7 +10,6 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('app:delete-expired')->everyfiveMinutes();
-        $schedule->command('app:update-lab-status')->dailyAt('05:0.0');
         $schedule->command('app:switch-status-daily')->dailyAt('05:0.0');
         $schedule->command('app:update-lab-status-today')->everyFiveMinutes();
     }
