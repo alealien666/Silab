@@ -102,8 +102,13 @@ class OrderController extends Controller
             $alat->harga = number_format($alat->harga, 0, ',', '.');
         });
 
+        $usedDate = Order::where('status', 'approved')
+            ->where('id_lab', $lab->id)
+            ->whereDate('order', '>=', today()->format('Y-m-d'))
+            ->pluck('order')
+            ->toArray();
 
-        return view('auth.user.order', compact('lab', 'categorylab', 'alat', 'selectedAlat'))->with('title', 'Silab | Order');
+        return view('auth.user.order', compact('lab', 'categorylab', 'alat', 'selectedAlat', 'usedDate'))->with('title', 'Silab | Order');
     }
 
     public function uploadPembayaran(Request $request, $id)

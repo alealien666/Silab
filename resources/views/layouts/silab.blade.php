@@ -30,6 +30,9 @@
     <script src="{{ asset('vendor/sweetalert2/sweetalert2.min.js') }}"></script>
     <script src="{{ asset('assets1/script.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('vendor/sweetalert2/sweetalert2.min.css') }}">
+    {{-- flatpickr --}}
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
 </head>
 
@@ -229,6 +232,7 @@
 
 
     <!-- JAVASCRIPT -->
+    <script src="{{ asset('js/main.js') }}"></script>
     <script src="{{ asset('assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/libs/simplebar/simplebar.min.js') }}"></script>
     <script src="{{ asset('assets/libs/node-waves/waves.min.js') }}"></script>
@@ -238,21 +242,6 @@
 
     <script src="{{ asset('assets/js/pages/pricing.init.js') }}"></script>
 
-    <!-- App js -->
-    {{-- <script src="{{ asset('assets/js/app.js') }}"></script>
-    <script>
-        document.getElementById('cari').addEventListener('click', function(e) {
-            e.preventDefault();
-
-            // Logika pemilihan rute berdasarkan kondisi tertentu
-            var condition = true; // Ganti ini dengan logika yang sesuai
-            if (condition) {
-                // window.location.href = "{{ route('analisis') }}"; // Rute analisis
-            } else {
-                window.location.href = "{{ route('index') }}"; // Rute lab
-            }
-        });
-    </script> --}}
 </body>
 
 </html>

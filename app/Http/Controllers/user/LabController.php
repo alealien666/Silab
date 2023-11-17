@@ -10,39 +10,16 @@ use Illuminate\Http\Request;
 
 class LabController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    // public function index(Request $request)
-    // {
-    //     $search = $request->cari;
-    //     $categories = Category::all();
-
-    //     if ($search === null) {
-    //         $datas = Lab::get()->shuffle();
-    //     } else {
-    //         $datas = Lab::where('nama_lab', 'like', '%' . $search . '%')->get();
-    //     }
-
-    //     if ($datas->isEmpty()) {
-    //         return view('auth.user.produk', ['title' => 'Silab | Sewa Lab'], compact('datas', 'categories'))
-    //             ->with('message', 'Tidak Ada Data Yang Sesuai Dengan Pencarian Anda');
-    //     } else {
-    //         return view('auth.user.produk', compact('datas', 'categories'))->with('title', 'Silab | Sewa Lab');
-    //     }
-    // }
-
     public function index(Request $request)
     {
         $search = $request->cari;
         $categories = Category::all();
 
-        // Menangani pencarian berdasarkan tanggal
         $tanggal = $request->tanggal;
         if ($tanggal) {
             $datas = Lab::whereDoesntHave('orders', function ($query) use ($tanggal) {
                 $query->where('status', 'approved')
-                    ->whereDate('tanggal_order', '=', $tanggal);
+                    ->whereDate('tanggal_order', '>=', $tanggal);
             })->get();
         } else {
             $datas = Lab::get()->shuffle();

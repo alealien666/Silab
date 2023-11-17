@@ -113,10 +113,12 @@
                                                     <div class="col-md-12">
                                                         <div class="mb-3">
                                                             <label for="order" class="form-label">Order</label>
+                                                            @php
+                                                                $today = now()->format('Y-m-d');
+                                                            @endphp
                                                             <input type="date" name="masuk" id="masuk"
-                                                                class="form-control" value{{ old('masuk') }}
-                                                                {{ $lab && $lab->status === 'tidak tersedia' ? 'disabled' : '' }}
-                                                                required>
+                                                                class="form-control" min="{{ $today }}"
+                                                                @if (in_array(\Carbon\Carbon::parse($today)->format('Y-m-d'), $usedDate))  @endif required>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -187,6 +189,7 @@
                                                                     </span>
                                                                     <hr>
                                                                 @endforeach
+
                                                             </label>
                                                         </div>
 
@@ -383,7 +386,23 @@
 
 </div>
 <!-- END layout-wrapper -->
-
-<!-- removeItemModal -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="{{ asset('js/main.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Tanggal-tanggal yang sudah dipesan (contoh data dari $usedDate)
+        const tanggalDipesan = @json($usedDate);
+
+        flatpickr("#masuk", {
+            minDate: "{{ $today }}", // Atur tanggal minimal
+            disable: tanggalDipesan, // Menonaktifkan tanggal-tanggal yang sudah dipesan
+            onChange: function(selectedDates, dateStr, instance) {
+                // Memeriksa apakah tanggal yang dipilih sudah dipesan
+                if (tanggalDipesan.includes(dateStr)) {
+                    alert("Tanggal ini sudah dipesan. Silakan pilih tanggal lain.");
+                    instance.clear(); // Membersihkan nilai input
+                }
+            }
+        });
+    });
+</script>
