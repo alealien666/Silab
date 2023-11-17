@@ -1,38 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
+public function index(Request $request)
+{
+$search = $request->cari;
+$categories = Category::all();
+$searchDate = $request->filled('tanggal') ? $request->input('tanggal') : Carbon::now()->toDateString();
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Disable Ordered Dates</title>
-    <!-- Memuat Flatpickr dari CDN -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-</head>
+if (!$search) {
+$datas = Lab::all();
+$usedLabsId = Order::join('labs', 'orders.id', '=', 'labs.id')
+->whereDate('orders.order', '=', $searchDate)
+->pluck('orders.id_lab')
+->toArray();
 
-<body>
+$datas = $datas->filter(function ($lab) use ($usedLabsId) {
+return !in_array($lab->id, $usedLabsId);
+});
+} elseif ($search != null) {
+$datas = Lab::where('nama_lab', 'like', '%' . $search . '%')->get();
+}
 
-    <label for="tanggal">Pilih Tanggal:</label>
-    <input type="text" id="tanggal" name="tanggal">
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Tanggal-tanggal yang sudah dipesan
-            const tanggalDipesan = ["2023-11-20", "2023-11-25", "2023-11-30"];
-
-            flatpickr("#tanggal", {
-                disable: tanggalDipesan,
-                onChange: function (selectedDates, dateStr, instance) {
-                    // Memeriksa apakah tanggal yang dipilih sudah dipesan
-                    if (tanggalDipesan.includes(dateStr)) {
-                        alert("Tanggal ini sudah dipesan. Silakan pilih tanggal lain.");
-                        instance.clear(); // Membersihkan nilai input
-                    }
-                }
-            });
-        });
-    </script>
-
-</body>
-
-</html>
+if ($datas->isEmpty()) {
+return view('auth.user.produk', ['title' => 'Silab | Sewa Lab'], compact('datas', 'categories'))
+->with('message', 'Tidak Ada Data Yang Sesuai Dengan Pencarian Anda');
+} else {
+return view('auth.user.produk', compact('datas', 'categories', 'searchDate'))->with('title', 'Silab | Sewa Lab');
+}
+}

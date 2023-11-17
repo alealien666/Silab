@@ -7,6 +7,7 @@ use App\Models\Lab;
 use App\Models\Category;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class LabController extends Controller
 {
@@ -14,20 +15,19 @@ class LabController extends Controller
     {
         $search = $request->cari;
         $categories = Category::all();
+        $searchDate = $request->filled('tanggal') ? $request->input('tanggal') : Carbon::now()->toDateString();
 
-        $tanggal = $request->tanggal;
-        if ($tanggal) {
-            $datas = Lab::whereDoesntHave('orders', function ($query) use ($tanggal) {
-                $query->where('status', 'approved')
-                    ->whereDate('tanggal_order', '>=', $tanggal);
-            })->get();
-        } else {
-            $datas = Lab::get()->shuffle();
-        }
+        if (!$search) {
+            $datas = Lab::all();
+            $usedLabsId = Order::join('labs', 'orders.id', '=', 'labs.id')
+                ->whereDate('orders.order', '=', $searchDate)
+                ->pluck('orders.id_lab')
+                ->toArray();
 
-        if ($search === null && !$tanggal) {
-            $datas = Lab::get()->shuffle();
-        } elseif ($search !== null && !$tanggal) {
+            $datas = $datas->filter(function ($lab) use ($usedLabsId) {
+                return !in_array($lab->id, $usedLabsId);
+            });
+        } elseif ($search != null) {
             $datas = Lab::where('nama_lab', 'like', '%' . $search . '%')->get();
         }
 
@@ -35,7 +35,7 @@ class LabController extends Controller
             return view('auth.user.produk', ['title' => 'Silab | Sewa Lab'], compact('datas', 'categories'))
                 ->with('message', 'Tidak Ada Data Yang Sesuai Dengan Pencarian Anda');
         } else {
-            return view('auth.user.produk', compact('datas', 'categories'))->with('title', 'Silab | Sewa Lab');
+            return view('auth.user.produk', compact('datas', 'categories', 'searchDate'))->with('title', 'Silab | Sewa Lab');
         }
     }
 
@@ -63,16 +63,16 @@ class LabController extends Controller
 
         $datas = Lab::all();
 
-        $usedLabsId = Order::join('labs', 'orders.id', '=', 'labs.id')
+        $usedLabsId = Order::join('labs', 'orders.id_lab', '=', 'labs.id')
             ->whereDate('orders.order', '=', $searchDate)
-            ->pluck('orders.id_lab')
+            ->pluck('labs.id')
             ->toArray();
 
         $datas = $datas->filter(function ($lab) use ($usedLabsId) {
             return !in_array($lab->id, $usedLabsId);
         });
 
-        return view('auth.user.produk', compact('categories', 'datas'))
-            ->with(['title' => 'Silab | Sewa Lab', 'tanggal' => $searchDate]);
+        return view('auth.user.produk', compact('categories', 'datas', 'searchDate'))
+            ->with('title', 'Silab | Sewa Lab');
     }
 }

@@ -65,7 +65,7 @@
                             @csrf
                             <div class="position-relative d-flex mb-4">
                                 <input type="date" class="form-control me-3" name="tanggal" id="tanggal"
-                                    value="{{ $tanggal ?? old('tanggal') }}" min="{{ now()->format('Y-m-d') }}">
+                                    value="{{ old('tanggal', $searchDate) }}" min="{{ now()->format('Y-m-d') }}">
                                 <button type="submit" class="btn btn-primary ">Submit</button>
                             </div>
                         </form>
@@ -93,7 +93,7 @@
                         <h3 class="text-center"><i class="bi bi-search"></i> {{ $message }}</h3>
                     @endif
                     @foreach ($datas as $data)
-                        <div class="col-xxl-3 col-lg-6">
+                        <div class="col-xxl-3 col-lg-4">
                             <div class="card pricing-box">
                                 <div class="card-body bg-light m-2 p-4">
                                     <img class="mb-4" src="{{ asset('img/jepun.jpg') }}" alt="Jepun" width="100%"
