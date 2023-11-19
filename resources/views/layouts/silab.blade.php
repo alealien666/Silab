@@ -91,18 +91,7 @@
                             </button>
                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
                                 aria-labelledby="page-header-search-dropdown">
-                                <form class="p-3">
-                                    @csrf
-                                    <div class="form-group m-0">
-                                        <div class="input-group">
-                                            <input type="search" action="{{ route('index') }}" name="cari"
-                                                class="form-control" placeholder="Search ..."
-                                                aria-label="Recipient's username" value="{{ old('cari') }}">
-                                            <button class="btn btn-primary" type="submit"><i
-                                                    class="mdi mdi-magnify"></i></button>
-                                        </div>
-                                    </div>
-                                </form>
+                                @yield('responsive-search')
                             </div>
                         </div>
 
@@ -134,7 +123,7 @@
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <span class="d-flex align-items-center">
                                         <img class="rounded-circle header-profile-user"
-                                            src="{{ auth()->user()->avatar == null ? url(asset('img/no-pic.png')) : (filter_var(auth()->user()->avatar, FILTER_VALIDATE_URL) ? auth()->user()->avatar : url(asset('img/' . auth()->user()->avatar))) }}"
+                                            src="{{ auth()->user()->avatar == null ? url(asset('img/avatar/no-pic.png')) : (filter_var(auth()->user()->avatar, FILTER_VALIDATE_URL) ? auth()->user()->avatar : url(asset(auth()->user()->avatar))) }}"
                                             alt="pp">
                                         <span class="text-start ms-xl-2">
                                             <span
@@ -223,14 +212,6 @@
     <!-- END layout-wrapper -->
 
 
-
-    <!--start back-to-top-->
-    <button onclick="topFunction()" class="btn btn-danger btn-icon" id="back-to-top">
-        <i class="ri-arrow-up-line"></i>
-    </button>
-    <!--end back-to-top-->
-
-
     <!-- JAVASCRIPT -->
     <script src="{{ asset('js/main.js') }}"></script>
     <script src="{{ asset('assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
@@ -241,6 +222,7 @@
     <script src="{{ asset('assets/js/plugins.js') }}"></script>
 
     <script src="{{ asset('assets/js/pages/pricing.init.js') }}"></script>
+    <script src="{{ asset('assets/js/app.js') }}"></script>
 
 </body>
 

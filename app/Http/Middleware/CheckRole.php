@@ -14,12 +14,14 @@ class CheckRole
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
 
-    public function handle($request, Closure $next, $role)
+    public function handle($request, Closure $next, ...$roles)
     {
-        if ($request->user() && $request->user()->role == $role) {
+        // titik 3 di parameter itu variadic parameter yang selalu berbentuk array
+        $user = $request->user();
+        if ($user && in_array($user->role, $roles)) {
             return $next($request);
         }
 
-        return abort(403); // Atau arahkan ke halaman lain sesuai kebutuhan
+        return abort(403);
     }
 }

@@ -48,11 +48,14 @@
                                             <td class="text-center">{{ $list->jenis_pengujian }}</td>
                                             <td class="text-center">{{ $list->jenis_analisa }}</td>
                                             <td class="text-center">{{ $list->harga }}</td>
-                                            <td class="text-center">
-                                                <button class="btn btn-md btn-success edit-item-btn" data-bs-toggle="modal"
-                                                    data-bs-target="#editModal{{ $list->id_analises }}">Edit</button>
+                                            <td class="text-center d-flex">
+                                                <button class="btn btn-md btn-success edit-item-btn me-2"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#editModal{{ $list->id_analises }}"><i
+                                                        class="bi bi-pencil-fill"></i></button>
                                                 <button class="btn btn-md btn-danger remove-item-btn" data-bs-toggle="modal"
-                                                    data-bs-target="#deleteModal{{ $list->id_analises }}">Remove</button>
+                                                    data-bs-target="#deleteModal{{ $list->id_analises }}"><i
+                                                        class="bi bi-trash-fill"></i></button>
                                             </td>
                                         </tr>
                                     @endforeach

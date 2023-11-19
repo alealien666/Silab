@@ -37,7 +37,6 @@
                                         <th class="text-center" data-sort="nama_labs">Nama Labs</th>
                                         <th class="text-center" data-sort="foto">foto</th>
                                         <th class="text-center" data-sort="kapasitas">Kapasitas</th>
-                                        <th class="text-center" data-sort="status">status</th>
                                         <th class="text-center" data-sort="deskripsi">deskripsi</th>
                                         <th class="text-center" data-sort="action">action</th>
                                     </tr>
@@ -55,7 +54,6 @@
                                                     alt="">
                                             </td>
                                             <td class="text-center">{{ $list->kapasitas }}</td>
-                                            <td class="text-center">{{ $list->status }}</td>
                                             <td class="text-center">{{ $list->deskripsi_lab }}</td>
                                             <td class="text-center">
                                                 <button class="btn btn-md btn-success edit-item-btn" data-bs-toggle="modal"
@@ -92,7 +90,7 @@
                                 autocomplete="off" />
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <div class="mb-3">
                                     <label for="kategori">Pilih Kategori</label>
                                     <select class="form-select" id="kategori" name="kategori">
@@ -103,16 +101,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="status">Pilih Status</label>
-                                    <select class="form-select" id="status_lab" name="status_lab">
-                                        <option selected>Pilih Status</option>
-                                        <option value="tersedia">tersedia</option>
-                                        <option value="di gunakan">di gunakan</option>
-                                    </select>
-                                </div>
-                            </div>
+
                         </div>
                         <div class="mb-3">
                             <label for="kapasitas" class="form-label">Masukkan Kapasitas</label>
@@ -162,7 +151,7 @@
                                     class="form-control" required autocomplete="off" />
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="mb-3">
                                         <label for="kategori">Pilih Kategori</label>
                                         <select class="form-select" id="kategori" name="kategori">
@@ -176,19 +165,6 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="status">Pilih Status</label>
-                                        <select class="form-select" id="status_lab" name="status_lab">
-                                            <option selected>Pilih Status</option>
-                                            <option value="tersedia" @if ($list->status == 'tersedia') selected @endif>
-                                                tersedia
-                                            </option>
-                                            <option value="di gunakan" @if ($list->status == 'di gunakan') selected @endif>di
-                                                gunakan</option>
-                                        </select>
-                                    </div>
-                                </div>
                             </div>
                             <div class="mb-3">
                                 <label for="kapasitas" class="form-label">Masukkan Kapasitas</label>
@@ -197,7 +173,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="foto" class="form-label">Masukkan Foto</label>
-                                <input type="hidden" name="oldImage" value={{ $list->foto }}>
+                                <input type="hidden" name="oldImage" value="{{ $list->foto }}">
                                 @if ($list->foto)
                                     <img class="img-preview img-fluid mb-3 col-sm-5 d-block"
                                         src="{{ asset('img/foto-labs/' . basename($list->foto)) }}" alt="Preview Image">
@@ -205,7 +181,7 @@
                                     <img class="img-preview img-fluid mb-3 col-md-6">
                                 @endif
                                 <input type="file" onchange="previewImage()" name="foto" id="foto"
-                                    class="form-control" autocomplete="off" value="{{ old(basename($list->foto)) }}" />
+                                    class="form-control" autocomplete="off" value="{{ old(basename($list->foto)) }}">
                             </div>
                             <div class="mb-3">
                                 <label for="deskripsi" class="form-label">Masukkan Deskripsi</label>
@@ -273,4 +249,5 @@
             }
         }
     </script>
+
 @endsection

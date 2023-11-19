@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\detail_order;
 use App\Models\Order;
-use App\Models\Lab;
 use Illuminate\Http\Request;
 
 

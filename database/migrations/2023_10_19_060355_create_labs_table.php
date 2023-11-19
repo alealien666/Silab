@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('nama_lab');
             $table->string('slug');
             $table->integer('kapasitas');
-            $table->enum('status', ['tersedia', 'di gunakan']);
             $table->text('foto')->nullable();
             $table->text('deskripsi');
             $table->timestamps();

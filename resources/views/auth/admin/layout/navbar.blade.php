@@ -80,41 +80,7 @@
                             <h6 class="text-overflow text-muted mb-2 text-uppercase">Members</h6>
                         </div>
 
-                        <div class="notification-list">
-                            <!-- item -->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item py-2">
-                                <div class="d-flex">
-                                    <img src="{{ asset('assets/images/users/avatar-2.jpg') }}"
-                                        class="me-3 rounded-circle avatar-xs" alt="user-pic">
-                                    <div class="flex-1">
-                                        <h6 class="m-0">Angela Bernier</h6>
-                                        <span class="fs-11 mb-0 text-muted">Manager</span>
-                                    </div>
-                                </div>
-                            </a>
-                            <!-- item -->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item py-2">
-                                <div class="d-flex">
-                                    <img src="{{ asset('assets/images/users/avatar-3.jpg') }}"
-                                        class="me-3 rounded-circle avatar-xs" alt="user-pic">
-                                    <div class="flex-1">
-                                        <h6 class="m-0">David Grasso</h6>
-                                        <span class="fs-11 mb-0 text-muted">Web Designer</span>
-                                    </div>
-                                </div>
-                            </a>
-                            <!-- item -->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item py-2">
-                                <div class="d-flex">
-                                    <img src="{{ asset('assets/images/users/avatar-5.jpg') }}"
-                                        class="me-3 rounded-circle avatar-xs" alt="user-pic">
-                                    <div class="flex-1">
-                                        <h6 class="m-0">Mike Bunch</h6>
-                                        <span class="fs-11 mb-0 text-muted">React Developer</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
+
                     </div>
 
                     <div class="text-center pt-3 pb-1">
@@ -132,16 +98,18 @@
                     aria-haspopup="true" aria-expanded="false">
                     <span class="d-flex align-items-center">
                         <img class="rounded-circle header-profile-user"
-                            src="{{ asset('assets/images/users/avatar-1.jpg') }}" alt="Header Avatar">
+                            src="{{ auth()->user()->avatar == null ? url(asset('img/avatar/no-pic.png')) : (filter_var(auth()->user()->avatar, FILTER_VALIDATE_URL) ? auth()->user()->avatar : url(asset(auth()->user()->avatar))) }}"
+                            alt="pp">
                         <span class="text-start ms-xl-2">
-                            <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text"></span>
+                            <span
+                                class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{ auth()->user()->name }}</span>
                             <span class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text"></span>
                         </span>
                     </span>
                 </button>
                 <div class="dropdown-menu dropdown-menu-end">
                     <!-- item-->
-                    <h6 class="dropdown-header">Welcome !</h6>
+                    <h6 class="dropdown-header">Welcome ! {{ auth()->user()->name }}</h6>
                     <a class="dropdown-item" href="pages-profile.html"><i
                             class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span
                             class="align-middle">Profile</span></a>

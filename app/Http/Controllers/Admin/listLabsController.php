@@ -15,7 +15,7 @@ class listLabsController extends Controller
     public function index()
     {
         $listLabs = Lab::join('categories', 'categories.id', '=', 'labs.category_id')
-            ->select('labs.id as id_lab', 'categories.category', 'nama_lab', 'slug', 'kapasitas', 'status', 'foto', 'labs.deskripsi as deskripsi_lab')
+            ->select('labs.id as id_lab', 'categories.category', 'nama_lab', 'slug', 'kapasitas', 'foto', 'labs.deskripsi as deskripsi_lab')
             ->get();
 
         $listKategori = Category::all();
@@ -29,7 +29,6 @@ class listLabsController extends Controller
         $validator = Validator::make($request->all(), [
             'nama_lab' => 'required|string|unique:labs,nama_lab',
             'kategori' => 'required|integer',
-            'status_lab' => 'required|string',
             'kapasitas' => 'required|numeric|min:0',
             'foto' => 'required|image|file|max:2000',
             'deskripsi' => 'required|string',
@@ -45,7 +44,6 @@ class listLabsController extends Controller
             $Lab->nama_lab = $request->input('nama_lab');
             $Lab->slug = Str::slug($request->input('nama_lab'));
             $Lab->category_id = $request->input('kategori');
-            $Lab->status = $request->input('status_lab');
             $Lab->kapasitas = $request->input('kapasitas');
             $Lab->foto = $namaBerkas;
             $Lab->deskripsi = $request->input('deskripsi');
@@ -60,7 +58,6 @@ class listLabsController extends Controller
         $request->validate([
             'nama_lab' => 'required|string',
             'kategori' => 'required|integer',
-            'status_lab' => 'required|string',
             'kapasitas' => 'required|numeric|min:0',
             'foto' => 'required|image|file|max:2000',
             'deskripsi' => 'required|string',
@@ -71,9 +68,8 @@ class listLabsController extends Controller
         if ($request->file('foto') == "") {
             $Lab->nama_lab = $request->nama_lab;
             $Lab->category_id = $request->kategori;
-            $Lab->status = $request->status_lab;
             $Lab->kapasitas = $request->kapasitas;
-            $Lab->slug = "slug";
+            $Lab->slug = Str::slug($request->input('nama_lab'));
             $Lab->deskripsi = $request->deskripsi;
             $Lab->update();
         } else {
@@ -81,9 +77,8 @@ class listLabsController extends Controller
             $namaBerkas = $request->file('foto')->store('img/foto-labs');
             $Lab->nama_lab = $request->nama_lab;
             $Lab->category_id = $request->kategori;
-            $Lab->status = $request->status_lab;
             $Lab->kapasitas = $request->kapasitas;
-            $Lab->slug = "slug";
+            $Lab->slug = Str::slug($request->input('nama_lab'));
             $Lab->deskripsi = $request->deskripsi;
             $Lab->foto = $namaBerkas;
             $Lab->update();

@@ -4,12 +4,24 @@
     <form class="app-search d-none d-md-block" action="{{ route('index') }}" method="get">
         @csrf
         <div class="position-relative d-flex">
-            <input type="search" id="cari" method="GET" name="cari" class="form-control" placeholder="Search..."
-                autocomplete="off" id="search-options">
+            <input type="text" method="GET" name="cari" class="form-control" placeholder="Search..." autocomplete="off"
+                id="search-options">
             <button type="submit" class="btn btn-primary ms-3 ">Cari</button>
             <span class="mdi mdi-magnify search-widget-icon"></span>
             <span class="mdi mdi-close-circle search-widget-icon search-widget-icon-close d-none"
                 id="search-close-options"></span>
+        </div>
+    </form>
+@endsection
+@section('responsive-search')
+    <form class="p-3">
+        @csrf
+        <div class="form-group m-0">
+            <div class="input-group">
+                <input type="search" action="{{ route('index') }}" name="cari" class="form-control"
+                    placeholder="Search ..." aria-label="Recipient's username" value="{{ old('cari') }}">
+                <button class="btn btn-primary" type="submit"><i class="mdi mdi-magnify"></i></button>
+            </div>
         </div>
     </form>
 @endsection
@@ -23,7 +35,7 @@
         <hr>
         @foreach ($categories as $kategori)
             <a href="{{ route('produk.kategori', ['category' => $kategori->category]) }}"
-                class="dropdown-item notify-item language py-2" data-lang="en" title="English">
+                class="dropdown-item notify-item language py-2">
                 <span class="align-middle">{{ $kategori->category }}</span>
             </a>
         @endforeach

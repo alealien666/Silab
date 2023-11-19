@@ -12,7 +12,7 @@
                     <div class="col-auto">
                         <div class="avatar-lg">
                             <img class="img-thumbnail rounded-circle"
-                                src="{{ auth()->user()->avatar == null ? url(asset('img/no-pic.png')) : (filter_var(auth()->user()->avatar, FILTER_VALIDATE_URL) ? auth()->user()->avatar : url(asset('img/' . auth()->user()->avatar))) }}"
+                                src="{{ auth()->user()->avatar == null ? url(asset('img/avatar/no-pic.png')) : (filter_var(auth()->user()->avatar, FILTER_VALIDATE_URL) ? auth()->user()->avatar : url(asset('img/avatar' . auth()->user()->avatar))) }}"
                                 alt="pp">
                         </div>
                     </div>
@@ -22,7 +22,7 @@
                             <h3 class="text-white mb-1">{{ auth()->user()->name }}</h3>
                         </div>
                         <div class="riwayat">
-                            <a class="btn btn-success" href="/riwayat-pemesanan" aria-controls="sidebarDashboards">
+                            <a class="btn btn-success" href="/user/riwayat-pemesanan" aria-controls="sidebarDashboards">
                                 <i class="bi bi-list-check"></i></i> <span data-key="t-dashboards">riwayat
                                     pemesanan</span>
                             </a>

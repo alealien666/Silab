@@ -27,8 +27,10 @@ class LoginController extends Controller
 
             $user = Auth::user();
             if ($user->role === 0) {
+                return redirect()->route('Admin.list-analises.index')->with('success', 'Berhasil Login Sebagai Super Admin');
+            } elseif ($user->role === 1) {
                 return redirect()->route('Admin.list-analises.index')->with('success', 'Berhasil Login');
-            } else if ($user->role === 1) {
+            } else if ($user->role === 2) {
                 return redirect('/lab')->with('success', 'Berhasil Login');
             }
         } else {
@@ -43,9 +45,11 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $redirectTo = '/';
         if ($role === 0) {
-            $redirectTo = '/list-alat';
+            $redirectTo = '/';
         } elseif ($role === 1) {
-            $redirectTo = '/lab';
+            $redirectTo = '/';
+        } elseif ($role === 2) {
+            $redirectTo = '/';
         }
         $request->session()->regenerate();
         return redirect($redirectTo);

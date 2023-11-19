@@ -12,4 +12,9 @@ class HomeController extends Controller
             'title' => 'Silab | Home'
         ]);
     }
+
+    public function profil()
+    {
+        return view('auth.user.profile', ['title' => 'Silab | Profile']);
+    }
 }
