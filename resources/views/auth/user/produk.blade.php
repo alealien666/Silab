@@ -90,8 +90,7 @@
                                 </li>
                                 <li class="nav-item" role="presentation">
                                     <a href="/analisis" class="nav-link fw-semibold">Jasa
-                                        Analisis <span class="badge bg-success">25%
-                                            Off</span></a>
+                                        Analisis</a>
                                 </li>
                             </ul>
                         </div>

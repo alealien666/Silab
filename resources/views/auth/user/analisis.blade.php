@@ -81,8 +81,7 @@
                                 </li>
                                 <li class="nav-item" role="presentation">
                                     <a href="/analisis" class="nav-link fw-semibold active">Jasa
-                                        Analisis <span class="badge bg-success">25%
-                                            Off</span></a>
+                                        Analisis</a>
                                 </li>
                             </ul>
                         </div>
@@ -139,9 +138,19 @@
                                         </div>
                                     </li>
                                 </ul>
-                                <div class="mt-3 pt-2">
-                                    <a href="/orderAnalisis/{{ $item->slug }}" class="btn btn-success w-100">Sewa Jasa
-                                        Sekarang</a>
+                                <div class="row">
+                                    <div class="mt-3 pt-2 col-md-8">
+                                        <a href="/orderAnalisis/{{ $item->slug }}" class="btn btn-success w-100"
+                                            id="disableButtonAnalisis">Sewa
+                                            Jasa
+                                            Sekarang</a>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <a id="download" href="/donlot.pdf" download="donlot.pdf"
+                                            class="btn btn-danger mt-4">
+                                            <i class="ri-download-cloud-2-line"></i> Download
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -676,4 +685,5 @@
             </div>
         </div>
     </footer>
+    <script src="{{ asset('js/main.js') }}"></script>
 @endsection

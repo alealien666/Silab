@@ -3,10 +3,19 @@ document.addEventListener("DOMContentLoaded", function () {
     const subtotalElement = document.getElementById('subtotal');
     const totalElement = document.getElementById('total');
 
+    const downloadLink = document.querySelectorAll('#download')
+    const disableButtonStok = document.querySelectorAll('#dis,#diss,.not')
+
     // Daftar alat
     const alatCounters = document.querySelectorAll('.jumlah');
     const plusButtons = document.querySelectorAll('.plus');
     const minusButtons = document.querySelectorAll('.min');
+
+    downloadLink.forEach(function (download) {
+        download.addEventListener('click', function () {
+            this.classList.add('disabled')
+        })
+    })
 
     checkboxes.forEach(function (checkbox) {
         checkbox.addEventListener('change', function () {
@@ -15,8 +24,15 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     plusButtons.forEach(function (button, index) {
+        let stock = document.querySelectorAll('#stok')[index].getAttribute('data-stok')
+        const inputJumlah = alatCounters[index].querySelector('input[type="hidden"]');
         button.addEventListener('click', function () {
-            incrementCount(index);
+            if (inputJumlah.value === stock) {
+                button.style.backgroundColor = 'white'
+                button.style.opacity = 0.5
+            } else {
+                incrementCount(index);
+            }
         });
     });
     minusButtons.forEach(function (button, index) {
@@ -48,17 +64,15 @@ document.addEventListener("DOMContentLoaded", function () {
     function incrementCount(index) {
         const jumlah = alatCounters[index].querySelector('.count');
         let count = parseInt(jumlah.textContent, 10); //ngekonversi bilangan bulat desimal basis 10
-
         count++;
         jumlah.textContent = count;
 
         const inputJumlah = alatCounters[index].querySelector('input[type="hidden"]');
         inputJumlah.value = count;
-        // console.log(inputJumlah);    
+        // console.log(inputJumlah);
         updateSubtotal();
 
     }
-
 
     function decrementCount(index) {
         const jumlah = alatCounters[index].querySelector('.count');
@@ -73,40 +87,20 @@ document.addEventListener("DOMContentLoaded", function () {
             updateSubtotal();
         }
     }
-
-});
-
-//disable button plus minus
-const disableElements = document.querySelectorAll('.disable input, .disable button');
-
-disableElements.forEach(element => {
-    element.style.pointerEvents = 'none';
-    element.style.opacity = 0.6;
-});
-
-const disableButtons = document.querySelectorAll('.disable button');
-
-disableButtons.forEach(button => {
-    button.addEventListener('mouseover', function () {
-        this.style.backgroundColor = 'initial';
-        this.style.cursor = 'not-allowed';
+    // disable button stok 0
+    disableButtonStok.forEach(disableButton => {
+        disableButton.disabled = 'true'
+        disableButton.style.backgroundColor = 'white'
     });
+
+
 });
-
-// let disableButtonBeforeOrder = document.getElementById('button-disable')
-// disableButtonBeforeOrder.disabled = true
-
-// const activateButton = () => {
-//     disableButtonBeforeOrder.disabled = false
-// }
 
 // redirect pages
 const redirectPage = () => {
     window.open('https://wa.me/6285854950450', '_blank')
-    window.location.href = '../riwayat-pemesanan'
+    window.location.href = '../user/riwayat-pemesanan'
 }
-
-
 
 
 

@@ -3,12 +3,24 @@
     <form class="app-search d-none d-md-block" action="{{ route('analisis') }}" method="get">
         @csrf
         <div class="position-relative d-flex">
-            <input type="search" id="cari" method="GET" name="cari" class="form-control" placeholder="Search..."
-                autocomplete="off" id="search-options" value="{{ old('cari') }}">
+            <input type="search" method="GET" name="cari" class="form-control" placeholder="Search..." autocomplete="off"
+                id="search-options" value="{{ old('cari') }}">
             <button type="submit" class="btn btn-primary ms-3 ">Cari</button>
             <span class="mdi mdi-magnify search-widget-icon"></span>
             <span class="mdi mdi-close-circle search-widget-icon search-widget-icon-close d-none"
                 id="search-close-options"></span>
+        </div>
+    </form>
+@endsection
+@section('responsive-search')
+    <form class="p-3">
+        @csrf
+        <div class="form-group m-0">
+            <div class="input-group">
+                <input type="search" action="{{ route('index') }}" name="cari" class="form-control"
+                    placeholder="Search ..." aria-label="Recipient's username" value="{{ old('cari') }}">
+                <button class="btn btn-primary" type="submit"><i class="mdi mdi-magnify"></i></button>
+            </div>
         </div>
     </form>
 @endsection
@@ -319,7 +331,7 @@
                                 <hr>
                                 @if ($list->jenis_pesanan === 'Sewa Lab')
                                     <div class="col-md-12">
-                                        <div class="list-header">
+                                        <div class="list-header mb-3">
                                             <b>List Jenis Alat &nbsp;&nbsp;&nbsp; :</b>
                                         </div>
                                         <ul class="list-content mx-0" id="listTotal">
@@ -327,15 +339,22 @@
                                                 @foreach ($list['alat'] as $key => $alat)
                                                     <ul class="list-inline list1 bg-{{ $key % 2 == 0 ? '' : 'light' }}"
                                                         style="margin-left: -30px;">
-                                                        <li class="list-inline-item item1 text-capitalize">
-                                                            {{ $alat->jenis_alat }}
-                                                        </li>
-                                                        <li class="list-inline-item item1 text-capitalize">
-                                                            {{ $alat->jumlah_alat }}
-                                                        </li>
-                                                        <li class="list-inline-item item1 text-capitalize">
-                                                            Rp. {{ number_format($alat->harga, 0, ',', '.') }}
-                                                        </li>
+                                                        <table>
+                                                            <tr class="text-center">
+                                                                <th>Nama Alat</th>
+                                                                <th>Jumlah</th>
+                                                                <th>Harga</th>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="ps-5 pe-5">{{ $alat->jenis_alat }}</td>
+                                                                <td class="text-center">{{ $alat->jumlah_alat }}
+                                                                </td>
+                                                                <td class="ps-5 pe-5">
+                                                                    Rp.{{ number_format($alat->harga, 0, ',', '.') }}
+                                                                </td>
+
+                                                            </tr>
+                                                        </table>
                                                     </ul>
                                                 @endforeach
                                             </li>
@@ -373,27 +392,20 @@
 <script>
     @foreach ($listPemesanan as $list)
 
-        // Mengambil tanggal expired_at dari server (format disesuaikan)
         const expiredAt_{{ $list->id_pemesanan }} = dayjs("{{ $list->expired_at }}");
-
-        // Menerapkan plugin relativeTime agar bisa menggunakan metode fromNow()
         dayjs.extend(window.dayjs_plugin_relativeTime);
 
         function updateDeadline_{{ $list->id_pemesanan }}() {
-            const now = dayjs(); // Waktu sekarang
+            const now = dayjs();
             const diff = now.diff(expiredAt_{{ $list->id_pemesanan }},
-                'second'); // Menghitung selisih waktu dalam detik
+                'second');
 
             const minutes = Math.floor(diff / 60);
             const seconds = diff % 60;
 
             const timeLeft = `${minutes} menit, ${seconds} detik`;
-
-            // Memperbarui elemen HTML dengan waktu berjalan
             document.getElementById("deadline_{{ $list->id_pemesanan }}").textContent = timeLeft;
         }
-
-        // Memanggil fungsi updateDeadline_{{ $list->id_pemesanan }} setiap detik (atau sesuai dengan kebutuhan)
         setInterval(updateDeadline_{{ $list->id_pemesanan }}, 1000);
     @endforeach
 </script>

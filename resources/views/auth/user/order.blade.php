@@ -253,7 +253,6 @@
                                                 <th scope="col">Jenis Alat</th>
                                                 <th scope="col" class="text-start" colspan="2">Harga</th>
                                                 <th scope="col">Jumlah</th>
-                                                {{-- <th scope="col">Stok</th> --}}
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -323,7 +322,7 @@
                                                                         class="bi bi-plus-lg"></i></button>
                                                             </div>
                                                             <p class="text-muted text-center" id="stok"
-                                                                data-stok="kontolodon">Stok:
+                                                                data-stok = "{{ $alat->jumlah }}">Stok:
                                                                 {{ $alat->jumlah }}
                                                             </p>
                                                         </td>
@@ -402,6 +401,13 @@
                     alert("Tanggal ini sudah dipesan. Silakan pilih tanggal lain.");
                     instance.clear(); // Membersihkan nilai input
                 }
+            },
+            onReady: function(selectedDates, dateStr, instance) {
+                // Mengubah warna latar belakang tanggal yang dinonaktifkan menjadi merah
+                const disabledDates = instance.days.querySelectorAll('.flatpickr-disabled');
+                disabledDates.forEach(function(date) {
+                    date.style.color = 'red';
+                });
             }
         });
     });
