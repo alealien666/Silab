@@ -55,7 +55,7 @@
                                         </ul>
                                     </div>
 
-                                    <div class="tab-content">
+                                    <div class="tab-content" id="pageProfile">
                                         <div class="tab-pane fade show active" id="pills-bill-info" role="tabpanel"
                                             aria-labelledby="pills-bill-info-tab">
                                             <div>
@@ -126,9 +126,10 @@
                                             <div class="d-flex align-items-start m-2">
                                                 <button type="submit"
                                                     class="btn btn-primary btn-label right ms-auto nexttab"
-                                                    data-nexttab="pills-bill-address-tab"><i
-                                                        class="ri-truck-line label-icon align-middle fs-16 ms-2"
-                                                        onclick="activateButton()"></i>Pesan Sekarang</button>
+                                                    data-nexttab="pills-bill-address-tab" id="buttonPesan"
+                                                    onclick="disableProfile()"><i
+                                                        class="ri-truck-line label-icon align-middle fs-16 ms-2"></i>Pesan
+                                                    Sekarang</button>
                                             </div>
                                         </div>
                                         <!-- end tab pane -->

@@ -92,8 +92,6 @@ document.addEventListener("DOMContentLoaded", function () {
         disableButton.disabled = 'true'
         disableButton.style.backgroundColor = 'white'
     });
-
-
 });
 
 // redirect pages
@@ -101,6 +99,10 @@ const redirectPage = () => {
     window.open('https://wa.me/6285854950450', '_blank')
     window.location.href = '../user/riwayat-pemesanan'
 }
+
+
+
+
 
 
 

@@ -54,11 +54,15 @@
                                             </td>
                                             <td class="text-center">{{ $list->harga }}</td>
                                             <td class="text-center">{{ $list->jumlah }}</td>
-                                            <td class="text-center">
-                                                <button class="btn btn-md btn-success edit-item-btn" data-bs-toggle="modal"
-                                                    data-bs-target="#editJenis{{ $list->id_alat }}">edit</button>
-                                                <button class="btn btn-md btn-danger remove-item-btn" data-bs-toggle="modal"
-                                                    data-bs-target="#deleteJenis{{ $list->id_alat }}">hapus</button>
+                                            <td class="text-center d-flex">
+                                                <button class="btn btn-md p-2 btn-success edit-item-btn me-2"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#editJenis{{ $list->id_alat }}"><i
+                                                        class="bi bi-pencil-fill"></i></button>
+                                                <button class="btn btn-md p-2 btn-danger remove-item-btn"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#deleteJenis{{ $list->id_alat }}"><i
+                                                        class="bi bi-trash-fill"></i></button>
                                             </td>
                                         </tr>
                                     @endforeach

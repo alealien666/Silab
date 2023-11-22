@@ -55,11 +55,15 @@
                                             </td>
                                             <td class="text-center">{{ $list->kapasitas }}</td>
                                             <td class="text-center">{{ $list->deskripsi_lab }}</td>
-                                            <td class="text-center">
-                                                <button class="btn btn-md btn-success edit-item-btn" data-bs-toggle="modal"
-                                                    data-bs-target="#updateModal{{ $list->id_lab }}">edit</button>
-                                                <button class="btn btn-md btn-danger remove-item-btn" data-bs-toggle="modal"
-                                                    data-bs-target="#deleteJenis{{ $list->id_lab }}">hapus</button>
+                                            <td class="text-center d-flex">
+                                                <button class="btn btn-md p-2 btn-success edit-item-btn me-2"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#updateModal{{ $list->id_lab }}"><i
+                                                        class="bi bi-pencil-fill"></i></button>
+                                                <button class="btn btn-md p-2 btn-danger remove-item-btn"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#deleteJenis{{ $list->id_lab }}"><i
+                                                        class="bi bi-trash-fill"></i></button>
                                             </td>
                                         </tr>
                                     @endforeach

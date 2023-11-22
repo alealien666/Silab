@@ -50,10 +50,11 @@
                                                     width="100px" height="100px">
                                             </td>
                                             <td class="text-center">
-                                                <button class="btn btn-md btn-success edit-item-btn" data-bs-toggle="modal"
-                                                    data-bs-target="#editModal{{ $user->id }}"><i
+                                                <button class="btn btn-md p-2 btn-success edit-item-btn"
+                                                    data-bs-toggle="modal" data-bs-target="#editModal{{ $user->id }}"><i
                                                         class="bi bi-pencil-fill"></i></button>
-                                                <button class="btn btn-md btn-danger remove-item-btn" data-bs-toggle="modal"
+                                                <button class="btn btn-md p-2 btn-danger remove-item-btn"
+                                                    data-bs-toggle="modal"
                                                     data-bs-target="#deleteModal{{ $user->id }}"><i
                                                         class="bi bi-trash-fill"></i></button>
                                             </td>

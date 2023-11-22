@@ -79,14 +79,14 @@
                     </li>
                 @endif
 
-                @if (auth()->user()->role === 0)
+                {{-- @if (auth()->user()->role === 0)
                     <li class="nav-item">
                         <a class="nav-link {{ Request::is('crudUser') ? 'active' : '' }}"
                             href="{{ route('Admin.crudUser') }}">
                             <i class="ri-user-3-line"></i> <span data-key="t-forms">User</span>
                         </a>
                     </li>
-                @endif
+                @endif --}}
 
             </ul>
         </div>

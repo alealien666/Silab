@@ -36,8 +36,8 @@
                 <div class="row g-4">
                     <div class="col-auto">
                         <div class="avatar-lg">
-                            <img class="img-thumbnail rounded-circle"
-                                src="{{ auth()->user()->avatar == null ? url(asset('img/avatar/no-pic.png')) : (filter_var(auth()->user()->avatar, FILTER_VALIDATE_URL) ? auth()->user()->avatar : url(asset('img/avatar' . auth()->user()->avatar))) }}"
+                            <img class="rounded-circle img-thumbnail"
+                                src="{{ auth()->user()->avatar == null ? url(asset('img/avatar/no-pic.png')) : (filter_var(auth()->user()->avatar, FILTER_VALIDATE_URL) ? auth()->user()->avatar : url(asset(auth()->user()->avatar))) }}"
                                 alt="pp">
                         </div>
                     </div>
