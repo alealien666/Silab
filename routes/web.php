@@ -25,6 +25,10 @@ use App\Http\Controllers\user\riwayatPemesananController;
 |
 */
 
+Route::get('welcome', function () {
+    return view('welcome');
+});
+
 Route::group(['middleware' => 'preventBack'], function () {
     Route::get('/', [HomeController::class, 'index']);
     Route::get('/home', [HomeController::class, 'index']);
