@@ -100,6 +100,26 @@ const redirectPage = () => {
     window.location.href = '../user/riwayat-pemesanan'
 }
 
+const disableProfile = () => {
+    const test = document.getElementById('pills-bill-info')
+    test.classList.toggle('bg')
+    const test2 = test.classList.contains('bg')
+    localStorage.setItem('bgStatus', test2)
+}
+
+const ngen = () => {
+    const test = document.getElementById('pills-bill-info')
+    const pler = localStorage.getItem('bgStatus')
+
+    if (pler === 'true') {
+        test.classList.add('bg')
+    } else {
+        test.classList.remove('bg')
+    }
+}
+
+document.addEventListener('DOMContentLoaded', ngen);
+
 
 
 

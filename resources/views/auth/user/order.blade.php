@@ -403,13 +403,13 @@
                     instance.clear(); // Membersihkan nilai input
                 }
             },
-            onReady: function(selectedDates, dateStr, instance) {
-                // Mengubah warna latar belakang tanggal yang dinonaktifkan menjadi merah
-                const disabledDates = instance.days.querySelectorAll('.flatpickr-disabled');
-                disabledDates.forEach(function(date) {
-                    date.style.color = 'red';
-                });
-            }
+            // onReady: function(selectedDates, dateStr, instance) {
+            //     // Mengubah warna latar belakang tanggal yang dinonaktifkan menjadi merah
+            //     const disabledDates = instance.days.querySelectorAll('.flatpickr-disabled');
+            //     disabledDates.forEach(function(date) {
+            //         date.style.color = 'red';
+            //     });
+            // }
         });
     });
 </script>
