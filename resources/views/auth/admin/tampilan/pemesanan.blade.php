@@ -47,6 +47,16 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#product2" role="tab" aria-selected="false">
+                                Sewa Lab
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#product3" role="tab" aria-selected="false">
+                                Analisis
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" data-bs-toggle="tab" href="#messages" role="tab" aria-selected="false">
                                 Pending
                             </a>
@@ -128,6 +138,143 @@
                                                 </p>
                                             </div>
                                         </div> --}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- tab sewa lab --}}
+                        <div class="tab-pane active" id="product2" role="tabpanel">
+                            <div class="card-body">
+                                <div id="customerList">
+                                    <div class="table-responsive mb-1" id="tab1">
+                                        <table class="table align-middle mb-0">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th class="text-center" data-sort="status">status</th>
+                                                    <th class="text-center" data-sort="id_pemesanan">No Pemesanan</th>
+                                                    <th class="text-center" data-sort="id_pemesanan">Tanggal</th>
+                                                    <th class="text-center" data-sort="nama_pemesan">Nama Pemesan</th>
+                                                    <th class="text-center" data-sort="jenis_pesanan">Jenis Pesanan</th>
+                                                    <th class="text-center" data-sort="no_telpn">No Telpn</th>
+                                                    <th class="text-center" data-sort="verifikasi">Verifikasi</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($listPemesanan as $index => $list)
+                                                    @if ($list->jenis_pesanan === 'Sewa Lab')
+                                                        <tr>
+                                                            @if ($list->status === 'pending')
+                                                                <td class="text-center text-warning">
+                                                                    <span class="badge badge-soft-warning text-uppercase">
+                                                                        {{ $list->status }}
+                                                                    </span>
+                                                                </td>
+                                                            @elseif($list->status === 'approved')
+                                                                <td class="text-center text-success">
+                                                                    <span class="badge badge-soft-success text-uppercase">
+                                                                        {{ $list->status }}
+                                                                    </span>
+                                                                </td>
+                                                            @endif
+                                                            <td class="text-center">{{ $list->id_pemesanan }}</td>
+                                                            <td class="text-center">{{ $list->order }}</td>
+                                                            <td class="text-center">{{ $list->nama_pemesan }}</td>
+                                                            <td class="text-center">{{ $list->jenis_pesanan }}</td>
+                                                            <td class="text-center">{{ $list->no_telp }}</td>
+                                                            @if ($list->status === 'pending')
+                                                                <td class="text-center">
+                                                                    <button class="btn btn-md btn-warning edit-item-btn"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#modalCheck{{ $list->id_pemesanan }}">check</button>
+                                                                </td>
+                                                            @elseif($list->status === 'approved')
+                                                                <td class="text-center">
+                                                                    <button class="btn btn-md btn-success edit-item-btn"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#modalCheck{{ $list->id_pemesanan }}">detail</button>
+                                                                </td>
+                                                            @endif
+                                                        </tr>
+                                                    @endif
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                        {{-- <div class="noresult">
+                                            <div class="text-center">
+                                                <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop"
+                                                    colors="primary:#405189,secondary:#0ab39c"
+                                                    style="width: 75px; height: 75px">
+                                                </lord-icon>
+                                                <h5 class="mt-2">Sorry! No Result Found</h5>
+                                                <p class="text-muted">
+                                                    We've searched more than 150+ Orders We did not
+                                                    find any orders for you search.
+                                                </p>
+                                            </div>
+                                        </div> --}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- tab analisis --}}
+                        <div class="tab-pane active" id="product3" role="tabpanel">
+                            <div class="card-body">
+                                <div id="customerList">
+                                    <div class="table-responsive mb-1" id="tab1">
+                                        <table class="table align-middle mb-0">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th class="text-center" data-sort="status">status</th>
+                                                    <th class="text-center" data-sort="id_pemesanan">No Pemesanan</th>
+                                                    <th class="text-center" data-sort="id_pemesanan">Tanggal</th>
+                                                    <th class="text-center" data-sort="nama_pemesan">Nama Pemesan</th>
+                                                    <th class="text-center" data-sort="jenis_pesanan">Jenis Pesanan</th>
+                                                    <th class="text-center" data-sort="no_telpn">No Telpn</th>
+                                                    <th class="text-center" data-sort="verifikasi">Verifikasi</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($listPemesanan as $index => $list)
+                                                    @if ($list->jenis_pesanan === 'Jasa Analisis')
+                                                        <tr>
+                                                            @if ($list->status === 'pending')
+                                                                <td class="text-center text-warning">
+                                                                    <span class="badge badge-soft-warning text-uppercase">
+                                                                        {{ $list->status }}
+                                                                    </span>
+                                                                </td>
+                                                            @elseif($list->status === 'approved')
+                                                                <td class="text-center text-success">
+                                                                    <span class="badge badge-soft-success text-uppercase">
+                                                                        {{ $list->status }}
+                                                                    </span>
+                                                                </td>
+                                                            @endif
+                                                            <td class="text-center">{{ $list->id_pemesanan }}</td>
+                                                            <td class="text-center">{{ $list->order }}</td>
+                                                            <td class="text-center">{{ $list->nama_pemesan }}</td>
+                                                            <td class="text-center">{{ $list->jenis_pesanan }}</td>
+                                                            <td class="text-center">{{ $list->no_telp }}</td>
+                                                            @if ($list->status === 'pending')
+                                                                <td class="text-center">
+                                                                    <button class="btn btn-md btn-warning edit-item-btn"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#modalCheck{{ $list->id_pemesanan }}">check</button>
+                                                                </td>
+                                                            @elseif($list->status === 'approved')
+                                                                <td class="text-center">
+                                                                    <button class="btn btn-md btn-success edit-item-btn"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#modalCheck{{ $list->id_pemesanan }}">detail</button>
+                                                                </td>
+                                                            @endif
+                                                        </tr>
+                                                    @endif
+                                                @endforeach
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>

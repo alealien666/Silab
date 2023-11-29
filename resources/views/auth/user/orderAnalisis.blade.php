@@ -123,6 +123,8 @@
                                                                     <span
                                                                         class="text-muted fw-normal text-wrap d-block">Expired
                                                                         In 1 Hours</span>
+                                                                    <span>Proses Analisis Di Kerjakan Oleh Teknisi
+                                                                        Lab</span>
                                                                 </label>
                                                             </div>
                                                         </div>
