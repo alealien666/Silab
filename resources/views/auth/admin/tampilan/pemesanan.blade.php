@@ -40,12 +40,12 @@
                 <div class="card-body">
                     <!-- list tabs -->
                     <ul class="nav nav-tabs mb-3" id="myTabs" role="tablist">
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a class="nav-link active" data-bs-toggle="tab" href="#product1" role="tab"
                                 aria-selected="false">
                                 All Order
                             </a>
-                        </li>
+                        </li> --}}
                         <li class="nav-item">
                             <a class="nav-link" data-bs-toggle="tab" href="#product2" role="tab" aria-selected="false">
                                 Sewa Lab
@@ -71,7 +71,7 @@
                     <!-- list Tab panes -->
                     <div class="tab-content  text-muted">
                         {{-- tab-all --}}
-                        <div class="tab-pane active" id="product1" role="tabpanel">
+                        {{-- <div class="tab-pane active" id="product1" role="tabpanel">
                             <div class="card-body">
                                 <div id="customerList">
                                     <div class="table-responsive mb-1" id="tab1">
@@ -84,7 +84,7 @@
                                                     <th class="text-center" data-sort="nama_pemesan">Nama Pemesan</th>
                                                     <th class="text-center" data-sort="jenis_pesanan">Jenis Pesanan</th>
                                                     <th class="text-center" data-sort="no_telpn">No Telpn</th>
-                                                    <th class="text-center" data-sort="verifikasi">Verifikasi</th>
+                                                    <th class="text-center" data-sort="verifikasi">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -125,29 +125,17 @@
                                                 @endforeach
                                             </tbody>
                                         </table>
-                                        {{-- <div class="noresult">
-                                            <div class="text-center">
-                                                <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop"
-                                                    colors="primary:#405189,secondary:#0ab39c"
-                                                    style="width: 75px; height: 75px">
-                                                </lord-icon>
-                                                <h5 class="mt-2">Sorry! No Result Found</h5>
-                                                <p class="text-muted">
-                                                    We've searched more than 150+ Orders We did not
-                                                    find any orders for you search.
-                                                </p>
-                                            </div>
-                                        </div> --}}
+                                     
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
 
                         {{-- tab sewa lab --}}
                         <div class="tab-pane active" id="product2" role="tabpanel">
                             <div class="card-body">
                                 <div id="customerList">
-                                    <div class="table-responsive mb-1" id="tab1">
+                                    <div class="table-responsive mb-1" id="tab2">
                                         <table class="table align-middle mb-0">
                                             <thead class="table-light">
                                                 <tr>
@@ -157,7 +145,7 @@
                                                     <th class="text-center" data-sort="nama_pemesan">Nama Pemesan</th>
                                                     <th class="text-center" data-sort="jenis_pesanan">Jenis Pesanan</th>
                                                     <th class="text-center" data-sort="no_telpn">No Telpn</th>
-                                                    <th class="text-center" data-sort="verifikasi">Verifikasi</th>
+                                                    <th class="text-center" data-sort="verifikasi">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -222,7 +210,7 @@
                         <div class="tab-pane active" id="product3" role="tabpanel">
                             <div class="card-body">
                                 <div id="customerList">
-                                    <div class="table-responsive mb-1" id="tab1">
+                                    <div class="table-responsive mb-1" id="tab3">
                                         <table class="table align-middle mb-0">
                                             <thead class="table-light">
                                                 <tr>
@@ -232,7 +220,8 @@
                                                     <th class="text-center" data-sort="nama_pemesan">Nama Pemesan</th>
                                                     <th class="text-center" data-sort="jenis_pesanan">Jenis Pesanan</th>
                                                     <th class="text-center" data-sort="no_telpn">No Telpn</th>
-                                                    <th class="text-center" data-sort="verifikasi">Verifikasi</th>
+                                                    <th class="text-center" data-sort="verifikasi">Action</th>
+                                                    <th class="text-center" data-sort="verifikasi">Entri Hasil</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -270,6 +259,11 @@
                                                                         data-bs-target="#modalCheck{{ $list->id_pemesanan }}">detail</button>
                                                                 </td>
                                                             @endif
+                                                            <td><button type="button" class="btn btn-primary"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#staticBackdrop{{ $list->id_pemesanan }}">
+                                                                    Hasil
+                                                                </button></td>
                                                         </tr>
                                                     @endif
                                                 @endforeach
@@ -284,7 +278,7 @@
                         <div class="tab-pane" id="messages" role="tabpanel">
                             <div class="card-body">
                                 <div id="customerList">
-                                    <div class="table-responsive mb-1" id="tab2">
+                                    <div class="table-responsive mb-1" id="tab4">
                                         <table class="table align-middle mb-0">
                                             <thead class="table-light">
                                                 <tr>
@@ -294,7 +288,7 @@
                                                     <th class="text-center" data-sort="nama_pemesan">Nama Pemesan</th>
                                                     <th class="text-center" data-sort="jenis_pesanan">Jenis Pesanan</th>
                                                     <th class="text-center" data-sort="no_telpn">No Telpn</th>
-                                                    <th class="text-center" data-sort="verifikasi">Verifikasi</th>
+                                                    <th class="text-center" data-sort="verifikasi">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -330,7 +324,7 @@
                         <div class="tab-pane" id="settings" role="tabpanel">
                             <div class="card-body">
                                 <div id="customerList">
-                                    <div class="table-responsive mb-1" id="tab3">
+                                    <div class="table-responsive mb-1" id="tab5">
                                         <table class="table align-middle mb-0">
                                             <thead class="table-light">
                                                 <tr>
@@ -340,7 +334,7 @@
                                                     <th class="text-center" data-sort="nama_pemesan">Nama Pemesan</th>
                                                     <th class="text-center" data-sort="jenis_pesanan">Jenis Pesanan</th>
                                                     <th class="text-center" data-sort="no_telpn">No Telpn</th>
-                                                    <th class="text-center" data-sort="verifikasi">Verifikasi</th>
+                                                    <th class="text-center" data-sort="verifikasi">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -376,6 +370,41 @@
             </div><!-- end card -->
         </div><!--end col-->
     </div>
+
+    {{-- modal hasil --}}
+    @foreach ($listPemesanan as $list)
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal fade" id="staticBackdrop{{ $list->id_pemesanan }}" data-bs-backdrop="static"
+                data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{ route('hasilAnalisis', $list->id_pemesanan) }}" method="post">
+                                @csrf
+                                @foreach ($list['analis'] as $key => $analis)
+                                    <label for="jenis">Jenis Analisis</label>
+                                    <input class="form-control" type="text" name="jenis"
+                                        value="{{ $analis->jenis_pengujian }}" id="jenis">
+                                    <label for="status" class="mt-3">Status</label>
+                                    <input class="form-control" type="text" name="status">
+                                @endforeach
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+    {{-- end --}}
 
     {{-- modal check --}}
     @foreach ($listPemesanan as $list)
@@ -489,6 +518,8 @@
             $('#tab1 table').DataTable();
             $('#tab2 table').DataTable();
             $('#tab3 table').DataTable();
+            $('#tab4 table').DataTable();
+            $('#tab5 table').DataTable();
 
         });
 

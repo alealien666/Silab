@@ -139,17 +139,11 @@
                                     </li>
                                 </ul>
                                 <div class="row">
-                                    <div class="mt-3 pt-2 col-md-8">
+                                    <div class="mt-3 pt-2 col-md-12">
                                         <a href="/orderAnalisis/{{ $item->slug }}" class="btn btn-success w-100"
                                             id="disableButtonAnalisis">Sewa
                                             Jasa
                                             Sekarang</a>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <a id="download" href="/donlot.pdf" download="donlot.pdf"
-                                            class="btn btn-danger mt-4">
-                                            <i class="ri-download-cloud-2-line"></i> Download
-                                        </a>
                                     </div>
                                 </div>
                             </div>

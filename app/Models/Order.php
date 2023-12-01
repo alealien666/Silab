@@ -29,4 +29,8 @@ class Order extends Model
     {
         return $this->belongsToMany(Alat_Tambahan::class, 'detail_orders', 'id_order', 'id_alat');
     }
+    public function hasilAnalisis()
+    {
+        return $this->hasOne(HasilAnalisis::class, 'order_id', 'id');
+    }
 }

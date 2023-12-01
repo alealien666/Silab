@@ -163,6 +163,6 @@ class OrderController extends Controller
         $order->expired_at = $expiredAt;
         $order->save();
 
-        return redirect('/riwayat-pemesanan')->with('success', 'Pesanan Berhasil Dibuat. Silahkan upload bukti pembayaran di sini');
+        return redirect('/user/riwayat-pemesanan')->with('success', 'Pesanan Berhasil Dibuat. Silahkan upload bukti pembayaran di sini');
     }
 }

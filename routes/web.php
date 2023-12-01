@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\listAnalisesController;
 use App\Http\Controllers\Admin\listLabsController;
 use App\Http\Controllers\Admin\PemesananController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\HasilAnalisisController;
 use App\Http\Controllers\user\riwayatPemesananController;
 
 /*
@@ -72,6 +73,9 @@ Route::group(['middleware' => 'preventBack'], function () {
                 // pemesanan
                 Route::get('/list-pemesanan', [PemesananController::class, 'index'])->name('Admin.list-pemesanan.index');
                 Route::get('/metu', [LoginController::class, 'logout'])->name('metu');
+
+                // entry hasil
+                Route::post('/entriData/{id}', [PemesananController::class, 'entryDataHasilAnalisis'])->name('hasilAnalisis');
             });
         });
 

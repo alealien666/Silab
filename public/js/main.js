@@ -102,8 +102,8 @@ const redirectPage = () => {
 
 const disableProfile = () => {
     const test = document.getElementById('pills-bill-info')
-    test.classList.toggle('bg')
-    const test2 = test.classList.contains('bg')
+    test.classList.toggle('bege')
+    const test2 = test.classList.contains('bege')
     localStorage.setItem('bgStatus', test2)
 }
 
@@ -112,9 +112,9 @@ const ngen = () => {
     const pler = localStorage.getItem('bgStatus')
 
     if (pler === 'true') {
-        test.classList.add('bg')
+        test.classList.add('bege')
     } else {
-        test.classList.remove('bg')
+        test.classList.remove('bege')
     }
 }
 

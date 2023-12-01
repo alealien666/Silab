@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\detail_order;
+use App\Models\HasilAnalisis;
 use App\Models\Order;
 use Illuminate\Http\Request;
 
@@ -72,5 +73,17 @@ class PemesananController extends Controller
         }
 
         return redirect()->back()->with('success', 'Pesanan Di Verifikasi');
+    }
+
+    public function entryDataHasilAnalisis(Request $request, $id)
+    {
+        $hasil = Order::findOrFail($id);
+
+        $entryData = new HasilAnalisis();
+        $entryData->order_id = $hasil->id;
+        $entryData->status = $request->input('status');
+        $entryData->save();
+
+        return redirect()->back()->with('success', 'Berhasil Input Hasil');
     }
 }
