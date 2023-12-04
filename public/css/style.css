@@ -83,3 +83,12 @@
 .bege {
     opacity: 0.5;
 }
+
+.test {
+    background-color: hotpink;
+}
+
+.form-controll {
+    width: 333px;
+    padding: 8px;
+}

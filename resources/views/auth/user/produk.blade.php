@@ -137,29 +137,7 @@
                                                 </div>
                                             </div>
                                         </li>
-                                        @if ($data->status === 'di gunakan')
-                                            <li>
-                                                <div class="d-flex">
-                                                    <div class="flex-shrink-0 text-danger me-1">
-                                                        <i class="ri-close-circle-fill fs-15 align-middle"></i>
-                                                    </div>
-                                                    <div class="flex-grow-1">
-                                                        {{ $data->status }}
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        @else
-                                            <li>
-                                                <div class="d-flex">
-                                                    <div class="flex-shrink-0 text-success me-1">
-                                                        <i class="ri-checkbox-circle-fill fs-15 align-middle"></i>
-                                                    </div>
-                                                    <div class="flex-grow-1">
-                                                        {{ $data->status }}
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        @endif
+
                                     </ul>
                                     @if ($data->status === 'di gunakan')
                                         <div class="mt-3 pt-2">

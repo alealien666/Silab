@@ -75,7 +75,7 @@ Route::group(['middleware' => 'preventBack'], function () {
                 Route::get('/metu', [LoginController::class, 'logout'])->name('metu');
 
                 // entry hasil
-                Route::post('/entriData/{id}', [PemesananController::class, 'entryDataHasilAnalisis'])->name('hasilAnalisis');
+                Route::post('/entriData/{id}', [PemesananController::class, 'entryDataHasilAnalisisb'])->name('hasilAnalisis');
             });
         });
 

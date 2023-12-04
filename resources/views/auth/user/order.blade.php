@@ -94,7 +94,7 @@
                                                         <div class="mb-3">
                                                             <label for="billinginfo-email"
                                                                 class="form-label">Email</label>
-                                                            <input type="email" class="form-control" id="email"
+                                                            <input type="email" class="form-controll" id="email"
                                                                 value="{{ auth()->user()->email }}" disabled>
                                                         </div>
                                                     </div>
@@ -103,7 +103,7 @@
                                                         <div class="mb-3">
                                                             <label for="billinginfo-phone" class="form-label">Jenis
                                                                 Pesanan</label>
-                                                            <input type="text" class="form-control" name="jenis"
+                                                            <input type="text" class="form-controll" name="jenis"
                                                                 id="jenis" value="Sewa Lab" disabled>
                                                         </div>
                                                     </div>
@@ -186,7 +186,8 @@
                                                                         Nama Alat: {{ $item->jenis_alat }}<br>
                                                                         Harga: Rp.
                                                                         {{ number_format($item->harga, 0, ',', '.') }}<br>
-                                                                        Jumlah: {{ session('jumlah_alat')[$item->id] }}
+                                                                        Jumlah:
+                                                                        {{ session('jumlah_alat')[$item->id] }}
                                                                     </span>
                                                                     <hr>
                                                                 @endforeach
@@ -266,7 +267,8 @@
                                                                     {{ $alat->jenis_alat }}</p>
                                                             </h5>
                                                         </td>
-                                                        <td class="text-end" name="harga_alat">{{ $alat->harga }}
+                                                        <td class="text-end" name="harga_alat">
+                                                            {{ $alat->harga }}
                                                         </td>
                                                         <td>
                                                             <input type="checkbox" name="selected_alat[]"
@@ -301,7 +303,8 @@
                                                                     {{ $alat->jenis_alat }}</p>
                                                             </h5>
                                                         </td>
-                                                        <td class="text-end" name="harga_alat">{{ $alat->harga }}
+                                                        <td class="text-end" name="harga_alat">
+                                                            {{ $alat->harga }}
                                                         </td>
                                                         <td>
                                                             <input type="checkbox" name="selected_alat[]"

@@ -94,32 +94,60 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+const disableProfile = () => {
+    const test = document.getElementById('pills-bill-info');
+    const formDisabled = document.querySelectorAll('.form-control');
+
+    formDisabled.forEach(formDisable => {
+        formDisable.setAttribute('disabled', true);
+    });
+
+    test.classList.add('bege');
+    const test2 = test.classList.contains('bege');
+    localStorage.setItem('bgStatus', test2);
+
+    // Menyimpan status formDisable ke local storage
+    formDisabled.forEach((formDisable, index) => {
+        localStorage.setItem(`formDisabled${index}`, formDisable.getAttribute('disabled'));
+    });
+};
+
+const ngen = () => {
+    const test = document.getElementById('pills-bill-info');
+    const pler = localStorage.getItem('bgStatus');
+
+    if (pler === 'true') {
+        test.classList.add('bege');
+    }
+    // Mengembalikan status formDisable dari local storage
+    const formDisabled = document.querySelectorAll('.form-control');
+    formDisabled.forEach((formDisable, index) => {
+        const disabledStatus = localStorage.getItem(`formDisabled${index}`);
+        if (disabledStatus === 'true') {
+            formDisable.setAttribute('disabled', true);
+        }
+    });
+};
+document.addEventListener('DOMContentLoaded', ngen);
+
 // redirect pages
 const redirectPage = () => {
+    const test = document.getElementById('pills-bill-info');
+    const formControls = document.querySelectorAll('.form-control');
+
+    test.classList.remove('bege')
+    formControls.forEach(formControl => {
+        formControl.removeAttribute('disabled');
+    });
+
+    localStorage.removeItem('bgStatus');
+    for (let index = 0; index < formControls.length; index++) {
+        localStorage.removeItem(`formDisabled${index}`);
+    }
+
     window.open('https://wa.me/6285854950450', '_blank')
     window.location.href = '../user/riwayat-pemesanan'
 }
-
-const disableProfile = () => {
-    const test = document.getElementById('pills-bill-info')
-    test.classList.toggle('bege')
-    const test2 = test.classList.contains('bege')
-    localStorage.setItem('bgStatus', test2)
-}
-
-const ngen = () => {
-    const test = document.getElementById('pills-bill-info')
-    const pler = localStorage.getItem('bgStatus')
-
-    if (pler === 'true') {
-        test.classList.add('bege')
-    } else {
-        test.classList.remove('bege')
-    }
-}
-
-document.addEventListener('DOMContentLoaded', ngen);
-
 
 
 
