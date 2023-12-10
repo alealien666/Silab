@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Models\detail_order;
-use App\Models\HasilAnalisis;
 use App\Models\Order;
+use Barryvdh\DomPDF\Facade\PDF;
+use App\Models\detail_order;
 use Illuminate\Http\Request;
+use App\Models\HasilAnalisis;
+use App\Http\Controllers\Controller;
+use App\Notifications\NotifHasilAnalisis;
 
 
 class PemesananController extends Controller
@@ -77,6 +79,10 @@ class PemesananController extends Controller
 
     public function entryDataHasilAnalisis(Request $request, $id)
     {
+        $request->validate([
+            'status' => 'required',
+        ]);
+
         $hasil = Order::findOrFail($id);
 
         $entryData = new HasilAnalisis();
@@ -84,6 +90,49 @@ class PemesananController extends Controller
         $entryData->status = $request->input('status');
         $entryData->save();
 
+        $pdfPath = $this->generateCoAPdf($hasil);
+        // dd($pdfPath);
+
+        $hasilAnalisis = HasilAnalisis::where('order_id', $hasil->id)->first();
+        $notif = new NotifHasilAnalisis($hasil, $hasilAnalisis, $pdfPath);
+        $hasil->user->notify($notif);
+
         return redirect()->back()->with('success', 'Berhasil Input Hasil');
+    }
+
+    protected function generateCoAPdf(Order $order)
+    {
+        $order = $order->load('hasilAnalisis');
+
+        $pdfData = [
+            'order_number' => $order->id,
+            'nama_customer' => $order->nama_pemesan,
+            'hasil_analisis' => [
+                'status' => $order->hasilAnalisis->status,
+            ],
+        ];
+        $pdf = PDF::loadView('coa', $pdfData);
+
+        $pdfPath = 'sertifikat/' . $order->id . '_certificate_of_analysis.pdf';
+        $fullPath = public_path($pdfPath);
+
+        $pdf->save($fullPath);
+
+        return $pdfPath;
+    }
+
+    public function showCoa($id)
+    {
+        $order = Order::findOrFail($id);
+        // $pdfPath = $this->generateCoAPdf($order);
+        $pdfData = [
+            'order_number' => $order->id,
+            'nama_pemesan' => $order->nama_pemesan,
+            'hasil_analisis' => [
+                'status' => $order->hasilAnalisis->status
+            ],
+        ];
+        // dd($pdfData);
+        return view('coa', compact('order', 'pdfData'));
     }
 }

@@ -112,11 +112,11 @@ const disableProfile = () => {
     });
 };
 
-const ngen = () => {
+const saveReload = () => {
     const test = document.getElementById('pills-bill-info');
-    const pler = localStorage.getItem('bgStatus');
+    const reload = localStorage.getItem('bgStatus');
 
-    if (pler === 'true') {
+    if (reload === 'true') {
         test.classList.add('bege');
     }
     // Mengembalikan status formDisable dari local storage
@@ -128,7 +128,7 @@ const ngen = () => {
         }
     });
 };
-document.addEventListener('DOMContentLoaded', ngen);
+document.addEventListener('DOMContentLoaded', saveReload);
 
 // redirect pages
 const redirectPage = () => {

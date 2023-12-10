@@ -12,7 +12,6 @@ use App\Http\Controllers\Admin\listAnalisesController;
 use App\Http\Controllers\Admin\listLabsController;
 use App\Http\Controllers\Admin\PemesananController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\HasilAnalisisController;
 use App\Http\Controllers\user\riwayatPemesananController;
 
 /*
@@ -26,11 +25,15 @@ use App\Http\Controllers\user\riwayatPemesananController;
 |
 */
 
-Route::get('welcome', function () {
-    return view('welcome');
-});
 
+// sertifikat
+Route::get('sertifikat/{id}', [PemesananController::class, 'showCoa'])->name('sertifikat.show');
+
+// prevent back denied
 Route::group(['middleware' => 'preventBack'], function () {
+    Route::get('welcome', function () {
+        return view('welcome');
+    });
     Route::get('/', [HomeController::class, 'index']);
     Route::get('/home', [HomeController::class, 'index']);
 
@@ -41,6 +44,7 @@ Route::group(['middleware' => 'preventBack'], function () {
         Route::post('/register', [RegisterController::class, 'store']);
     });
 
+    // admin & super admin
     Route::middleware(['auth'])->group(function () {
         Route::prefix('Admin')->group(function () {
             Route::middleware(['auth', 'role:0'])->group(function () {
@@ -75,10 +79,11 @@ Route::group(['middleware' => 'preventBack'], function () {
                 Route::get('/metu', [LoginController::class, 'logout'])->name('metu');
 
                 // entry hasil
-                Route::post('/entriData/{id}', [PemesananController::class, 'entryDataHasilAnalisisb'])->name('hasilAnalisis');
+                Route::post('/entriData/{id}', [PemesananController::class, 'entryDataHasilAnalisis'])->name('hasilAnalisis');
             });
         });
 
+        // user
         Route::middleware(['auth', 'role:2'])->group(function () {
             Route::get('/user', [HomeController::class, 'profil']);
             Route::get('/orderAnalisis/{slug}', [OrderController::class, 'showOrderAnalisis']);

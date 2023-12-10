@@ -10,6 +10,8 @@ class Analisis extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'id';
+    protected $table = 'analises';
     protected $guarded = [
         'id',
         'category_id',
