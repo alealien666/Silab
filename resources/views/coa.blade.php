@@ -1,21 +1,28 @@
-{{-- @dd($order) --}}
+<!-- resources/views/coa.blade.php -->
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Certificate of Analysis</title>
 </head>
 
 <body>
-    <h1>Sertifikat</h1>
-    <p>Order Number: {{ $pdfData['order_number'] }}</p>
-    <p>Nama Pemesan: {{ $pdfData['nama_pemesan'] }}</p>
-    <p>status {{ $pdfData['hasil_analisis']['status'] }}</p>
-    {{-- <p>{{ asset('sertifikat/' . $pdfPath) }}</p> --}}
-    {{-- <embed src="{{ asset($pdfPath) }}" type="aplication/pdf" width="100%" height="600px"> --}}
+
+    <h1>Certificate of Analysis</h1>
+
+    <p>Order Number: {{ $order->id }}</p>
+    <p>Nama Customer: {{ $order->nama_pemesan }}</p>
+
+    <!-- Menampilkan PDF atau link ke PDF -->
+    @if (isset($pdfPath))
+        <a href="{{ url($pdfPath) }}" download="Certificate_of_Analysis.pdf">
+            <button>Download Certificate</button>
+        </a>
+    @else
+        <p>COA not available</p>
+    @endif
+
 </body>
 
 </html>

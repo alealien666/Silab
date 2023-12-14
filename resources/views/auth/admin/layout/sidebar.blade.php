@@ -34,12 +34,7 @@
             <ul class="navbar-nav" id="navbar-nav">
                 @if (in_array(auth()->user()->role, [0, 1]))
                     <li class="menu-title"><span data-key="t-menu">Menu</span></li>
-                    {{-- <li class="nav-item">
-                    <a class="nav-link menu-link" href="" role="button" aria-expanded="false"
-                        aria-controls="sidebarDashboards">
-                        <i class="ri-dashboard-2-line"></i> <span data-key="t-dashboards">Dashboards</span>
-                    </a>
-                </li> --}}
+
                     <li class="nav-item">
                         <a class="nav-link {{ Request::is('list-alat') || Request::is('list-analises') || Request::is('list-labs') ? 'active' : '' }} menu-link"
                             href="#sidebarApps" data-bs-toggle="collapse" role="button" aria-expanded="false"
@@ -79,14 +74,7 @@
                     </li>
                 @endif
 
-                {{-- @if (auth()->user()->role === 0)
-                    <li class="nav-item">
-                        <a class="nav-link {{ Request::is('crudUser') ? 'active' : '' }}"
-                            href="{{ route('Admin.crudUser') }}">
-                            <i class="ri-user-3-line"></i> <span data-key="t-forms">User</span>
-                        </a>
-                    </li>
-                @endif --}}
+
 
             </ul>
         </div>

@@ -36,11 +36,11 @@ class HasilAnalisisController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
-    {
-        $hasilAnalis = Order::findOrFail($id);
-        return view('admin.tampilan.pemesanan', compact('hasilAnalisis'));
-    }
+    // public function show($id)
+    // {
+    //     $hasilAnalis = Order::findOrFail($id);
+    //     return view('admin.tampilan.pemesanan', compact('hasilAnalisis'));
+    // }
 
     /**
      * Show the form for editing the specified resource.

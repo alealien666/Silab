@@ -111,7 +111,7 @@ class PemesananController extends Controller
                 'status' => $order->hasilAnalisis->status,
             ],
         ];
-        $pdf = PDF::loadView('coa', $pdfData);
+        $pdf = PDF::loadView('coa', $pdfData)->setOption(['defaultFont' => 'arial']);
 
         $pdfPath = 'sertifikat/' . $order->id . '_certificate_of_analysis.pdf';
         $fullPath = public_path($pdfPath);
@@ -119,20 +119,5 @@ class PemesananController extends Controller
         $pdf->save($fullPath);
 
         return $pdfPath;
-    }
-
-    public function showCoa($id)
-    {
-        $order = Order::findOrFail($id);
-        // $pdfPath = $this->generateCoAPdf($order);
-        $pdfData = [
-            'order_number' => $order->id,
-            'nama_pemesan' => $order->nama_pemesan,
-            'hasil_analisis' => [
-                'status' => $order->hasilAnalisis->status
-            ],
-        ];
-        // dd($pdfData);
-        return view('coa', compact('order', 'pdfData'));
     }
 }

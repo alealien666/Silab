@@ -1,17 +1,18 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PdfController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\user\LabController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\user\OrderController;
 use App\Http\Controllers\auth\RegisterController;
 use App\Http\Controllers\user\AnalisisController;
 use App\Http\Controllers\Admin\listAlatController;
-use App\Http\Controllers\Admin\listAnalisesController;
 use App\Http\Controllers\Admin\listLabsController;
 use App\Http\Controllers\Admin\PemesananController;
-use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\listAnalisesController;
 use App\Http\Controllers\user\riwayatPemesananController;
 
 /*
@@ -27,7 +28,7 @@ use App\Http\Controllers\user\riwayatPemesananController;
 
 
 // sertifikat
-Route::get('sertifikat/{id}', [PemesananController::class, 'showCoa'])->name('sertifikat.show');
+Route::get('sertifikat/{id}', [PdfController::class, 'showCoa'])->name('sertifikat.show');
 
 // prevent back denied
 Route::group(['middleware' => 'preventBack'], function () {
