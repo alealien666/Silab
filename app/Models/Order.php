@@ -23,7 +23,7 @@ class Order extends Model
     }
     public function analisis()
     {
-        return $this->belongsTo(Analisis::class, 'analisis_id', 'analisis_id');
+        return $this->belongsTo(Analisis::class, 'analisis_id', 'id');
     }
     public function alat()
     {

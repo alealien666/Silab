@@ -28,7 +28,8 @@ use App\Http\Controllers\user\riwayatPemesananController;
 
 
 // sertifikat
-Route::get('sertifikat/{id}', [PdfController::class, 'showCoa'])->name('sertifikat.show');
+Route::get('sertifikat/{id}', [PemesananController::class, 'showCoa'])->name('sertifikat.show');
+Route::get('download-sertifikat/{id}', [PemesananController::class, 'downloadPdf'])->name('download-sertifikat');
 
 // prevent back denied
 Route::group(['middleware' => 'preventBack'], function () {

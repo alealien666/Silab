@@ -13,13 +13,4 @@ class PdfController extends Controller
     {
         $this->purchaseController = $purchaseController;
     }
-
-    public function showCoa($id)
-    {
-        $order = Order::findOrFail($id);
-        // $pdfData = $this->purchaseController->generateCoAPdf($order);
-        $pdfPath = 'sertifikat/' . $order->id . '_certificate_of_analysis.pdf';
-
-        return view('coa', compact('order', 'pdfPath'));
-    }
 }

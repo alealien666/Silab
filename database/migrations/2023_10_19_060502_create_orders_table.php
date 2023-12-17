@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('nama_pemesan');
             $table->enum('jenis_pesanan', ['Sewa Lab', 'Jasa Analisis']);
             $table->string('no_telp');
+            $table->string('alamat');
             $table->string('bukti_pembayaran')->nullable();
             $table->timestamp('expired_at')->nullable();
             $table->timestamps();

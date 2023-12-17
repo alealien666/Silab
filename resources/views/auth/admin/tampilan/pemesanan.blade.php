@@ -47,7 +47,8 @@
                             </a>
                         </li> --}}
                         <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="tab" href="#product2" role="tab" aria-selected="false">
+                            <a class="nav-link active" data-bs-toggle="tab" href="#product2" role="tab"
+                                aria-selected="false">
                                 Sewa Lab
                             </a>
                         </li>
@@ -57,19 +58,19 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="tab" href="#messages" role="tab" aria-selected="false">
+                            <a class="nav-link" data-bs-toggle="tab" href="#product4" role="tab" aria-selected="false">
                                 Pending
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="tab" href="#settings" role="tab" aria-selected="false">
+                            <a class="nav-link" data-bs-toggle="tab" href="#product5" role="tab" aria-selected="false">
                                 Approved
                             </a>
                         </li>
                     </ul>
 
                     <!-- list Tab panes -->
-                    <div class="tab-content  text-muted">
+                    <div class="tab-content text-muted">
                         {{-- tab-all --}}
                         {{-- <div class="tab-pane active" id="product1" role="tabpanel">
                             <div class="card-body">
@@ -275,7 +276,7 @@
                         </div>
 
                         {{-- tab-Pending --}}
-                        <div class="tab-pane" id="messages" role="tabpanel">
+                        <div class="tab-pane" id="product4" role="tabpanel">
                             <div class="card-body">
                                 <div id="customerList">
                                     <div class="table-responsive mb-1" id="tab4">
@@ -321,7 +322,7 @@
                         </div>
 
                         {{-- tab-Approved --}}
-                        <div class="tab-pane" id="settings" role="tabpanel">
+                        <div class="tab-pane" id="product5" role="tabpanel">
                             <div class="card-body">
                                 <div id="customerList">
                                     <div class="table-responsive mb-1" id="tab5">

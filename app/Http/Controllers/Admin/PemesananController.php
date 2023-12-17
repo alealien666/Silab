@@ -91,7 +91,6 @@ class PemesananController extends Controller
         $entryData->save();
 
         $pdfPath = $this->generateCoAPdf($hasil);
-        // dd($pdfPath);
 
         $hasilAnalisis = HasilAnalisis::where('order_id', $hasil->id)->first();
         $notif = new NotifHasilAnalisis($hasil, $hasilAnalisis, $pdfPath);
@@ -111,13 +110,25 @@ class PemesananController extends Controller
                 'status' => $order->hasilAnalisis->status,
             ],
         ];
+        // dd($pdfData);
         $pdf = PDF::loadView('coa', $pdfData)->setOption(['defaultFont' => 'arial']);
 
         $pdfPath = 'sertifikat/' . $order->id . '_certificate_of_analysis.pdf';
         $fullPath = public_path($pdfPath);
-
         $pdf->save($fullPath);
-
         return $pdfPath;
+    }
+    public function showCoa($id)
+    {
+        $order = Order::with('hasilAnalisis', 'analisis')->findOrFail($id);
+        $pdfPath = 'sertifikat/' . $order->id . '_certificate_of_analysis.pdf';
+        return view('coa', compact('order', 'pdfPath',));
+    }
+    public function downloadPdf($id)
+    {
+        set_time_limit(3600);
+        $order = Order::with('hasilAnalisis', 'analisis')->findOrFail($id);
+        $pdf = PDF::loadView('coa', ['order' => $order])->setOption(['defaultFont' => 'arial']);
+        return $pdf->download('_certificate_of_analysis.pdf');
     }
 }

@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('hasil_analises', function (Blueprint $table) {
             $table->id();
             $table->string('status');
+            $table->date('tanggal_terbit');
+            $table->string('kondisi_sample');
             $table->foreignId('order_id');
             $table->timestamps();
         });
