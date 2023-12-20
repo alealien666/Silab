@@ -29,6 +29,8 @@
 
         .info {
             font-weight: bold;
+            display: flex;
+            justify-content: space-between;
         }
     </style>
 </head>
@@ -46,20 +48,29 @@
 
         <h1 style="text-align: center">Certificate of Analysis</h1>
 
-        <section class="info">
-            <p>Nama Sample: {{ $order->analisis->jenis_pengujian }}</p>
-            <p>Jenis Analisis: {{ $order->analisis->jenis_analisa }}</p>
-            <p>Nama Customer: {{ $order->nama_pemesan }}</p>
-            <p>Id Sample: {{ $order->analisis->id }}</p>
-        </section>
+        @if (isset($order))
+            <section class="info">
+                <div class="info1">
+                    <p>Nama Sample: {{ $order->analisis->jenis_pengujian }}</p>
+                    <p>Jenis Analisis: {{ $order->analisis->jenis_analisa }}</p>
+                    <p>Nama Customer: {{ $order->nama_pemesan }}</p>
+                    <p>Id Sample: {{ $order->analisis->id }}</p>
+                </div>
 
-        <h2 style="text-align: center">Hasil Analisis</h2>
-        <section class="hasil">
-            <p>Status: {{ $order->hasilAnalisis->status }}</p>
-            <p>Tanggal Pelaksanaan Analisa: {{ $order->order }}</p>
-        </section>
+                <div class="info2">
+                    <p>Tanggal Terbit: {{ $order->hasilAnalisis->tanggal_terbit }}</p>
+                </div>
+            </section>
 
-        <a href="{{ route('download-sertifikat', ['id' => $order->id]) }}">Download Sertifikat</a>
+            <h2 style="text-align: center">Hasil Analisis</h2>
+            <section class="hasil">
+                <p>Status: {{ $order->hasilAnalisis->status }}</p>
+                <p>Tanggal Pelaksanaan Analisa: {{ $order->order }}</p>
+                <p>Kondisi Sample: {{ $order->hasilAnalisis->kondisi_sample }}</p>
+            </section>
+            <a href="{{ route('download-sertifikat', ['id' => $order->id]) }}">Download Sertifikat</a>
+        @endif
+
     </div>
 </body>
 

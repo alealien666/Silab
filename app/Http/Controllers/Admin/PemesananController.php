@@ -80,7 +80,8 @@ class PemesananController extends Controller
     public function entryDataHasilAnalisis(Request $request, $id)
     {
         $request->validate([
-            'status' => 'required',
+            'status' => 'required|string',
+            'kondisi' => 'required|string'
         ]);
 
         $hasil = Order::findOrFail($id);
@@ -88,6 +89,8 @@ class PemesananController extends Controller
         $entryData = new HasilAnalisis();
         $entryData->order_id = $hasil->id;
         $entryData->status = $request->input('status');
+        $entryData->kondisi_sample = $request->input('kondisi');
+        $entryData->tanggal_terbit = now()->format('Y-m-d');
         $entryData->save();
 
         $pdfPath = $this->generateCoAPdf($hasil);
@@ -108,6 +111,8 @@ class PemesananController extends Controller
             'nama_customer' => $order->nama_pemesan,
             'hasil_analisis' => [
                 'status' => $order->hasilAnalisis->status,
+                'tanggal_terbit' => $order->hasilAnalisis->tanggal_terbit,
+                'kondisi_sample' => $order->hasilAnalisis->kondisi_sample,
             ],
         ];
         // dd($pdfData);
@@ -126,7 +131,7 @@ class PemesananController extends Controller
     }
     public function downloadPdf($id)
     {
-        set_time_limit(3600);
+        set_time_limit(180);
         $order = Order::with('hasilAnalisis', 'analisis')->findOrFail($id);
         $pdf = PDF::loadView('coa', ['order' => $order])->setOption(['defaultFont' => 'arial']);
         return $pdf->download('_certificate_of_analysis.pdf');

@@ -34,21 +34,20 @@
                                 <form action="{{ route('orderLab') }}" method="post">
                                     @csrf
                                     <div class="step-arrow-nav mt-n3 mx-n3 mb-3">
-
                                         <ul class="nav nav-pills nav-justified custom-nav" role="tablist">
                                             <li class="nav-item" role="presentation" id="personal-info">
-                                                <button class="nav-link fs-15 p-3 active" id="pills-bill-info-tab"
+                                                <button class="nav-link fs-15 p-3" id="pills-bill-info-tab"
                                                     data-bs-toggle="pill" data-bs-target="#pills-bill-info"
-                                                    type="button" role="tab" aria-controls="pills-bill-info"
+                                                    type="button" aria-controls="pills-bill-info"
                                                     aria-selected="true"><i
                                                         class="ri-user-2-line fs-16 p-2 bg-soft-primary text-primary rounded-circle align-middle me-2"></i>
                                                     Personal Info</button>
                                             </li>
                                             <li class="nav-item" role="presentation">
-                                                <button class="nav-link fs-15 p-3" id="pills-bill-address-tab"
+                                                <button class="nav-link fs-15 p-3 active" id="pills-bill-address-tab"
                                                     data-bs-toggle="pill" data-bs-target="#pills-bill-address"
                                                     type="button" role="tab" aria-controls="pills-bill-address"
-                                                    aria-selected="false" disabled><i
+                                                    aria-selected="false"><i
                                                         class="ri-truck-line fs-16 p-2 bg-soft-primary text-primary rounded-circle align-middle me-2"></i>
                                                     Detail Pesanan</button>
                                             </li>
@@ -56,7 +55,8 @@
                                     </div>
 
                                     <div class="tab-content" id="pageProfile">
-                                        <div class="tab-pane fade show active" id="pills-bill-info" role="tabpanel">
+                                        {{-- <div class="tab-pane fade show active" id="pills-bill-info" role="tabpanel"
+                                            aria-labelledby="pills-bill-info-tab">
                                             <div>
                                                 <h5 class="mb-1">{{ $lab->nama_lab }}</h5>
                                                 <input type="hidden" name="lab" id="lab"
@@ -128,10 +128,19 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                            <div class="d-flex align-items-start m-2">
+                                                <button type="submit"
+                                                    class="btn btn-primary btn-label right ms-auto nexttab"
+                                                    data-nexttab="pills-bill-address-tab" id="buttonPesan"
+                                                    onclick="disableProfile()"><i
+                                                        class="ri-truck-line label-icon align-middle fs-16 ms-2"></i>Pesan
+                                                    Sekarang</button>
+                                            </div>
+                                        </div> --}}
                                         <!-- end tab pane -->
 
-                                        <div class="tab-pane fade" id="pills-bill-address" role="tabpanel">
+                                        <div class="tab-pane fade show active" id="pills-bill-address" role="tabpanel"
+                                            aria-labelledby="pills-bill-address-tab">
                                             <div>
                                                 <h5 class="mb-1">Detail Pesanan</h5>
                                                 <p class="text-muted mb-4">Informasi Transaksi Anda</p>
@@ -180,17 +189,17 @@
                                                                 <span
                                                                     class="mb-4 fw-semibold d-block text-uppercase">detail
                                                                     alat yang di sewa</span><br>
-                                                                @foreach ($selectedAlat as $item)
+                                                                {{-- @foreach ($selectedAlat as $item)
                                                                     <span class="text-muted mb-2 d-block"
                                                                         id="shipping-alat">
                                                                         Nama Alat: {{ $item->jenis_alat }}<br>
                                                                         Harga: Rp.
                                                                         {{ number_format($item->harga, 0, ',', '.') }}<br>
                                                                         Jumlah:
-                                                                        {{-- {{ session('jumlah_alat')[$item->id] }} --}}
+                                                                        {{ session('jumlah_alat')[$item->id] }}
                                                                     </span>
                                                                     <hr>
-                                                                @endforeach
+                                                                @endforeach --}}
 
                                                             </label>
                                                         </div>
@@ -203,8 +212,7 @@
                                                     <div class="row g-4">
                                                         <div class="col-lg-6">
                                                             <div class="form-check card-radio">
-                                                                <label class="form-check-label"
-                                                                    for="shippingMethod02">
+                                                                <label class="form-check-label" for="shippingMethod02">
                                                                     <span
                                                                         class="fs-21 float-end mt-2 text-wrap d-block fw-semibold">Rp:
                                                                         {{ number_format(session('total_biaya'), 0, ',', '.') }}
@@ -237,7 +245,7 @@
                     </div>
                     <!-- end col -->
 
-                    <div class="col-xl-4">
+                    {{-- <div class="col-xl-4">
                         <div class="card">
                             <div class="card-header">
                                 <div class="d-flex">
@@ -249,7 +257,7 @@
                             <div class="card-body">
                                 <div class="table-responsive table-card"
                                     style="max-height: 300px; overflow-y: scroll">
-                                    <table class="table table-borderless align-middle mb-0" id="table">
+                                    <table class="table table-borderless align-middle mb-0">
                                         <thead class="table-light text-muted">
                                             <tr>
                                                 <th scope="col">Jenis Alat</th>
@@ -350,22 +358,16 @@
                                             </tr>
                                         </tbody>
                                     </table>
+
                                 </div>
                             </div>
                             <!-- end card body -->
                         </div>
                         <!-- end card -->
+                        </form>
 
-                    </div>
-                    <div class="d-flex align-items-center mb-3">
-                        <button type="submit" class="btn btn-primary btn-label right" id="buttonPesan"
-                            onclick="disableProfile()"><i
-                                class="ri-truck-line label-icon align-middle fs-16 ms-2"></i>Pesan
-                            Sekarang</button>
-                    </div>
+                    </div> --}}
                     <!-- end col -->
-                    </form>
-
                 </div>
                 <!-- end row -->
             </div>
@@ -398,7 +400,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="{{ asset('js/main.js') }}"></script>
-<script>
+{{-- <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Tanggal-tanggal yang sudah dipesan (contoh data dari $usedDate)
         const tanggalDipesan = @json($usedDate);
@@ -422,4 +424,4 @@
             // }
         });
     });
-</script>
+</script> --}}

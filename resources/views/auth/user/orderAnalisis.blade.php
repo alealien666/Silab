@@ -106,12 +106,21 @@
                                                         <div class="col-md-6">
                                                             <div class="mb-3">
                                                                 <label for="order" class="form-label">Order</label>
+                                                                @php
+                                                                    $today = now()->format('Y-m-d');
+                                                                @endphp
                                                                 <input type="date" name="masuk" id="masuk"
-                                                                    class="form-control" value{{ old('masuk') }}
-                                                                    {{-- {{ $lab && $lab->status === 'tidak tersedia' ? 'disabled' : '' }} --}} required>
+                                                                    value{{ old('masuk') }} required
+                                                                    min="{{ $today }}" class="form-control"
+                                                                    placeholder="masukkan tanggal">
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
+                                                            <label for="alamat" class="form-label">Alamat</label>
+                                                            <input type="text" name="alamat" class="form-control"
+                                                                id="alamat" placeholder="Enter Address" required>
+                                                        </div>
+                                                        <div class="col-lg-12">
                                                             <div class="form-check card-radio">
                                                                 <label class="form-check-label" for="shippingMethod02">
                                                                     <span
@@ -175,4 +184,28 @@
         <!-- end main content-->
 
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tanggal = @json($usedDate);
+            flatpickr("#masuk", {
+                minDate: "{{ $today }}",
+                disable: tanggal,
+                onChange: function(selectedDates, dateStr, instance) {
+                    if (tanggal.includes(dateStr)) {
+                        alert('tanggal ini sudah di pesan, silahkan pillih tanggal lain!!')
+                        instance.clear()
+                    }
+                }
+            })
+        })
+    </script>
+    <script>
+        const redirectPage = () => {
+            window.open('https://wa.me/6285854950450', '_blank')
+            window.location.href = '../user/riwayat-pemesanan'
+        }
+    </script>
 @endsection

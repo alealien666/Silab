@@ -74,8 +74,14 @@
                     </li>
                 @endif
 
-
-
+                @if (auth()->user()->role === 0)
+                    <li class="nav-item">
+                        <a class="nav-link {{ Request::is('user') ? 'active' : '' }}"
+                            href="{{ route('Admin.crudUser') }}">
+                            <i class="ri-group-line"></i> <span data-key="t-forms">User</span>
+                        </a>
+                    </li>
+                @endif
             </ul>
         </div>
         </li>

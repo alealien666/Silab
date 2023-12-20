@@ -22,6 +22,7 @@ class OrderController extends Controller
             "notelp" => "required|numeric",
             "masuk" => ["required", "date", "after_or_equal:" . Carbon::now()->toDateString()],
             "selected_alat" => "required|array",
+            "alamat" => "required|string",
             "jumlah_alat" => "required|array",
         ]);
 
@@ -36,6 +37,7 @@ class OrderController extends Controller
                 'id_lab' => $request->input('id_lab'),
                 'notelp' => $request->input('notelp'),
                 'jenispesanan' => 'Sewa Lab',
+                'alamat' => $request->input('alamat'),
                 'masuk' => $request->input('masuk'),
                 'keluar' => $request->input('keluar'),
                 'lab' => $request->input('lab'),
@@ -55,6 +57,7 @@ class OrderController extends Controller
         $order->user_id = auth()->user()->id;
         $order->id_lab = $request->input('id_lab');
         $order->jenis_pesanan = 'Sewa Lab';
+        $order->alamat = $request->input('alamat');
         $order->nama_pemesan = $request->input('nama');
         $order->no_telp = $request->input('notelp');
         $order->order = $request->input('masuk');
@@ -139,7 +142,12 @@ class OrderController extends Controller
     public function showOrderAnalisis($slug)
     {
         $analis = Analisis::where('slug', $slug)->firstOrFail();
-        return view('auth.user.orderAnalisis', compact('analis'))->with('title', 'Silab | Order');
+        $usedDate = Order::where('status', 'approved')
+            ->where('analisis_id', $analis->id)
+            ->whereDate('order', '>=', today()->format('Y-m-d'))
+            ->pluck('order')
+            ->toArray();
+        return view('auth.user.orderAnalisis', compact('analis', 'usedDate'))->with('title', 'Silab | Order');
     }
 
     public function orderAnalisis(Request $request)
@@ -147,6 +155,7 @@ class OrderController extends Controller
         $request->validate([
             "nama" => "required|max:255|string",
             "notelp" => "required|numeric",
+            "alamat" => "required|string",
             "masuk" => ["required", "date", "after_or_equal:" . Carbon::now()->toDateString()],
         ]);
         $expiredAt = now()->addHour();
@@ -156,6 +165,7 @@ class OrderController extends Controller
         $order->analisis_id = $request->input('id_analisis');
         $order->jenis_pesanan = 'Jasa Analisis';
         $order->nama_pemesan = $request->input('nama');
+        $order->alamat = $request->input('alamat');
         $order->no_telp = $request->input('notelp');
         $order->order = $request->input('masuk');
         $order->total_biaya = $request->input('harga');

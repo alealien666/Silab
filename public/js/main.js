@@ -1,161 +1,178 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-    const subtotalElement = document.getElementById('subtotal');
-    const totalElement = document.getElementById('total');
-
-    const downloadLink = document.querySelectorAll('#download')
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]')
+    const subtotalElement = document.getElementById('subtotal')
+    const totalElement = document.getElementById('total')
     const disableButtonStok = document.querySelectorAll('#dis,#diss,.not')
+    // const downloadLink = document.querySelectorAll('#download')
 
     // Daftar alat
-    const alatCounters = document.querySelectorAll('.jumlah');
-    const plusButtons = document.querySelectorAll('.plus');
-    const minusButtons = document.querySelectorAll('.min');
+    const alatCounters = document.querySelectorAll('.jumlah')
+    const plusButtons = document.querySelectorAll('.plus')
+    const minusButtons = document.querySelectorAll('.min')
 
-    downloadLink.forEach(function (download) {
-        download.addEventListener('click', function () {
-            this.classList.add('disabled')
-        })
-    })
+    // downloadLink.forEach(function (download) {
+    //     download.addEventListener('click', function () {
+    //         this.classList.add('disabled')
+    //     })
+    // })
 
     checkboxes.forEach(function (checkbox) {
         checkbox.addEventListener('change', function () {
-            updateSubtotal();
-        });
-    });
+            updateSubtotal()
+        })
+    })
 
     plusButtons.forEach(function (button, index) {
         let stock = document.querySelectorAll('#stok')[index].getAttribute('data-stok')
-        const inputJumlah = alatCounters[index].querySelector('input[type="hidden"]');
+        const inputJumlah = alatCounters[index].querySelector('input[type="hidden"]')
         button.addEventListener('click', function () {
             if (inputJumlah.value === stock) {
                 button.style.backgroundColor = 'white'
                 button.style.opacity = 0.5
             } else {
-                incrementCount(index);
+                incrementCount(index)
             }
-        });
-    });
+        })
+    })
     minusButtons.forEach(function (button, index) {
         button.addEventListener('click', function () {
-            decrementCount(index);
-        });
-    });
+            decrementCount(index)
+        })
+    })
 
     function updateSubtotal() {
-        var subtotal = 0;
+        var subtotal = 0
         checkboxes.forEach(function (checkbox, index) {
             if (checkbox.checked) {
-                const harga = parseFloat(checkbox.getAttribute('data-harga'));
+                const harga = parseFloat(checkbox.getAttribute('data-harga'))
                 if (!isNaN(harga)) {
-                    const count = parseInt(alatCounters[index].querySelector('.count').textContent, 10);
-                    subtotal += harga * count;
+                    const count = parseInt(alatCounters[index].querySelector('.count').textContent, 10)
+                    subtotal += harga * count
                 }
             }
-        });
-        subtotalElement.textContent = 'Rp. ' + subtotal.toLocaleString('id-ID');
-        updateTotal(subtotal);
+        })
+        subtotalElement.textContent = 'Rp. ' + subtotal.toLocaleString('id-ID')
+        updateTotal(subtotal)
     }
 
     function updateTotal(subtotal) {
-        const total = subtotal;
-        totalElement.textContent = 'Rp. ' + total.toLocaleString('id-ID');
+        const total = subtotal
+        totalElement.textContent = 'Rp. ' + total.toLocaleString('id-ID')
     }
 
     function incrementCount(index) {
-        const jumlah = alatCounters[index].querySelector('.count');
-        let count = parseInt(jumlah.textContent, 10); //ngekonversi bilangan bulat desimal basis 10
-        count++;
-        jumlah.textContent = count;
+        const jumlah = alatCounters[index].querySelector('.count')
+        let count = parseInt(jumlah.textContent, 10) //ngekonversi bilangan bulat desimal basis 10
+        count++
+        jumlah.textContent = count
 
-        const inputJumlah = alatCounters[index].querySelector('input[type="hidden"]');
-        inputJumlah.value = count;
-        // console.log(inputJumlah);
-        updateSubtotal();
+        const inputJumlah = alatCounters[index].querySelector('input[type="hidden"]')
+        inputJumlah.value = count
+        // console.log(inputJumlah)
+        updateSubtotal()
 
     }
 
     function decrementCount(index) {
-        const jumlah = alatCounters[index].querySelector('.count');
-        let count = parseInt(jumlah.textContent, 10);
+        const jumlah = alatCounters[index].querySelector('.count')
+        let count = parseInt(jumlah.textContent, 10)
         if (count > 0) {
-            count--;
-            jumlah.textContent = count;
+            count--
+            jumlah.textContent = count
 
-            const inputJumlah = alatCounters[index].querySelector('input[type="hidden"]');
-            inputJumlah.value = count;
+            const inputJumlah = alatCounters[index].querySelector('input[type="hidden"]')
+            inputJumlah.value = count
 
-            updateSubtotal();
+            updateSubtotal()
         }
     }
     // disable button stok 0
     disableButtonStok.forEach(disableButton => {
         disableButton.disabled = 'true'
         disableButton.style.backgroundColor = 'white'
-    });
-});
+    })
+})
 
-const disableProfile = () => {
-    const test = document.getElementById('pills-bill-info');
-    const formDisabled = document.querySelectorAll('.form-control');
-
-    formDisabled.forEach(formDisable => {
-        formDisable.setAttribute('disabled', true);
-    });
-
-    test.classList.add('bege');
-    const test2 = test.classList.contains('bege');
-    localStorage.setItem('bgStatus', test2);
-
-    // Menyimpan status formDisable ke local storage
-    formDisabled.forEach((formDisable, index) => {
-        localStorage.setItem(`formDisabled${index}`, formDisable.getAttribute('disabled'));
-    });
-};
+// order 
+const onButtonSubmitPressed = () => {
+    localStorage.setItem('buttonSubmitPressed', true)
+}
+const buttonSubmit = document.getElementById('buttonPesan')
+buttonSubmit.addEventListener('click', onButtonSubmitPressed)
 
 const saveReload = () => {
-    const test = document.getElementById('pills-bill-info');
-    const reload = localStorage.getItem('bgStatus');
+    const personalInfoTab = document.getElementById('pills-bill-info-tab')
+    const detailPesanTab = document.getElementById('pills-bill-address-tab')
+    const detailPesan = document.getElementById('pills-bill-address')
+    const personalInfo = document.getElementById('pills-bill-info')
+    const buttonPesanSekarang = document.getElementById('buttonPesan')
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]')
+    const disableButtonStok = document.querySelectorAll('.plus, .min')
+    const buttonSubmitPressed = JSON.parse(localStorage.getItem('buttonSubmitPressed'))
+    const tabelAlat = document.getElementById('table')
 
-    if (reload === 'true') {
-        test.classList.add('bege');
+
+    if (buttonSubmitPressed === true) {
+        tabelAlat.style.opacity = 0.5
+
+        disableButtonStok.forEach(disableButton => {
+            disableButton.disabled = true
+            disableButton.style.cursor = 'notAllowed'
+            disableButton.style.backgroundColor = 'white'
+        })
+
+        checkboxes.forEach(checkbox => {
+            checkbox.disabled = true
+            checkbox.style.cursor = 'notAllowed'
+        })
+        personalInfo.classList.remove('show', 'active')
+        personalInfoTab.disabled = true
+        personalInfoTab.classList.remove('active')
+        detailPesanTab.classList.add('active')
+        detailPesanTab.disabled = false
+        detailPesan.classList.add('show', 'active')
+        buttonPesanSekarang.style.display = 'none'
+
+        localStorage.setItem('buttonSubmitPressed', false)
     }
-    // Mengembalikan status formDisable dari local storage
-    const formDisabled = document.querySelectorAll('.form-control');
-    formDisabled.forEach((formDisable, index) => {
-        const disabledStatus = localStorage.getItem(`formDisabled${index}`);
-        if (disabledStatus === 'true') {
-            formDisable.setAttribute('disabled', true);
-        }
-    });
-};
-document.addEventListener('DOMContentLoaded', saveReload);
+}
+
+document.addEventListener('DOMContentLoaded', saveReload)
 
 // redirect pages
 const redirectPage = () => {
-    const test = document.getElementById('pills-bill-info');
-    const formControls = document.querySelectorAll('.form-control');
+    const personalInfoTab = document.getElementById('pills-bill-info-tab')
+    const detailPesanTab = document.getElementById('pills-bill-address-tab')
+    const detailPesan = document.getElementById('pills-bill-address')
+    const personalInfo = document.getElementById('pills-bill-info')
+    const buttonPesanSekarang = document.getElementById('buttonPesan')
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]')
+    const disableButtonStok = document.querySelectorAll('.plus, .min')
+    const tabelAlat = document.getElementById('table')
 
-    test.classList.remove('bege')
-    formControls.forEach(formControl => {
-        formControl.removeAttribute('disabled');
+    tabelAlat.style.opacity = 1
+
+    disableButtonStok.forEach(disablebutton => {
+        disablebutton.disabled = false
+        disablebutton.style.cursor = 'pointer'
+    })
+
+    checkboxes.forEach(checkbox => {
+        checkbox.disabled = false
+        checkbox.style.cursor = 'pointer'
     });
 
-    localStorage.removeItem('bgStatus');
-    for (let index = 0; index < formControls.length; index++) {
-        localStorage.removeItem(`formDisabled${index}`);
-    }
+    personalInfo.classList.add('show', 'active')
+    personalInfo.classList.remove('bege')
+    detailPesan.classList.remove('show', 'active')
+    personalInfoTab.removeAttribute('disabled')
+    personalInfoTab.classList.add('active')
+    detailPesanTab.classList.remove('active')
+    detailPesanTab.setAttribute('disabled', true)
+    buttonPesanSekarang.style.display = 'inlineBlock'
+
+    localStorage.removeItem('buttonSubmitPressed')
 
     window.open('https://wa.me/6285854950450', '_blank')
     window.location.href = '../user/riwayat-pemesanan'
 }
-
-
-
-
-
-
-
-
-
-
-

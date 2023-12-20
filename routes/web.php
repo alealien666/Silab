@@ -105,3 +105,8 @@ Route::group(['middleware' => 'preventBack'], function () {
         });
     });
 });
+Route::get('/haha', function () {
+    return view('auth.user.haha', [
+        'title' => 'Silab | haha'
+    ]);
+});

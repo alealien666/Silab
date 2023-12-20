@@ -393,6 +393,8 @@
                                         value="{{ $analis->jenis_pengujian }}" id="jenis">
                                     <label for="status" class="mt-3">Status</label>
                                     <input class="form-control" type="text" name="status">
+                                    <label for="kondisi" class="mt-3">Kondisi Sample</label>
+                                    <input type="text"class="form-control" name="kondisi" id="kondisi">
                                 @endforeach
                         </div>
                         <div class="modal-footer">
