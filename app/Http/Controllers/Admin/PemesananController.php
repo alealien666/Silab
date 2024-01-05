@@ -104,19 +104,19 @@ class PemesananController extends Controller
 
     protected function generateCoAPdf(Order $order)
     {
-        $order = $order->load('hasilAnalisis');
+        // $order = $order->load('hasilAnalisis');
 
-        $pdfData = [
-            'order_number' => $order->id,
-            'nama_customer' => $order->nama_pemesan,
-            'hasil_analisis' => [
-                'status' => $order->hasilAnalisis->status,
-                'tanggal_terbit' => $order->hasilAnalisis->tanggal_terbit,
-                'kondisi_sample' => $order->hasilAnalisis->kondisi_sample,
-            ],
-        ];
+        // $pdfData = [
+        //     'order_number' => $order->id,
+        //     'nama_customer' => $order->nama_pemesan,
+        //     'hasil_analisis' => [
+        //         'status' => $order->hasilAnalisis->status,
+        //         'tanggal_terbit' => $order->hasilAnalisis->tanggal_terbit,
+        //         'kondisi_sample' => $order->hasilAnalisis->kondisi_sample,
+        //     ],
+        // ];
         // dd($pdfData);
-        $pdf = PDF::loadView('coa', $pdfData)->setOption(['defaultFont' => 'arial']);
+        $pdf = PDF::loadView('coa')->setOption(['defaultFont' => 'arial']);
 
         $pdfPath = 'sertifikat/' . $order->id . '_certificate_of_analysis.pdf';
         $fullPath = public_path($pdfPath);
@@ -129,11 +129,33 @@ class PemesananController extends Controller
         $pdfPath = 'sertifikat/' . $order->id . '_certificate_of_analysis.pdf';
         return view('coa', compact('order', 'pdfPath',));
     }
+    // public function downloadPdf($id)
+    // {
+    //     set_time_limit(180);
+    //     $order = Order::with('hasilAnalisis', 'analisis')->findOrFail($id);
+    //     $pdf = PDF::loadView('coa', ['order' => $order])->setOption(['defaultFont' => 'arial']);
+    //     return $pdf->download('_certificate_of_analysis.pdf');
+    // }
+
     public function downloadPdf($id)
     {
         set_time_limit(180);
         $order = Order::with('hasilAnalisis', 'analisis')->findOrFail($id);
-        $pdf = PDF::loadView('coa', ['order' => $order])->setOption(['defaultFont' => 'arial']);
-        return $pdf->download('_certificate_of_analysis.pdf');
+        $pdfPath = $this->generateCoAPdf($order);
+
+        if ($pdfPath) {
+            // Pastikan path file PDF sesuai dengan yang diharapkan
+            $pdfFullPath = public_path($pdfPath);
+
+            // Pastikan file PDF ada sebelum mencoba mengunduhnya
+            if (file_exists($pdfFullPath)) {
+                $pdf = PDF::loadFile($pdfFullPath)->setOption(['defaultFont' => 'arial']);
+                return $pdf->download('_certificate_of_analysis.pdf');
+            } else {
+                return response()->json(['error' => 'File PDF not found'], 404);
+            }
+        } else {
+            return response()->json(['error' => 'Failed to generate PDF'], 500);
+        }
     }
 }

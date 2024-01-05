@@ -33,8 +33,8 @@ Route::get('download-sertifikat/{id}', [PemesananController::class, 'downloadPdf
 
 // prevent back denied
 Route::group(['middleware' => 'preventBack'], function () {
-    Route::get('welcome', function () {
-        return view('welcome');
+    Route::get('company', function () {
+        return view('company');
     });
     Route::get('/', [HomeController::class, 'index']);
     Route::get('/home', [HomeController::class, 'index']);
@@ -104,9 +104,4 @@ Route::group(['middleware' => 'preventBack'], function () {
             Route::get('/user/riwayat-pemesanan', [riwayatPemesananController::class, 'index'])->name('riwayat-pemesanan.index');
         });
     });
-});
-Route::get('/haha', function () {
-    return view('auth.user.haha', [
-        'title' => 'Silab | haha'
-    ]);
 });

@@ -3,18 +3,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const subtotalElement = document.getElementById('subtotal')
     const totalElement = document.getElementById('total')
     const disableButtonStok = document.querySelectorAll('#dis,#diss,.not')
-    // const downloadLink = document.querySelectorAll('#download')
-
     // Daftar alat
     const alatCounters = document.querySelectorAll('.jumlah')
     const plusButtons = document.querySelectorAll('.plus')
     const minusButtons = document.querySelectorAll('.min')
-
-    // downloadLink.forEach(function (download) {
-    //     download.addEventListener('click', function () {
-    //         this.classList.add('disabled')
-    //     })
-    // })
 
     checkboxes.forEach(function (checkbox) {
         checkbox.addEventListener('change', function () {
@@ -176,3 +168,8 @@ const redirectPage = () => {
     window.open('https://wa.me/6285854950450', '_blank')
     window.location.href = '../user/riwayat-pemesanan'
 }
+
+
+
+
+
