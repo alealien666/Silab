@@ -116,7 +116,7 @@ class PemesananController extends Controller
         //     ],
         // ];
         // dd($pdfData);
-        $pdf = PDF::loadView('coa')->setOption(['defaultFont' => 'arial']);
+        $pdf = PDF::loadView('coa');
 
         $pdfPath = 'sertifikat/' . $order->id . '_certificate_of_analysis.pdf';
         $fullPath = public_path($pdfPath);
@@ -145,11 +145,11 @@ class PemesananController extends Controller
 
         if ($pdfPath) {
             // Pastikan path file PDF sesuai dengan yang diharapkan
-            $pdfFullPath = public_path($pdfPath);
+            $pdfFullPath = public_path(str_replace('/', DIRECTORY_SEPARATOR, $pdfPath));
 
             // Pastikan file PDF ada sebelum mencoba mengunduhnya
             if (file_exists($pdfFullPath)) {
-                $pdf = PDF::loadFile($pdfFullPath)->setOption(['defaultFont' => 'arial']);
+                $pdf = PDF::loadFile($pdfFullPath);
                 return $pdf->download('_certificate_of_analysis.pdf');
             } else {
                 return response()->json(['error' => 'File PDF not found'], 404);

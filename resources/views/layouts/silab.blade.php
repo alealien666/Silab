@@ -1,5 +1,5 @@
-<!doctype html>
-<html lang="en" data-layout="horizontal" data-layout-style="" data-layout-position="fixed" data-topbar="light">
+<html lang="en" data-layout="horizontal" data-layout-style="" data-layout-position="fixed" data-topbar="light"
+    data-layout-mode="light">
 
 <head>
 
@@ -23,7 +23,6 @@
     <!-- custom Css-->
     <link href="{{ asset('assets/css/custom.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('css/style.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('css/company.css') }}" rel="stylesheet" type="text/css" />
     {{-- icon --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
@@ -169,13 +168,13 @@
                             </a>
                         </li>
                         <li class="nav-item margin">
-                            <a class="nav-link menu-link" href="#contact" id="link">
-                                Contact
+                            <a class="nav-link menu-link" href="#galleryProduct" id="link">
+                                Product
                             </a>
                         </li>
                         <li class="nav-item margin">
-                            <a class="nav-link menu-link" href="#product" id="link">
-                                Product
+                            <a class="nav-link menu-link" href="#contact" id="link">
+                                Contact
                             </a>
                         </li>
                         @auth
@@ -234,7 +233,7 @@
 
     <script src="{{ asset('assets/js/pages/pricing.init.js') }}"></script>
     <script src="{{ asset('assets/js/app.js') }}"></script>
-    <script src="{{ asset('js/script.js') }}"></script>t
+    <script src="{{ asset('js/script.js') }}"></script>
 
 </body>
 

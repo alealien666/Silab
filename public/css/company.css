@@ -4,6 +4,9 @@
     box-sizing: border-box;
 }
 
+.container {
+    width: 85%;
+}
 
 body {
     overflow-x: hidden;
@@ -45,9 +48,10 @@ body {
 }
 
 .heroBTn {
+    display: inline-block;
     background-color: aqua;
-    width: 100px;
-    padding: 5px;
+    width: 200px;
+    padding: 10px;
     border-radius: 5px;
     border: none;
     outline: none;
@@ -55,13 +59,13 @@ body {
     color: white;
     z-index: 1;
     font-weight: bold;
+    margin-top: 10px;
 }
 
 #about {
-    width: 85%;
+    /* width: 85%; */
     margin: 0 auto;
     padding-top: 9rem;
-    height: 500vh;
 }
 
 .content {
@@ -131,7 +135,145 @@ body {
     margin: 15px;
 }
 
+#galleryProduct {
+    padding-top: 10rem;
+    padding-bottom: 5rem;
+}
 
+.titleGallery {
+    text-align: center;
+}
+
+.titleGallery span {
+    color: aqua;
+}
+
+.gallery {
+    /* width: 85%; */
+    columns: 3;
+    column-gap: 15px;
+    padding: 20px 0;
+    margin: auto;
+}
+
+.gallery .contentGallery {
+    width: 100%;
+    margin-bottom: 25px;
+    break-inside: avoid;
+    margin-left: 10px;
+    max-width: 100%;
+    border-radius: 15px;
+    transition: 0.4s;
+}
+
+.gallery .contentGallery:hover {
+    transform: scale(0.8);
+    transition: 0.4s;
+}
+
+#contact {
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    height: 350px;
+    border-radius: 100px 0 0 0;
+}
+
+#contact h2 {
+    text-align: center;
+    margin-bottom: 3rem;
+    color: white;
+}
+
+footer {
+    /* columns: 4; */
+    display: flex;
+    justify-content: space-between;
+    width: 85%;
+    padding-top: 4rem;
+    margin: 0 auto;
+    height: 80%;
+}
+
+.contentWrap {
+    width: 200px;
+    height: 100%;
+}
+
+.contentWrap h5,
+h3 {
+    color: white;
+}
+
+.contentWrap h5::after {
+    content: '';
+    width: 100px;
+    height: 2px;
+    border-radius: 10px;
+    background-color: white;
+    display: block;
+}
+
+.contentWrap .link {
+    display: block;
+    color: white;
+    margin: 4px;
+}
+
+.contentWrap .link:hover {
+    color: aqua;
+    transition: 0.2s;
+}
+
+.email::after {
+    content: '';
+    width: 98px;
+    height: 1px;
+    background-color: white;
+    display: block;
+    margin-left: 5px;
+}
+
+.title {
+    display: flex;
+}
+
+#logo {
+    font-size: 25px;
+    margin-right: 6px;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+#logo:hover {
+    color: aqua;
+    transform: rotate(70deg);
+    transition: 0.5s;
+}
+
+.sosmed {
+    color: black;
+    background-color: white;
+    padding: 4px 6px 1px;
+    border-radius: 50%;
+    font-size: 20px;
+    margin: 3px;
+}
+
+.sosmed i {
+    padding-top: 10px;
+}
+
+.copyright {
+    display: block;
+    border-top: 1px solid;
+    width: 85%;
+    text-align: center;
+    margin: 20px auto;
+}
+
+.copyright p {
+    padding-top: 20px;
+}
 
 
 /* media query */
@@ -167,11 +309,21 @@ body {
     .iconBox li {
         float: left;
         display: flex;
-        /* border: 1px solid; */
         padding: 5px;
         margin: 3px;
     }
 
+    .gallery {
+        columns: 2;
+    }
+
+    footer {
+        width: 85%;
+    }
+
+    .contentWrap {
+        width: 48%;
+    }
 }
 
 /* mobile */
@@ -208,8 +360,45 @@ body {
     }
 
     .iconBox li {
-        /* border: 1px solid; */
-        width: 100%;
+        width: 98%;
+    }
+
+    .gallery {
+        columns: 2;
+    }
+
+    #contact {
+        border: 1px solid;
+        height: 80%;
+    }
+
+    footer {
+        flex-direction: column;
+        font-size: 10px;
+    }
+
+    .contentWrap i {
+        font-size: 15px;
+        padding: 1px 2px;
+    }
+
+    .sosmedWrap {
+        margin-top: 20px;
+    }
+
+    .copyright {
+        display: block;
+        margin-top: 5rem;
+    }
+
+    #logo {
+        font-size: 15px;
+    }
+
+    .title {
+        text-align: center;
+        width: 100px;
+        margin: 0 auto;
     }
 
 }

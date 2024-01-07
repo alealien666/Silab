@@ -336,27 +336,24 @@
                                         </div>
                                         <ul class="list-content mx-0" id="listTotal">
                                             <li class="list-unstyled" id="listItem">
-                                                @foreach ($list['alat'] as $key => $alat)
-                                                    <ul class="list-inline list1 bg-{{ $key % 2 == 0 ? '' : 'light' }}"
-                                                        style="margin-left: -30px;">
-                                                        <table>
-                                                            <tr class="text-center">
-                                                                <th>Nama Alat</th>
-                                                                <th>Jumlah</th>
-                                                                <th>Harga</th>
-                                                            </tr>
+                                                <ul class="list-inline list1" style="margin-left: -30px;">
+                                                    <table>
+                                                        <tr class="text-center">
+                                                            <th>Nama Alat</th>
+                                                            <th>Jumlah</th>
+                                                            <th>Harga</th>
+                                                        </tr>
+                                                        @foreach ($list['alat'] as $key => $alat)
                                                             <tr>
                                                                 <td style="ps-5 pe-5">{{ $alat->jenis_alat }}</td>
-                                                                <td class="text-center">{{ $alat->jumlah_alat }}
-                                                                </td>
+                                                                <td class="text-center">{{ $alat->jumlah_alat }}</td>
                                                                 <td class="ps-5 pe-5">
                                                                     Rp.{{ number_format($alat->harga, 0, ',', '.') }}
                                                                 </td>
-
                                                             </tr>
-                                                        </table>
-                                                    </ul>
-                                                @endforeach
+                                                        @endforeach
+                                                    </table>
+                                                </ul>
                                             </li>
                                         </ul>
                                     </div>
@@ -385,7 +382,24 @@
             </div><!-- /.modal-dialog -->
         </div>
     @endforeach
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+                    <script>
+                        document.write(new Date().getFullYear())
+                    </script> © Velzon.
+                </div>
+                <div class="col-sm-6">
+                    <div class="text-sm-end d-none d-sm-block">
+                        Design & Develop by Tefa Polije
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
 @endsection
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/dayjs@1.10.7/dayjs.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/dayjs@1.10.7/plugin/relativeTime.js"></script>

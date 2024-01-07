@@ -11,3 +11,18 @@ document.addEventListener('DOMContentLoaded', function () {
         e.target.classList.add('active')
     })
 })
+
+// local storage tema
+const currentTheme = localStorage.getItem('theme') || 'dark' //pakai logikal or untuk menset default theme jika tidak maka nilainya akan null
+document.documentElement.setAttribute('data-layout-mode', currentTheme)
+
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-layout-mode')
+    const newTheme = currentTheme == 'light' ? 'light' : 'dark'
+
+    localStorage.setItem('theme', newTheme)
+    document.documentElement.setAttribute('data-layout-mode', newTheme)
+}
+
+document.querySelector('.light-dark-mode').addEventListener('click', toggleTheme)
+

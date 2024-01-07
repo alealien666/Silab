@@ -147,7 +147,7 @@
                                 <script>
                                     document.write(new Date().getFullYear())
                                 </script> Silab. Crafted with <i class="mdi mdi-heart text-danger"></i>
-                                by aleandra
+                                by Tefa Polije
                             </p>
                         </div>
                     </div>
