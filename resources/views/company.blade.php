@@ -218,7 +218,7 @@
         </div>
     </footer>
     <div class="copyright">
-        <p>Copyright &copy 2024 Tefa Polije </p>
+        <p>Copyright &copy 2024 Silab </p>
     </div>
 </section>
 {{-- end --}}

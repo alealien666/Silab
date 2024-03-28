@@ -178,12 +178,6 @@ body {
     border-radius: 100px 0 0 0;
 }
 
-#contact h2 {
-    text-align: center;
-    margin-bottom: 3rem;
-    color: white;
-}
-
 footer {
     /* columns: 4; */
     display: flex;
@@ -192,11 +186,13 @@ footer {
     padding-top: 4rem;
     margin: 0 auto;
     height: 80%;
+    /* flex-wrap: wrap; */
 }
 
 .contentWrap {
     width: 200px;
     height: 100%;
+    text-align: center;
 }
 
 .contentWrap h5,
@@ -211,6 +207,7 @@ h3 {
     border-radius: 10px;
     background-color: white;
     display: block;
+    margin: 0 auto;
 }
 
 .contentWrap .link {
@@ -231,10 +228,16 @@ h3 {
     background-color: white;
     display: block;
     margin-left: 5px;
+    margin: 0 auto;
 }
 
 .title {
     display: flex;
+}
+
+.title h3 {
+    color: white;
+    text-align: center;
 }
 
 #logo {
@@ -253,7 +256,7 @@ h3 {
 .sosmed {
     color: black;
     background-color: white;
-    padding: 4px 6px 1px;
+    padding: 6px 6px 1px;
     border-radius: 50%;
     font-size: 20px;
     margin: 3px;
@@ -369,12 +372,29 @@ h3 {
 
     #contact {
         border: 1px solid;
-        height: 80%;
+        height: 100%;
     }
 
     footer {
         flex-direction: column;
         font-size: 10px;
+        margin: 0 auto;
+        /* border: 1px solid; */
+    }
+
+    .contentWrap {
+        margin: 20px auto;
+        width: 100%;
+        text-align: center;
+        /* border: 1px solid; */
+    }
+
+    .contentWrap h5::after {
+        margin: 0 auto;
+    }
+
+    .email::after {
+        margin: 0 auto;
     }
 
     .contentWrap i {
@@ -388,7 +408,7 @@ h3 {
 
     .copyright {
         display: block;
-        margin-top: 5rem;
+        margin-top: 10rem;
     }
 
     #logo {
