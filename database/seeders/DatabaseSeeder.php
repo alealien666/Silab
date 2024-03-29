@@ -7,6 +7,8 @@ use Illuminate\Database\Seeder;
 use App\Models\Category;
 use App\Models\Alat_Tambahan;
 use App\Models\Lab;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 
 class DatabaseSeeder extends Seeder
@@ -16,13 +18,23 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        // user
+        User::create([
+            'name' => 'admin',
+            'email' => 'admin@gmail.com',
+            'role' => 1,
+            'password' => Hash::make('admin321'),
+        ]);
+        User::create([
+            'name' => 'super-admin',
+            'email' => 'super-admin@gmail.com',
+            'role' => '0',
+            'password' => Hash::make('super-admin'),
+        ]);
+        // end
 
+        // category
         Category::create([
             'category' => 'Microbiologi',
             'deskripsi' => 'biologi'
@@ -35,6 +47,7 @@ class DatabaseSeeder extends Seeder
             'category' => 'Fisika',
             'deskripsi' => 'fisika'
         ]);
+        // end
 
         Alat_Tambahan::factory()->count(20)->create();
         Lab::factory()->count(9)->create();
