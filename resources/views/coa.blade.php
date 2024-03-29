@@ -41,7 +41,7 @@
             <img src="{{ asset('img/logo.png') }}" alt="logo" height="50px" width="110px">
             <div class="detail">
                 <h3>PT SILAB</h3>
-                <p>KRAJAN, AJUNG RT 100 / RW 20, JEMBER JAWA TIMUR</p>
+                <p>BULELENG BULELENG BULELENG BALI</p>
                 <P>Phone: 08864678392, Email: silab@gmail.com</P>
             </div>
         </section>

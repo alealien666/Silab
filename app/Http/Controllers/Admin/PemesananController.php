@@ -102,40 +102,52 @@ class PemesananController extends Controller
         return redirect()->back()->with('success', 'Berhasil Input Hasil');
     }
 
+    // protected function generateCoAPdf(Order $order)
+    // {
+    //     // $order = $order->load('hasilAnalisis');
+
+    //     // $pdfData = [
+    //     //     'order_number' => $order->id,
+    //     //     'nama_customer' => $order->nama_pemesan,
+    //     //     'hasil_analisis' => [
+    //     //         'status' => $order->hasilAnalisis->status,
+    //     //         'tanggal_terbit' => $order->hasilAnalisis->tanggal_terbit,
+    //     //         'kondisi_sample' => $order->hasilAnalisis->kondisi_sample,
+    //     //     ],
+    //     // ];
+    //     // dd($pdfData);
+    //     $pdf = PDF::loadView('coa');
+
+    //     $pdfPath = 'sertifikat/' . $order->id . '_certificate_of_analysis.pdf';
+    //     $fullPath = public_path($pdfPath);
+    //     $pdf->save($fullPath);
+    //     return $pdfPath;
+    // }
+
     protected function generateCoAPdf(Order $order)
     {
-        // $order = $order->load('hasilAnalisis');
+        // Memuat tampilan yang sesuai dengan data yang diperlukan
+        $viewData = [
+            'order' => $order,
+        ];
+        $pdf = PDF::loadView('coa', $viewData);
 
-        // $pdfData = [
-        //     'order_number' => $order->id,
-        //     'nama_customer' => $order->nama_pemesan,
-        //     'hasil_analisis' => [
-        //         'status' => $order->hasilAnalisis->status,
-        //         'tanggal_terbit' => $order->hasilAnalisis->tanggal_terbit,
-        //         'kondisi_sample' => $order->hasilAnalisis->kondisi_sample,
-        //     ],
-        // ];
-        // dd($pdfData);
-        $pdf = PDF::loadView('coa');
-
+        // Menyimpan hasil ke dalam file PDF
         $pdfPath = 'sertifikat/' . $order->id . '_certificate_of_analysis.pdf';
         $fullPath = public_path($pdfPath);
         $pdf->save($fullPath);
+
+        // Mengembalikan path file PDF yang telah disimpan
         return $pdfPath;
     }
+
+
     public function showCoa($id)
     {
         $order = Order::with('hasilAnalisis', 'analisis')->findOrFail($id);
         $pdfPath = 'sertifikat/' . $order->id . '_certificate_of_analysis.pdf';
         return view('coa', compact('order', 'pdfPath',));
     }
-    // public function downloadPdf($id)
-    // {
-    //     set_time_limit(180);
-    //     $order = Order::with('hasilAnalisis', 'analisis')->findOrFail($id);
-    //     $pdf = PDF::loadView('coa', ['order' => $order])->setOption(['defaultFont' => 'arial']);
-    //     return $pdf->download('_certificate_of_analysis.pdf');
-    // }
 
     public function downloadPdf($id)
     {
@@ -144,10 +156,7 @@ class PemesananController extends Controller
         $pdfPath = $this->generateCoAPdf($order);
 
         if ($pdfPath) {
-            // Pastikan path file PDF sesuai dengan yang diharapkan
             $pdfFullPath = public_path(str_replace('/', DIRECTORY_SEPARATOR, $pdfPath));
-
-            // Pastikan file PDF ada sebelum mencoba mengunduhnya
             if (file_exists($pdfFullPath)) {
                 $pdf = PDF::loadFile($pdfFullPath);
                 return $pdf->download('_certificate_of_analysis.pdf');

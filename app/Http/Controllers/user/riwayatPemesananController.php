@@ -57,9 +57,6 @@ class riwayatPemesananController extends Controller
         }
         $jumlahPending = count($listPemesanan->where('status', 'pending'));
         $jumlahApproved = count($listPemesanan->where('status', 'approved'));
-
-        // $jumlahAlat = detail_order::pluck('jumlah_alat', 'id_alat');
-        // dd($jumlahAlat);
         return view('auth.user.riwayatPemesanan', compact('listPemesanan', 'jumlahPending', 'jumlahApproved'), [
             'title' => 'Silab | Riwayat Pemesanan'
         ]);

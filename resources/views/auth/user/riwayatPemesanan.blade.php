@@ -407,19 +407,20 @@
     @foreach ($listPemesanan as $list)
 
         const expiredAt_{{ $list->id_pemesanan }} = dayjs("{{ $list->expired_at }}");
-        dayjs.extend(window.dayjs_plugin_relativeTime);
+        dayjs.extend(window.dayjs_plugin_relativeTime)
 
         function updateDeadline_{{ $list->id_pemesanan }}() {
-            const now = dayjs();
+            const now = dayjs()
             const diff = now.diff(expiredAt_{{ $list->id_pemesanan }},
-                'second');
+                'second')
 
-            const minutes = Math.floor(diff / 60);
-            const seconds = diff % 60;
+            console.log(diff)
+            const minutes = Math.floor(diff / 60)
+            const seconds = diff % 60
 
             const timeLeft = `${minutes} menit, ${seconds} detik`;
-            document.getElementById("deadline_{{ $list->id_pemesanan }}").textContent = timeLeft;
+            document.getElementById("deadline_{{ $list->id_pemesanan }}").textContent = timeLeft
         }
-        setInterval(updateDeadline_{{ $list->id_pemesanan }}, 1000);
+        setInterval(updateDeadline_{{ $list->id_pemesanan }}, 1000)
     @endforeach
 </script>
